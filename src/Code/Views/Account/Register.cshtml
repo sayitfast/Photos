@@ -1,0 +1,83 @@
+﻿@model RegisterViewModel
+@{
+	ViewData["Title"] = "Register";
+}
+
+<style>
+	body {
+		background-image: url(http://hdwallpaperbackgrounds.net/wp-content/uploads/2015/11/Rainy-Nature-Leaf-In-Rain-Wallpapers.jpg);
+		background-size: cover;
+	}
+</style>
+<div class="flex-container" id="register-form">
+		<div id="form">
+			<form asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
+				<h4 style="font-size: 30px;">Create a new account.</h4>
+				<div class="form-group">
+					<input asp-for="FirstName" class="form-control" placeholder="First Name" />
+					<span asp-validation-for="FirstName" class="text-danger"></span>
+				</div>
+				<div class="form-group">
+					<input asp-for="LastName" class="form-control" placeholder="Last Name" />
+					<span asp-validation-for="LastName" class="text-danger"></span>
+				</div>
+					<div class="form-group">
+					<input asp-for="Username" class="form-control" placeholder="Username" />
+					<span asp-validation-for="Username" class="text-danger"></span>
+				</div>
+				<div class="form-group">
+					<input asp-for="Email" class="form-control" placeholder="Email" />
+					<span asp-validation-for="Email" class="text-danger"></span>
+				</div>
+				<div class="form-group">
+					<input asp-for="Password" class="form-control" placeholder="Password" />
+					<span asp-validation-for="Password" class="text-danger"></span>
+				</div>
+				<div class="form-group">
+					<input asp-for="ConfirmPassword" class="form-control" placeholder="Confirm password" />
+					<span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+				</div>
+				<div class="form-group">
+					<button type="submit" class="btn btn-primary" id="register-button">Register</button>
+				</div>
+			</form>
+		</div>
+		<div id="camera-logo">
+		    <img src="~/images/register-camera-logo.png" alt="camera"/>
+		</div>
+	</div>
+<div class="row" id="benefits-question">
+	<div class="col-md-12">
+		<h2>What are the benefits?</h2>
+	</div>
+</div>
+<div class="row" id="benefits-container">
+	<div class="col-md-4" id="benefits-list">
+		<h4>Comment</h4>
+		<hr />
+		<ul style="list-style:none;">
+			<li><span class="glyphicon glyphicon-ok"></span> You will be able to give your opinion about every photo.</li>
+			<li><span class="glyphicon glyphicon-ok"></span> Asking about details related to the content you are interested.</li>
+			<li><span class="glyphicon glyphicon-ok"></span> Receiving feedback from others about your work.</li>
+		</ul>
+	</div>
+	<div class="col-md-4" id="benefits-list">
+		<h4>Upload photos</h4>
+		<hr />
+		<ul style="list-style:none;">
+			<li><span class="glyphicon glyphicon-ok"></span> With a registration you will be able to upload pictures,when ever you want.</li>
+			<li><span class="glyphicon glyphicon-ok"></span> Ability to see albums and photos hidden for non-registered users.</li>
+		</ul>
+	</div>
+	<div class="col-md-4" id="benefits-list">
+		<h4>Share</h4>
+		<hr />
+		<ul style="list-style:none;">
+			<li><span class="glyphicon glyphicon-ok"></span> Sharing your favourite photos and likes with your friends is crucial nowadays, with a registration it won't be a problem.</li>
+		</ul>
+	</div>
+</div>
+
+@section Scripts {
+	@{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

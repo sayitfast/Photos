@@ -1,0 +1,21 @@
+﻿@model List<ApplicationUser>
+
+<div class="text-center">
+	<h1>All Users</h1>
+</div>
+
+@for(int i = 0; i < Model.Count;i++)
+{
+	var user = Model[i];
+	<div class="col-md-4">
+		<ul>
+			<li>@user.UserName</li>
+			<li>@user.Email</li>
+			<li>@user.Id</li>
+		</ul>
+		@(Html.ActionLink<AlbumsController>("Delete", c => c.DeleteUser(user.Id)))
+	     <br />
+	</div>
+}
+
+<div class="clearfix"></div>

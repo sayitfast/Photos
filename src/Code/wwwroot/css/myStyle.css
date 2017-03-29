@@ -1,0 +1,318 @@
+﻿body {
+	overflow-x: hidden;
+}
+
+/* layout styling */
+.navbar {
+	background-color: transparent;
+	border: none;
+	position: relative;
+}
+
+	.navbar .container {
+		margin-left: 2%;
+		width: 96%;
+		margin-top: 0.5%;
+		background: black;
+		border-radius: 4px;
+		opacity: 0.9;
+		box-shadow: 0px 3px 30px #1f7dd7;
+	}
+
+		.navbar .container ul li a {
+			text-align: center;
+			font-size: 18px;
+			transition: all 0.33s;
+			color: white;
+		}
+
+			.navbar .container ul li a:hover {
+				background-color: #1f7dd7;
+				transform: scale3d(1.1);
+			}
+
+		.navbar .container ul li button#logOff-button {
+			width: 100%;
+			height: 50px;
+			margin: 0px;
+			text-decoration: none;
+			text-align: center;
+			font-size: 18px;
+			transition: all 0.33s;
+			color: white;
+		}
+
+			.navbar .container ul li button#logOff-button:hover {
+				background-color: red;
+				transform: scale3d(1.1);
+			}
+
+		.navbar .container ul li a#login-button:hover {
+			background-color: green;
+		}
+
+@media screen and (min-width: 1024px) {
+	.navbar .container ul li a#login-button {
+		border-bottom-right-radius: 4px;
+		border-top-right-radius: 4px;
+	}
+
+	.navbar .container ul li button#logOff-button {
+		border-bottom-right-radius: 4px;
+		border-top-right-radius: 4px;
+	}
+}
+
+#navbar-logo {
+	width: 45px;
+	margin-top: -15px;
+	line-height: 35px;
+	transition: all 0.33s;
+}
+
+	#navbar-logo:hover {
+		transform: scale(1.1);
+	}
+/* Home - index styling */
+#search-form {
+	height: 60px;
+	line-height: 60px;
+}
+
+#search-box {
+	color: black;
+	border: none;
+	width: 50%;
+	border-bottom-left-radius: 4px;
+	border-top-left-radius: 4px;
+	padding-left: 20px;
+	font-size: 20px;
+	opacity: 0.95;
+}
+
+#search-button {
+	border-bottom-right-radius: 4px;
+	border-top-right-radius: 4px;
+	border: none;
+	margin-left: -5px;
+	width: 10%;
+	font-size: 20px;
+	opacity: 0.95;
+	background-color: #1f7dd7;
+}
+
+.albums {
+	border: 1px solid transparent;
+	background-color: black;
+	opacity: 0.9;
+	color: white;
+	border-bottom-left-radius: 4px;
+	border-bottom-right-radius: 4px;
+}
+
+#latest-album-title {
+	background-color: white;
+	margin: 0px;
+	margin-top: 20px;
+	margin-bottom: 2px;
+	background-color: black;
+	opacity: 0.9;
+	color: white;
+	border: 1px solid transparent;
+	border-top-left-radius: 4px;
+	border-top-right-radius: 4px;
+	font-size: 20px;
+	height: 60px;
+	line-height: 60px;
+}
+
+@media screen and (max-width:960px) {
+
+	#search-box {
+		width: 71%;
+	}
+
+	#search-button {
+		width: 25%;
+	}
+}
+/* Register Form Styling*/
+.flex-container#register-form {
+	display: flex;
+	flex-direction: row;
+	text-align: center;
+	position: relative;
+	width: 100%;
+}
+
+#register-form #form {
+	width: 50%;
+	border-radius: 4px;
+	height: 350px;
+	background-color: black;
+	color: white;
+	opacity: 0.8;
+	height: inherit;
+}
+
+	#register-form #form div input {
+		height: 50px;
+		line-height: 50px;
+		font-size: 20px;
+		margin-left: 10%;
+		width: 80%;
+	}
+
+.btn-primary#register-button {
+	width: 150px;
+	height: 50px;
+	font-size: 18px;
+}
+/*===== camera.png-logo ====== */
+#camera-logo {
+	visibility: visible;
+	margin-left: 5%;
+	position: initial;
+	width: 40%;
+	height: 300px;
+}
+
+	#camera-logo img {
+		position: relative;
+		height: inherit;
+	}
+
+@media screen and (max-width: 960px) {
+	#camera-logo {
+		visibility: hidden;
+	}
+
+	#register-form #form {
+		min-width: 100%;
+	}
+}
+
+#benefits-container {
+	margin-top: 1px;
+}
+
+	#benefits-container #benefits-list h4 {
+		height: 40px;
+		line-height: 40px;
+		font-size: 25px;
+		text-align: center;
+	}
+
+	#benefits-container #benefits-list {
+		background-color: #1f7dd7;
+		color: white;
+		opacity: 0.8;
+		height: 240px;
+	}
+
+#benefits-question {
+	margin-top: 10px;
+	opacity: 0.8;
+	text-align: center;
+	background-color: #1f7dd7;
+	color: white;
+}
+/*===== PROFILE PAGE =======*/
+
+#user-information {
+	margin: 0px;
+	margin-left: 50px;
+	margin-top: 10px;
+}
+		#user-information #age-location-email ul {
+		}
+
+			#user-information #age-location-email ul li {
+				text-align: center;
+				display: inline-block;
+			}
+				#user-information #age-location-email ul li#location {
+					width: 49%;
+					text-align: center;
+					display: inline-block;
+				}
+
+				#user-information #age-location-email ul li#email {
+					text-align: center;
+					width: 49%;
+					display: inline-block;
+				}
+
+	#user-information #first-line h2 {
+		padding: 0px;
+		margin: 0px;
+		text-align: center;
+	}
+
+	#user-information #first-line button {
+		font-size: 15px;
+	}
+
+	#user-information #second-line {
+		font-size: 16px;
+		font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	}
+
+		#user-information #second-line ul {
+			text-align: left;
+			list-style: none;
+		}
+
+			#user-information #second-line ul li {
+				text-align: center;
+				display: inline-block;
+				width: 30%;
+			}
+
+	#user-information #third-line ul {
+		color: white;
+		list-style: none;
+	}
+
+		#user-information #third-line ul li {
+			display: inline-block;
+			text-decoration: none;
+		}
+
+#profile-picture {
+	height: 300px;
+	width: 300px;
+	border: 1px solid green;
+	margin: 0px;
+	margin-left: 50px;
+}
+
+@media screen and (max-width: 960px) {
+	#user-information {
+		margin: 0px;
+		width: 100%;
+	}
+
+	#profile-picture {
+		width: 50%;
+		margin-left: 25%;
+		text-align: center;
+	}
+}
+/*======= Edit Profile Page ========= */
+#form {
+	border-radius: 4px;
+	background-color: black;
+	opacity: 0.85;
+	padding: 10px;
+}
+
+#edit-buttons {
+	text-align: right;
+}
+
+	#edit-buttons li {
+		display: inline-block;
+	}
+
+/*=======================================*/

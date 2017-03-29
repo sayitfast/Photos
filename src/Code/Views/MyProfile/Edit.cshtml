@@ -1,0 +1,37 @@
+﻿@model ApplicationUser
+
+@inject UserManager<ApplicationUser> UserMenager
+
+<style>
+	body{
+		background-image: url(http://www.mytwiink.com/i/2017/01/desert-night-wallpaper-full-hd.jpg);
+		background-size: cover;
+	}
+</style>
+
+<div class="col-md-6 col-md-offset-3" id="form">
+
+@using (Html.BeginForm<MyProfileController>(c => c.Edit(), FormMethod.Post))
+			{
+	@Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", @placeholder = "First name" })
+	<br>
+	@Html.TextBoxFor(m => m.LastName, new { @class = "form-control", @placeholder = "Last name" })
+	<br>
+	@Html.TextBoxFor(m => m.Location, new { @class = "form-control", @placeholder = "Location" })
+	<br>
+	@Html.TextBoxFor(m => m.Age, new { @class = "form-control", @placeholder = "Age" })
+	<br>
+	@Html.TextAreaFor(m => m.Description, new { @class = "form-control", @placeholder = "Bio" })
+	<br>
+	<ul id="edit-buttons">
+		<li>
+			<input asp-area="" asp-controller="MyProfile" asp-action="Index" class="btn btn-default" type="submit" value="Cancel" />
+		</li>
+		<li>
+			<input class="btn btn-primary" type="submit" value="Save" />
+		</li>
+	</ul>
+			}
+</div>
+
+<div class="clearfix"></div>

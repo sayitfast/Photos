@@ -1,0 +1,19 @@
+﻿@model ParentAlbumViewModel
+
+@Model.Details.Name
+<br>
+by @Model.Details.Creator
+
+
+@if (Model.Details.Creator == User.Identity.Name)
+{
+	@using (Html.BeginForm<AlbumsController>(c => c.Delete(Model.Details.Id), FormMethod.Post))
+	{
+		<button type="submit" id="delete-button" class="btn btn-danger">Delete</button>
+	}
+	@using (Html.BeginForm<HomeController>(c => c.Index(Model),FormMethod.Post))
+	{
+		<button type="submit" class="btn btn-primary">No</button>
+	}
+}
+

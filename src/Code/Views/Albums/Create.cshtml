@@ -1,0 +1,17 @@
+﻿@model ParentAlbumViewModel
+
+<h1>Create your album</h1>
+@using (Html.BeginForm<AlbumsController>(c => c.Create(), FormMethod.Post))
+{
+
+	@Html.LabelFor(m => m.Create.Name)
+	@Html.TextBoxFor(m => m.Create.Name, new { @class = "form-control" })
+	<a class="text-danger" style="text-decoration: none;">@Html.ValidationMessageFor(m => m.Create.Name)</a>
+	<br>
+	<br>
+	@Html.LabelFor(m => m.Create.Description)
+	@Html.TextBoxFor(m => m.Create.Description, new { @class = "form-control" })
+	<br>
+	<br>
+	<input class="btn btn-primary" type="submit" value="Save Album" />
+}
