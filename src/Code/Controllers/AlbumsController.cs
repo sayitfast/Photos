@@ -49,7 +49,6 @@ namespace Code.Controllers
 
 			if (ModelState.IsValid)
 			{
-
 				var album = new Album()
 				{
 					Name = model.Name,
@@ -58,23 +57,25 @@ namespace Code.Controllers
 					UserId = currentUser.Id
 				};
 
-				if(Files.Capacity > 0)
+				db.Album.Add(album);
+				db.SaveChanges();
+
+				if (Files.Capacity > 0)
 				{
 					foreach (var image in Files)
 					{
+						string filename = image.FileName.Split('\\').Last();
 						var img = new Image()
 						{
-							Name = image.Name,
-							Album = album
-
+							Name = filename,
+							Album = album,
+							User = currentUser
 						};
 
 						db.Images.Add(img);
 
 						string path = Path.Combine(environment.WebRootPath, "uploads", currentUser.Id, album.Id.ToString());
-						Directory.CreateDirectory(Path.Combine(path, album.Id.ToString()));
-
-						string filename = image.FileName.Split('\\').Last();
+						Directory.CreateDirectory(Path.Combine(path));
 
 						using (FileStream fs = new FileStream(Path.Combine(path, filename), FileMode.Create))
 						{
@@ -82,12 +83,12 @@ namespace Code.Controllers
 						}
 					}
 				}
-
-				db.Album.Add(album);
+			
 				db.SaveChanges();
 
 				return RedirectToAction("Details", new { album.Id });
 			}
+
 			return RedirectToAction("Index", "MyProfile");
 		}
 
@@ -221,14 +222,15 @@ namespace Code.Controllers
 
 		public IActionResult AllUsers()
 		{
-			var users = this.db.Users.ToList();
+			var pictures = this.db.Images.ToList();
 
-			return View(users);
+			return View(pictures);
 		}
 
 		public IActionResult DeleteUser(string Id)
 		{
-			var user = new ApplicationUser();
+
+		var user = new ApplicationUser();
 
 			foreach (var profile in db.Users)
 			{
@@ -253,6 +255,7 @@ namespace Code.Controllers
 			}
 
 			db.SaveChanges();
+
 			return RedirectToAction("AllUsers");
 		}
 	}

@@ -42,13 +42,13 @@
 				{
 					<li><strong>@Model.Albums.Count</strong> album</li>
 				}
-				<li>(totalPics) photos</li>
+				<li><strong>@Model.Images.Count</strong> photos</li>
 				<li>(totalLikes) likes</li>
 			</ul>
 		</div>
 		<hr />
 		@if (Model.User.Location != null && Model.User.Age > 0 &&
-						Model.User.Email != null)
+									Model.User.Email != null)
 		{
 			<div class="row" id="flex-item-inner">
 				<ul id="person-info">
@@ -78,15 +78,24 @@
 }
 else
 {
-	for (int i = 0; i < Model.Albums.Count; i++)
+
+	foreach (var album in Model.Albums)
 	{
-		var album = Model.Albums[i];
+		bool hasImages = false;
 		<div class="col-md-4 text-center">
-			<h2>@(Html.ActionLink<AlbumsController>(album.Name, c => c.Details(album.Id)))</h2>
-			<br />
-			<h4>@album.Creator</h4>
+			@{
+					if (!hasImages)
+					{
+					<img src="~/images/album_with_no_images.jpg" />
+					}
+				<hr />
+					@(Html.ActionLink<AlbumsController>(album.Name, c => c.Details(album.Id)));
+				<br />
+					<label>by @Model.User.FirstName @Model.User.LastName</label>
+			}
 		</div>
-	}
+     }
 }
+
 
 <div class="clearfix"></div>

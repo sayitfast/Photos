@@ -2,6 +2,7 @@
 
 @inject UserManager<ApplicationUser> Menager
 
+
 @{
 	ViewData["Title"] = "Home Page";
 }
@@ -37,6 +38,7 @@
 		@for (int i = 0; i < Model.List.Count; i++)
 		{
 			var album = Model.List[i];
+
 			<div class="col-md-4" style="text-align: center;">
 
 				<h3>@(Html.ActionLink<AlbumsController>(album.Name, c => c.Details(album.Id)))</h3>
