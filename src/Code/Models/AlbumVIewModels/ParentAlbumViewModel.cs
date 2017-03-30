@@ -2,7 +2,7 @@
 {
 	using System.Collections.Generic;
 
-    public class ParentAlbumViewModel
+	public class ParentAlbumViewModel
     {
 		public CreateAlbumViewModel Create { get; set; }
 

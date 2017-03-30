@@ -7,23 +7,32 @@
 	using Models;
 	using Data;
 	using Models.AlbumVIewModels;
+	using Microsoft.AspNetCore.Http;
+	using Microsoft.AspNetCore.Hosting;
+	using System.IO;
+	using System.Threading.Tasks;
 
 	[Authorize]
 	public class MyProfileController : Controller
     {
 		private readonly ApplicationDbContext db;
 		private readonly UserManager<ApplicationUser> userManager;
+		private IHostingEnvironment environment;
 
 		public MyProfileController(ApplicationDbContext db,
-			UserManager<ApplicationUser> userManager)
+			UserManager<ApplicationUser> userManager,
+			IHostingEnvironment environment)
 		{
+			this.environment = environment;
 			this.db = db;
 			this.userManager = userManager;
 		}
 
 
-		public IActionResult Index(string userId)
+		public IActionResult Index()
         {
+			var userId = userManager.GetUserAsync(User).Result.Id;
+
 			var model = new ParentProfileViewModel();
 
 			model.User = db.Users
@@ -54,26 +63,40 @@
 		}
 		// this method will sent the information to the database
 		[HttpPost]
-		public IActionResult Edit(ApplicationUser user)
+		public async Task<IActionResult> Edit(ApplicationUser user, IFormFile ProfilePictureFile)
 		{
-			if(ModelState.IsValid)
+			if (ModelState.IsValid)
 			{
-				var currentUser = userManager.GetUserAsync(User);
+				var currentUser = userManager.GetUserAsync(User).Result;
+				currentUser.FirstName = user.FirstName;
+				currentUser.LastName = user.LastName;
+				currentUser.Location = user.Location;
+				currentUser.Age = user.Age;
+				currentUser.Description = user.Description;
 
-				currentUser.Result.FirstName = user.FirstName;
-				currentUser.Result.LastName = user.LastName;
-				currentUser.Result.Location = user.Location;
-				currentUser.Result.Age = user.Age;
-				currentUser.Result.Description = user.Description;
+				if (ProfilePictureFile != null)
+				{
+					string uploadPath = Path.Combine(environment.WebRootPath, "uploads");
+					Directory.CreateDirectory(Path.Combine(uploadPath, currentUser.Id));
 
-				db.Update(currentUser.Result);
+					string filename = ProfilePictureFile.FileName.Split('\\').Last();
+
+					using (FileStream fs = new FileStream(Path.Combine(uploadPath, currentUser.Id, filename), FileMode.Create))
+					{
+						await ProfilePictureFile.CopyToAsync(fs);
+					}
+
+					currentUser.ProfilePicture = filename;
+				}
+
+				db.Update(currentUser);
 
 				db.SaveChanges();
 
-				return RedirectToAction("Index", "Home");
+				return RedirectToAction("Index", "MyProfile");
 			}
 
 			return View("Edit");
 		}
-    }
+	}
 }

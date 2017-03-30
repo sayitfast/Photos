@@ -1,11 +1,12 @@
-﻿using Code.Models;
-using System.ComponentModel.DataAnnotations;
-using System;
-
-namespace Code.Data
+﻿namespace Code.Data
 {
+	using Code.Models;
+	using System.ComponentModel.DataAnnotations;
+	using System;
+	using System.Collections.Generic;
+	using Microsoft.AspNetCore.Http;
 
-    public class Album
+	public class Album
     {
 		public int Id { get; set; }
 
@@ -21,5 +22,6 @@ namespace Code.Data
 		public virtual ApplicationUser User { get; set; }
 
 		public DateTime CreatedOn { get; internal set; }
+		
 	}
 }

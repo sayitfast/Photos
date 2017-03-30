@@ -15,6 +15,8 @@ namespace Code.Data
         {
         }
 
+		public DbSet<Image> Images { get; set; }
+
 		public DbSet<Album> Album { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)

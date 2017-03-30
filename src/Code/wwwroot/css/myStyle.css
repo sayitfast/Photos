@@ -3,6 +3,12 @@
 }
 
 /* layout styling */
+.navbar-profile-picture {
+	text-align: center;
+	width: inherit;
+	height: 50px;
+}
+
 .navbar {
 	background-color: transparent;
 	border: none;
@@ -73,6 +79,7 @@
 	#navbar-logo:hover {
 		transform: scale(1.1);
 	}
+
 /* Home - index styling */
 #search-form {
 	height: 60px;
@@ -136,6 +143,7 @@
 		width: 25%;
 	}
 }
+
 /* Register Form Styling*/
 .flex-container#register-form {
 	display: flex;
@@ -168,6 +176,7 @@
 	height: 50px;
 	font-size: 18px;
 }
+
 /*===== camera.png-logo ====== */
 #camera-logo {
 	visibility: visible;
@@ -217,88 +226,79 @@
 	background-color: #1f7dd7;
 	color: white;
 }
+
 /*===== PROFILE PAGE =======*/
-
-#user-information {
-	margin: 0px;
-	margin-left: 50px;
-	margin-top: 10px;
-}
-		#user-information #age-location-email ul {
-		}
-
-			#user-information #age-location-email ul li {
-				text-align: center;
-				display: inline-block;
-			}
-				#user-information #age-location-email ul li#location {
-					width: 49%;
-					text-align: center;
-					display: inline-block;
-				}
-
-				#user-information #age-location-email ul li#email {
-					text-align: center;
-					width: 49%;
-					display: inline-block;
-				}
-
-	#user-information #first-line h2 {
-		padding: 0px;
-		margin: 0px;
-		text-align: center;
-	}
-
-	#user-information #first-line button {
-		font-size: 15px;
-	}
-
-	#user-information #second-line {
-		font-size: 16px;
-		font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-	}
-
-		#user-information #second-line ul {
-			text-align: left;
-			list-style: none;
-		}
-
-			#user-information #second-line ul li {
-				text-align: center;
-				display: inline-block;
-				width: 30%;
-			}
-
-	#user-information #third-line ul {
-		color: white;
-		list-style: none;
-	}
-
-		#user-information #third-line ul li {
-			display: inline-block;
-			text-decoration: none;
-		}
-
-#profile-picture {
-	height: 300px;
-	width: 300px;
-	border: 1px solid green;
-	margin: 0px;
-	margin-left: 50px;
+.flex-container#user-profile {
+	display: flex;
 }
 
-@media screen and (max-width: 960px) {
-	#user-information {
-		margin: 0px;
+.flex-item#profile-picture-area {
+	width: 30%;
+}
+
+	.flex-item#profile-picture-area .profile-picture {
 		width: 100%;
 	}
 
-	#profile-picture {
-		width: 50%;
-		margin-left: 25%;
-		text-align: center;
-	}
+
+.flex-item#user-information {
+	width: 70%;
 }
+
+#flex-item-inner #profile-buttons {
+	
+}
+
+#flex-item-inner #albums-info li {
+	text-align: center;
+	width: 30%;
+	display: inline-block;
+}
+
+#flex-item-inner #person-info li {
+	text-align: center;
+	width: 48%;
+	display: inline-block;
+}
+
+#flex-item-inner #profile-buttons li#create {
+	border-radius: 4px;
+	opacity: 0.9;
+	background-color: #1f7dd7;
+	display: inline-block;
+	width: 48%;
+	text-align: center;
+}
+	#flex-item-inner #profile-buttons li#create:hover {
+		opacity: 1;
+	}
+
+	#flex-item-inner #profile-buttons li#create a {
+		color: white;
+		display: block;
+		font-size: 20px;
+		text-decoration: none;
+	}
+
+#flex-item-inner #profile-buttons li#edit {
+	border-radius: 4px;
+	opacity: 0.9;
+	background-color: white;
+	border: 1px solid gray;
+	display: inline-block;
+	width: 48%;
+	text-align: center;
+}
+#flex-item-inner #profile-buttons li#edit:hover {
+	background-color: lightgray;
+}
+
+	#flex-item-inner #profile-buttons li#edit a {
+		color: black;
+		font-size: 20px;
+		display: block;
+		text-decoration: none;
+	}
 /*======= Edit Profile Page ========= */
 #form {
 	border-radius: 4px;
@@ -314,5 +314,15 @@
 	#edit-buttons li {
 		display: inline-block;
 	}
-
 /*=======================================*/
+/*===== Create Album Page ==========*/
+#create-album-buttons{
+	list-style:none;
+	text-align: right;
+}
+#create-album-buttons #back{
+	display: inline-block;
+}
+#create-album-buttons #save{
+	display: inline-block;
+}

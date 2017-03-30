@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Code.Data;
 
 namespace Code.Migrations
 {
@@ -62,16 +63,17 @@ namespace Code.Migrations
                     table.PrimaryKey("PK_AspNetUserTokens", x => new { x.UserId, x.LoginProvider, x.Name });
                 });
 
-            migrationBuilder.CreateTable(
-                name: "Album",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedOn = table.Column<DateTime>(nullable: false),
-                    Description = table.Column<string>(maxLength: 160, nullable: true),
-                    Name = table.Column<string>(maxLength: 100, nullable: false),
-                    UserId = table.Column<string>(nullable: true)
+			migrationBuilder.CreateTable(
+				name: "Album",
+				columns: table => new
+				{
+					Id = table.Column<int>(nullable: false)
+						.Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+					CreatedOn = table.Column<DateTime>(nullable: false),
+					Description = table.Column<string>(maxLength: 160, nullable: true),
+					Name = table.Column<string>(maxLength: 100, nullable: false),
+					UserId = table.Column<string>(nullable: true),
+					Images = table.Column<List<Image>>(nullable: false)
                 },
                 constraints: table =>
                 {

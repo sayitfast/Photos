@@ -39,6 +39,28 @@ namespace Code.Migrations
                     b.ToTable("Album");
                 });
 
+            modelBuilder.Entity("Code.Data.Image", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("AlbumId");
+
+                    b.Property<int>("Description");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(20);
+
+                    b.Property<int>("Rating");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AlbumId");
+
+                    b.ToTable("Images");
+                });
+
             modelBuilder.Entity("Code.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
@@ -79,6 +101,8 @@ namespace Code.Migrations
                     b.Property<string>("PhoneNumber");
 
                     b.Property<bool>("PhoneNumberConfirmed");
+
+                    b.Property<string>("ProfilePicture");
 
                     b.Property<string>("SecurityStamp");
 
@@ -210,6 +234,13 @@ namespace Code.Migrations
                     b.HasOne("Code.Models.ApplicationUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("Code.Data.Image", b =>
+                {
+                    b.HasOne("Code.Data.Album", "Album")
+                        .WithMany()
+                        .HasForeignKey("AlbumId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>

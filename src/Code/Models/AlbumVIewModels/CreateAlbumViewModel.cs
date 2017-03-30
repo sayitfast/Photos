@@ -1,6 +1,7 @@
 ﻿namespace Code.Models.AlbumVIewModels
 {
 	using System;
+	using System.Collections.Generic;
 	using System.ComponentModel.DataAnnotations;
 
 	public class CreateAlbumViewModel
@@ -12,5 +13,6 @@
 
 		[MaxLength(160)]
 		public string Description { get; set; }
+
     }
 }
