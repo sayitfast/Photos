@@ -91,52 +91,26 @@ namespace Code.Controllers
 			return RedirectToAction("Index", "MyProfile");
 		}
 
-		public IActionResult Details(int Id)
+		public IActionResult Details(int albumId, string userId)
 		{
 			var model = new ParentAlbumViewModel();
 
-			var album = this.db
-				.Album
-				.Where(al => al.Id == Id)
-				.Select(al => new AlbumDetailsViewModel
-				{
-					Name = al.Name,
-					Id = al.Id,
-					Creator = al.User.UserName,
-					CreatedOn = al.CreatedOn,
-					Description = al.Description,
-					TotalImages = 0
-				})
+			model.Album = this.db.Album
+				.Where(al => al.Id == albumId && al.UserId == userId)
 				.FirstOrDefault();
 
-			if (album == null)
+			model.Images = this.db.Images
+				.Where(img => img.Album == model.Album)
+				.ToList();
+
+
+			if(model.Album == null)
 			{
 				return NotFound();
 			}
 
-			model.Details = album;
-
 			return View(model);
-		}
 
-		public IActionResult MyAlbums()
-		{
-			var model = new ParentAlbumViewModel();
-
-			var albums = this.db.Album
-				.OrderByDescending(al => al.CreatedOn)
-				.Where(al => al.User.UserName == User.Identity.Name)
-				.Select(al => new ListAlbumsViewModel
-				{
-					Id = al.Id,
-					Name = al.Name,
-					Creator = User.Identity.Name,
-				})
-				.ToList();
-
-			model.List = albums;
-
-			return View(model);
 		}
 
 		public IActionResult Search(ParentAlbumViewModel model)
@@ -160,28 +134,22 @@ namespace Code.Controllers
 		public IActionResult Delete(int Id)
 		{
 			var model = new ParentAlbumViewModel();
-			model.Details = this.db.Album
+
+			model.Album = this.db.Album
 						   .Where(al => al.Id == Id)
-						   .Select(al => new AlbumDetailsViewModel
-						   {
-							   Name = al.Name,
-							   Id = al.Id,
-							   Creator = al.User.UserName,
-							   CreatedOn = al.CreatedOn,
-							   Description = al.Description,
-							   TotalImages = 0
-						   })
 						   .FirstOrDefault();
 
-			if (userManager.GetUserName(User) != model.Details.Creator)
+
+			if (userManager.GetUserId(User) != model.Album.User.Id)
 			{
 				return RedirectToAction("Index", "Home");
 			}
 
-			if (model.Details == null)
+			if (model.Album == null)
 			{
 				return NotFound();
 			}
+
 			return View(model);
 
 		}
@@ -221,9 +189,9 @@ namespace Code.Controllers
 
 		public IActionResult AllUsers()
 		{
-			var pictures = this.db.Images.ToList();
+			var users = db.Users.ToList();
 
-			return View(pictures);
+			return View(users);
 		}
 
 		public IActionResult DeleteUser(string Id)

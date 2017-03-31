@@ -1,19 +1,51 @@
 ﻿@model ParentAlbumViewModel
 
-@Model.Details.Name
-<br>
-by @Model.Details.Creator
+@inject UserManager<ApplicationUser> userManager
 
+<div class="row">
+	<div class="col-md-4 col-md-offset-4 text-center">
+		<h1>@Model.Album.Name</h1>
+		<hr />
+	</div>
+</div>
 
-@if (Model.Details.Creator == User.Identity.Name)
-{
-	@using (Html.BeginForm<AlbumsController>(c => c.Delete(Model.Details.Id), FormMethod.Post))
+@{
+	var currentUser = userManager.GetUserAsync(User).Result;
+
+	if (Model.Images.Capacity == 0)
 	{
-		<button type="submit" id="delete-button" class="btn btn-danger">Delete</button>
+		<div class="col-md-8 col-md-offset-2 text-center">
+			@if (Model.Album.User == currentUser)
+			{
+				<lable>@Model.Album.User.FirstName your album @Model.Album.Name does not have any images!</lable>
+				@(Html.ActionLink<MyProfileController>("Back", c => c.Index(), new { @class = "btn btn-default" }))
+			}
+			else
+			{
+				<lable>@Model.Album.Name does not have any images!</lable>
+				@(Html.ActionLink<HomeController>("Back", c => c.Index(Model), new { @class = "btn btn-default" }))
+			}
+		</div>
 	}
-	@using (Html.BeginForm<HomeController>(c => c.Index(Model),FormMethod.Post))
+	else
 	{
-		<button type="submit" class="btn btn-primary">No</button>
+		if (Model.Album.User == currentUser)
+		{
+			<div class="flex-container" id="album-details-images">
+				@foreach (var image in Model.Images)
+				{
+					<div class="flex-item-details-img">
+						<img src="~/uploads/@Model.Album.User.Id/@Model.Album.Id/@image.Name" style="height: 200px; padding-left: 20px;" />
+					</div>
+				}
+			</div>
+		}
+		else
+		{
+
+
+		}
 	}
 }
+<div class="clearfix"></div>
 

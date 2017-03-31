@@ -245,9 +245,6 @@
 	width: 70%;
 }
 
-#flex-item-inner #profile-buttons {
-	
-}
 
 #flex-item-inner #albums-info li {
 	text-align: center;
@@ -326,3 +323,18 @@
 #create-album-buttons #save{
 	display: inline-block;
 }
+
+/*=== Album Details Page*/
+
+.flex-container#album-details-images{
+	border: 1px solid red;
+
+}
+.flex-item-details-img{
+	display: inline-flex;
+	text-align: center;
+	align-content: center;
+	border: 1px solid green;
+
+}
+

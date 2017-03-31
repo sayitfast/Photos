@@ -1,5 +1,6 @@
 ﻿@model ParentProfileViewModel
 
+
 <div class="flex-container" id="user-profile">
 	<div class="flex-item" id="profile-picture-area">
 		@if (Model.User.ProfilePicture == null)
@@ -8,7 +9,7 @@
 		}
 		else
 		{
-			<img src="~/uploads/@Model.User.Id/@Model.User.ProfilePicture" class="profile-picture" />
+			<img src="~/uploads/@Model.User.Id/@Model.User.ProfilePicture" class="profile-picture" style="border-radius: 25px;" />
 		}
 	</div>
 	<div class="flex-item" id="user-information">
@@ -48,7 +49,7 @@
 		</div>
 		<hr />
 		@if (Model.User.Location != null && Model.User.Age > 0 &&
-										Model.User.Email != null)
+																Model.User.Email != null)
 		{
 			<div class="row" id="flex-item-inner">
 				<ul id="person-info">
@@ -72,40 +73,61 @@
 
 @if (Model.Albums == null || !Model.Albums.Any())
 {
+	// if the user have not uploaded any album
 	<div class="col-md-6 col-md-offset-3 text-center">
 		<h1>You don't have any albums.</h1>
 	</div>
 }
 else
 {
-
 	foreach (var album in Model.Albums)
 	{
-		bool hasImages = false;
+		//Taking the pictures that have as albumId the current album of the loop
+		var images = Model.Images.Where(img => img.Album == album).ToList();
+
 		<div class="col-md-4 text-center">
-			@{
-				foreach(var image in Model.Images)
-				{
-					if(image.Album == album)
-					{
-						<img src="~/uploads/@Model.User.Id/@album.Id/@image.Name" style="width: 300px; height:300px;" />
-						hasImages = true;
-						break;
-					}
 
-				}
-				if (!hasImages)
-				{
-					<img src="~/images/album_with_no_images.jpg" />
-					}
-				<br />
-				@(Html.ActionLink<AlbumsController>(album.Name, c => c.Details(album.Id)));
-				<br />
-				<label>by @Model.User.FirstName @Model.User.LastName</label>
+			@if (images.Capacity == 0)
+			{
+				//if the album does not have any pictures in it
+				<img src="~/images/album_with_no_images.jpg" />
 			}
+
+			// Displaying the albums with there pictures
+			// using carousel to make the pictures slide 
+			// one after another
+			else
+			{
+				var firstImage = images.First();
+
+				<div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="4000" data-delay="3000">
+					
+					<div class="carousel-inner" role="listbox">
+						@foreach (var image in images)
+						{
+							// if the picture is the first in the images list
+							// the class will be "item active"
+							if (image == firstImage)
+							{
+								<div class="item active">
+									<img src="uploads/@Model.User.Id/@album.Id/@image.Name" alt="Chania" style="height: 300px;">
+								</div>
+							}
+							else
+							{
+								<div class="item">
+									<img src="uploads/@Model.User.Id/@album.Id/@image.Name" alt="Chania" style="height: 300px;">
+								</div>
+							}
+						}
+					</div>
+				</div>
+			}
+			@(Html.ActionLink<AlbumsController>(album.Name, c => c.Details(album.Id, Model.User.Id)))
+			<br />
+			<label>by @Model.User.FirstName @Model.User.LastName</label>
+			<hr />
 		</div>
-					}
-				}
-
-
+	}
+}
 <div class="clearfix"></div>

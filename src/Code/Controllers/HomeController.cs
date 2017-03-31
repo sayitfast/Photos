@@ -16,19 +16,18 @@ namespace Code.Controllers
 
         public IActionResult Index(ParentAlbumViewModel model)
         {
-			 var albums = db.Album
+			model.List = db.Album
 				.OrderByDescending(al => al.CreatedOn)
 				.Select(al => new ListAlbumsViewModel
 				{
 					Id = al.Id,
 					Name = al.Name,
-					Creator = al.User.UserName,
+					Creator = al.User,
 					TotalImages = 0
 				})
 				.Take(12)
 				.ToList();
 
-			model.List = albums;
 
 			return View(model);
         }

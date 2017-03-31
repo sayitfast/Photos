@@ -6,7 +6,7 @@
 
 		public string Name { get; set; }
 
-		public string Creator { get; set; }
+		public virtual ApplicationUser Creator { get; set; }
 
 		public int TotalImages { get; set; }
     }
