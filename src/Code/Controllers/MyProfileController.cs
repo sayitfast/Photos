@@ -39,14 +39,9 @@
 				.Where(u => u.Id == currentUser.Id)
 				.FirstOrDefault();
 
-			 model.Albums = db.Album
-				.Where(al => al.User.Id == currentUser.Id)
-				.Select(al => new ListAlbumsViewModel
-				{
-					Creator = User.Identity.Name,
-					Id = al.Id,
-					Name = al.Name
-				}).ToList();
+			model.Albums = db.Album
+				 .Where(al => al.User == currentUser)
+				 .ToList();
 
 			model.Images = db.Images
 				.Where(img => img.User == currentUser)

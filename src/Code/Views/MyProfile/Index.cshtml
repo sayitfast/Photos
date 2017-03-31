@@ -48,7 +48,7 @@
 		</div>
 		<hr />
 		@if (Model.User.Location != null && Model.User.Age > 0 &&
-									Model.User.Email != null)
+										Model.User.Email != null)
 		{
 			<div class="row" id="flex-item-inner">
 				<ul id="person-info">
@@ -84,18 +84,28 @@ else
 		bool hasImages = false;
 		<div class="col-md-4 text-center">
 			@{
-					if (!hasImages)
+				foreach(var image in Model.Images)
+				{
+					if(image.Album == album)
 					{
+						<img src="~/uploads/@Model.User.Id/@album.Id/@image.Name" style="width: 300px; height:300px;" />
+						hasImages = true;
+						break;
+					}
+
+				}
+				if (!hasImages)
+				{
 					<img src="~/images/album_with_no_images.jpg" />
 					}
-				<hr />
-					@(Html.ActionLink<AlbumsController>(album.Name, c => c.Details(album.Id)));
 				<br />
-					<label>by @Model.User.FirstName @Model.User.LastName</label>
+				@(Html.ActionLink<AlbumsController>(album.Name, c => c.Details(album.Id)));
+				<br />
+				<label>by @Model.User.FirstName @Model.User.LastName</label>
 			}
 		</div>
-     }
-}
+					}
+				}
 
 
 <div class="clearfix"></div>

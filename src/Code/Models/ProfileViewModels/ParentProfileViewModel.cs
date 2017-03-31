@@ -8,7 +8,7 @@
     {
 		public ApplicationUser User { get; set; }
 
-		public List<ListAlbumsViewModel> Albums { get; set; }
+		public List<Album> Albums { get; set; }
 
 		public List<Image> Images { get; set; }
 

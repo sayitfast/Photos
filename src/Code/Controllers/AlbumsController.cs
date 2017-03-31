@@ -31,7 +31,6 @@ namespace Code.Controllers
 			this.environment = environment;
 		}
 
-
 		//GET: Create method
 		[Authorize]
 		[HttpGet]
