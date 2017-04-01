@@ -8,7 +8,7 @@
 
 		public int Id { get; set; }
 
-		public string Creator { get; set; }
+		public ApplicationUser Creator { get; set; }
 
 		public string Description { get; set; }
 

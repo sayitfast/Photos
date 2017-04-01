@@ -1,6 +1,6 @@
 ﻿@model ParentAlbumViewModel
 
-@inject UserManager<ApplicationUser> Menager
+@inject UserManager<ApplicationUser> UserManager
 
 
 @{
@@ -41,9 +41,9 @@
 
 			<div class="col-md-4" style="text-align: center;">
 
-				<h3>@(Html.ActionLink<AlbumsController>(album.Name, c => c.Details(album.Id, album.Creator.Id)))</h3>
+				<h3>@(Html.ActionLink<AlbumsController>(album.Name, c => c.Details(album.Id)))</h3>
 
-				<h4><small>@album.Creator</small></h4>
+				<h4><small>by @album.Creator.FirstName @album.Creator.LastName</small></h4>
 
 			</div>
 		}

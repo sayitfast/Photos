@@ -91,13 +91,22 @@ namespace Code.Controllers
 			return RedirectToAction("Index", "MyProfile");
 		}
 
-		public IActionResult Details(int albumId, string userId)
+		public IActionResult Details(int albumId)
 		{
 			var model = new ParentAlbumViewModel();
 
-			model.Album = this.db.Album
-				.Where(al => al.Id == albumId && al.UserId == userId)
+			model.Album = db.Album
+				.Where(al => al.Id == albumId)
 				.FirstOrDefault();
+
+			model.AlbumDetails = new AlbumDetailsViewModel
+			{
+				Id = model.Album.Id,
+				Name = model.Album.Name,
+				CreatedOn = model.Album.CreatedOn,
+				Description = model.Album.Description,
+				Creator = db.Users.Where(u => u.Id == model.Album.UserId).FirstOrDefault()
+			};
 
 			model.Images = this.db.Images
 				.Where(img => img.Album == model.Album)
@@ -125,8 +134,6 @@ namespace Code.Controllers
 					Name = al.Name,
 				})
 				.ToList();
-
-			model.List = resultAlbumList;
 
 			return View(model);
 		}
