@@ -41,6 +41,7 @@
 
 			model.Albums = db.Album
 				 .Where(al => al.User == currentUser)
+				 .OrderByDescending(al => al.CreatedOn)
 				 .ToList();
 
 			model.Images = db.Images

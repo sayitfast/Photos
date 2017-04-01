@@ -1,5 +1,7 @@
 ﻿@model ParentAlbumViewModel
 
+
+
 @inject UserManager<ApplicationUser> UserManager
 
 
@@ -7,18 +9,11 @@
 	ViewData["Title"] = "Home Page";
 }
 
-<style>
-	body {
-		background-image: url(http://www.mrwallpaper.com/wallpapers/rain-forest.jpg);
-		background-size: cover;
-		background-repeat: no-repeat;
-	}
-</style>
 <div class="row">
 	<div class="text-center">
 		<form id="search-form" asp-area="" asp-controller="Albums" asp-action="Search">
-			@Html.TextBoxFor(m => m.Search.Name, new { @id = "search-box", @placeholder = "Search by name"})
-			<input type="submit" id="search-button" value="Go"/>
+			@Html.TextBoxFor(m => m.Search.Name, new { @id = "search-box", @placeholder = "Search by name" })
+			<input type="submit" id="search-button" value="Go" />
 		</form>
 	</div>
 </div>
@@ -35,19 +30,54 @@
 	}
 	else
 	{
-		@for (int i = 0; i < Model.List.Count; i++)
+		
+		@foreach (var album in Model.List)
 		{
-			var album = Model.List[i];
+			var albumImages = Model.Images
+				.Where(img => img.Album.Id == album.Id)
+				.ToList();
 
-			<div class="col-md-4" style="text-align: center;">
+			<div class="col-md-4 text-center" id="album">
 
-				<h3>@(Html.ActionLink<AlbumsController>(album.Name, c => c.Details(album.Id)))</h3>
+				@if (albumImages.Count == 0)
+				{
+					<img src="~/images/album_with_no_images.jpg" />
+				}
+				else
+				{
+					var firstImage = albumImages.First();
 
-				<h4><small>by @album.Creator.FirstName @album.Creator.LastName</small></h4>
+					<div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="4000" data-delay="3000">
 
+						<div class="carousel-inner" role="listbox">
+
+							@foreach (var image in albumImages)
+							{
+								// if the picture is the first in the images list
+								// the class will be "item active"
+								if (image == firstImage)
+								{
+									<div class="item active">
+										<img src="~/uploads/@album.Creator.Id/@album.Id/@image.Name" alt="Chania" style="height: 300px; width: inherit">
+									</div>
+							}
+							else
+							{
+									<div class="item">
+										<img src="~/uploads/@album.Creator.Id/@album.Id/@image.Name" alt="Chania" style="height: 300px; width: inherit">
+									</div>
+							}
+						}
+						</div>
+					</div>
+				}
+				@(Html.ActionLink<AlbumsController>(album.Name, c => c.Details(album.Id)))
+				<br />
+				<div class="pull-right">
+					<p style="color: gray; margin-right: 5px;">by @album.Creator.FirstName @album.Creator.LastName</p>
+				</div>
 			</div>
-		}
+				}
 		<div class="clearfix"></div>
 	}
 </div>
-

@@ -106,7 +106,7 @@ namespace Code.Controllers
 
 				// when everything is saved to the Database the user will be redirected automatically to the
 				// details of the album if there are images
-				return RedirectToAction("Details", new { album.Id });
+				return RedirectToAction("Index", "MyProfile");
 			}
 
 			// if the user hasn't uploaded any picture/s he will be redirected to his profile page
@@ -179,13 +179,6 @@ namespace Code.Controllers
 						   .Where(al => al.Id == Id)
 						   .FirstOrDefault();
 
-			// if the albums creator is not the current user 
-			// the user will be redirected to the home/index page
-			if (userManager.GetUserId(User) != model.Album.User.Id)
-			{
-				return RedirectToAction("Index", "Home");
-			}
-
 			// if the album does not exist
 			if (model.Album == null)
 			{
@@ -231,7 +224,7 @@ namespace Code.Controllers
 
 			db.SaveChanges();
 
-			return RedirectToAction("Index", "MyProfile", new { userId = userManager.GetUserId(User) });
+			return RedirectToAction("Index", "MyProfile");
 		}
 
 		// admin property that show a list of all users in the Database

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Code.Data;
 using Code.Models.AlbumVIewModels;
+using System.Collections.Generic;
 
 namespace Code.Controllers
 {
@@ -18,7 +19,7 @@ namespace Code.Controllers
         {
 			model.List = this.db.Album
 				.OrderByDescending(al => al.CreatedOn)
-				.Select(al => new ListAlbumsViewModel
+				.Select(al => new AlbumDetailsViewModel
 				{
 					Id = al.Id,
 					Name = al.Name,
@@ -26,6 +27,22 @@ namespace Code.Controllers
 				})
 				.Take(12)
 				.ToList();
+
+			var albums = this.db.Album
+				.OrderByDescending(al => al.CreatedOn)
+				.Take(12)
+				.ToList();
+
+			model.Images = new List<Image>();
+
+			foreach(var album in albums)
+			{
+				var images = this.db.Images
+					.Where(img => img.Album == album)
+					.ToList();
+
+				model.Images.AddRange(images);
+			}
 
 
 			return View(model);

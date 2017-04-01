@@ -16,7 +16,7 @@
 		public SearchAlbumsViewModel Search { get; set; }
 
 		// this class is used when we want to display a list of albums
-		public List<ListAlbumsViewModel> List { get; set; }
+		public List<AlbumDetailsViewModel> List { get; set; }
 
 		// this classs is used when the user wants to delete an album
 		public Album Album { get; set; }

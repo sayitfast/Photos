@@ -1,7 +1,7 @@
 ﻿body {
 	overflow-x: hidden;
+	background-color: #eaeaea;
 }
-
 /* layout styling */
 .navbar-profile-picture {
 	text-align: center;
@@ -76,10 +76,6 @@
 	transition: all 0.33s;
 }
 
-	#navbar-logo:hover {
-		transform: scale(1.1);
-	}
-
 /* Home - index styling */
 #search-form {
 	height: 60px;
@@ -109,16 +105,26 @@
 }
 
 .albums {
-	border: 1px solid transparent;
-	background-color: black;
-	opacity: 0.9;
 	color: white;
 	border-bottom-left-radius: 4px;
 	border-bottom-right-radius: 4px;
+	justify-content: center;
 }
 
+	.albums #album {
+		align-items: center;
+		background-color: white;
+		padding: 0px;
+		width: 31%;
+		margin: 1%;
+	}
+
+		.albums #album img {
+			position: center;
+		}
+
+
 #latest-album-title {
-	background-color: white;
 	margin: 0px;
 	margin-top: 20px;
 	margin-bottom: 2px;
@@ -134,6 +140,14 @@
 }
 
 @media screen and (max-width:960px) {
+	.albums #album {
+		width: 100%;
+		margin: 0%;
+	}
+
+		.albums #album img {
+			width: 100%;
+		}
 
 	#search-box {
 		width: 71%;
@@ -266,6 +280,7 @@
 	width: 48%;
 	text-align: center;
 }
+
 	#flex-item-inner #profile-buttons li#create:hover {
 		opacity: 1;
 	}
@@ -286,9 +301,10 @@
 	width: 48%;
 	text-align: center;
 }
-#flex-item-inner #profile-buttons li#edit:hover {
-	background-color: lightgray;
-}
+
+	#flex-item-inner #profile-buttons li#edit:hover {
+		background-color: lightgray;
+	}
 
 	#flex-item-inner #profile-buttons li#edit a {
 		color: black;
@@ -313,28 +329,28 @@
 	}
 /*=======================================*/
 /*===== Create Album Page ==========*/
-#create-album-buttons{
-	list-style:none;
+#create-album-buttons {
+	list-style: none;
 	text-align: right;
 }
-#create-album-buttons #back{
-	display: inline-block;
-}
-#create-album-buttons #save{
-	display: inline-block;
-}
+
+	#create-album-buttons #back {
+		display: inline-block;
+	}
+
+	#create-album-buttons #save {
+		display: inline-block;
+	}
 
 /*=== Album Details Page*/
 
-.flex-container#album-details-images{
+.flex-container#album-details-images {
 	border: 1px solid red;
-
 }
-.flex-item-details-img{
+
+.flex-item-details-img {
 	display: inline-flex;
 	text-align: center;
 	align-content: center;
 	border: 1px solid green;
-
 }
-
