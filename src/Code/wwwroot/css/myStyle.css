@@ -242,76 +242,93 @@
 }
 
 /*===== PROFILE PAGE =======*/
-.flex-container#user-profile {
-	display: flex;
-}
-
-.flex-item#profile-picture-area {
-	width: 30%;
-}
-
-	.flex-item#profile-picture-area .profile-picture {
-		width: 100%;
-	}
-
-
-.flex-item#user-information {
-	width: 70%;
-}
-
-
-#flex-item-inner #albums-info li {
-	text-align: center;
-	width: 30%;
-	display: inline-block;
-}
-
-#flex-item-inner #person-info li {
-	text-align: center;
-	width: 48%;
-	display: inline-block;
-}
-
-#flex-item-inner #profile-buttons li#create {
-	border-radius: 4px;
-	opacity: 0.9;
-	background-color: #1f7dd7;
-	display: inline-block;
-	width: 48%;
-	text-align: center;
-}
-
-	#flex-item-inner #profile-buttons li#create:hover {
-		opacity: 1;
-	}
-
-	#flex-item-inner #profile-buttons li#create a {
-		color: white;
-		display: block;
-		font-size: 20px;
-		text-decoration: none;
-	}
-
-#flex-item-inner #profile-buttons li#edit {
-	border-radius: 4px;
-	opacity: 0.9;
+#user-details {
 	background-color: white;
-	border: 1px solid gray;
-	display: inline-block;
-	width: 48%;
+	border-radius: 4px;
+}
+
+#profile-picture-area {
 	text-align: center;
 }
 
-	#flex-item-inner #profile-buttons li#edit:hover {
-		background-color: lightgray;
+	#profile-picture-area img {
+		border-radius: 2px;
+		margin-top: 10px;
+		height: 300px;
+		width: initial;
 	}
 
-	#flex-item-inner #profile-buttons li#edit a {
-		color: black;
-		font-size: 20px;
-		display: block;
-		text-decoration: none;
+#description {
+	text-align: center;
+	font-size: 18px;
+}
+
+#user-albums-information {
+	margin-top: 10px;
+	list-style: none;
+}
+
+	#user-albums-information li {
+		display: inline-block;
 	}
+
+#user-email-and-location {
+	list-style: none;
+}
+
+	#user-email-and-location li {
+	}
+
+#create-edit-btns {
+	list-style: none;
+}
+
+	#create-edit-btns li {
+		height: 50px;
+		line-height: 50px;
+		display: inline-block;
+		width: 48%;
+		text-align: center;
+	}
+
+		#create-edit-btns li a {
+			display: block;
+			height: inherit;
+			font-size: 18px;
+			text-decoration: none;
+			border-radius: 3px;
+		}
+
+#create a {
+	color: white;
+	background-color: #1f7dd7;
+}
+#create:hover a{
+	opacity: 0.8;
+}
+
+#edit a {
+	color: black;
+	background-color: #e6e6e6;
+}
+#edit:hover a{
+	background-color: lightgray;
+}
+
+@media screen and (max-width: 990px) {
+	#user-albums-information li {
+		width: 30%;
+	}
+
+	#user-email-and-location li {
+		margin-top: 10px;
+		width: 91%;
+	}
+
+	#create-edit-btns li {
+		width: 45.5%;
+	}
+}
 /*======= Edit Profile Page ========= */
 #form {
 	border-radius: 4px;
