@@ -21,31 +21,31 @@
 			}
 	</div>
 	<div class="col-md-9" id="user-information">
-			<ul class="row" id="user-albums-information">
-				@if (Model.Albums.Count > 1)
-				{
-					<li class="col-md-4 text-center"><strong>@Model.Albums.Count</strong> albums</li>
-				}
-				else
-				{
-					<li class="col-md-4 text-center"><strong>@Model.Albums.Count</strong> album</li>
-				}
-				<li class="col-md-4 text-center"><strong>@Model.Images.Count</strong> photos</li>
-				<li class="col-md-4 text-center">0 likes</li>
-			</ul>
+		<ul class="row" id="user-albums-information">
+			@if (Model.Albums.Count > 1)
+			{
+				<li class="col-md-4 text-center"><strong>@Model.Albums.Count</strong> albums</li>
+			}
+			else
+			{
+				<li class="col-md-4 text-center"><strong>@Model.Albums.Count</strong> album</li>
+			}
+			<li class="col-md-4 text-center"><strong>@Model.Images.Count</strong> photos</li>
+			<li class="col-md-4 text-center">0 likes</li>
+		</ul>
 		<hr />
 		@if (Model.User.Location != null && Model.User.Age > 0 && Model.User.Email != null)
 		{
-				<ul class="row" id="user-email-and-location">
-					<li class="col-md-6 text-center"><span class="glyphicon glyphicon-home" style="margin-right: 10px;"></span>@Model.User.Location</li>
-					<li class="col-md-6 text-center"><span class="glyphicon glyphicon-envelope" style="margin-right: 10px;"></span>@Model.User.Email</li>
-				</ul>
-			<hr />
-		}
-			<ul class="row" id="create-edit-btns">
-				<li id="create" class="col-md-6 text-center">@(Html.ActionLink<AlbumsController>("Create Album", c => c.Create()))</li>
-				<li id="edit" class="col-md-6 text-center">@(Html.ActionLink<MyProfileController>("Edit Profile", c => c.Edit()))</li>
+			<ul class="row" id="user-email-and-location">
+				<li class="col-md-6 text-center"><span class="glyphicon glyphicon-home" style="margin-right: 10px;"></span>@Model.User.Location</li>
+				<li class="col-md-6 text-center"><span class="glyphicon glyphicon-envelope" style="margin-right: 10px;"></span>@Model.User.Email</li>
 			</ul>
+				<hr />
+		}
+		<ul class="row" id="create-edit-btns">
+			<li id="create" class="col-md-6 text-center">@(Html.ActionLink<AlbumsController>("Create Album", c => c.Create()))</li>
+			<li id="edit" class="col-md-6 text-center">@(Html.ActionLink<MyProfileController>("Edit Profile", c => c.Edit()))</li>
+		</ul>
 		<hr />
 		<div class="row text-center" id="description">
 			@if (Model.User.Description != null)
@@ -70,54 +70,55 @@
 }
 else
 {
-	foreach (var album in Model.Albums)
-	{
-		//Taking the pictures that have as albumId the current album of the loop
-		var images = Model.Images.Where(img => img.Album == album).ToList();
 
-		<div class="col-md-4 text-center">
+		@foreach (var album in Model.Albums)
+		{
+			//Taking the pictures that have as albumId the current album of the loop
+			var images = Model.Images.Where(img => img.Album == album).ToList();
 
-			@if (images.Capacity == 0)
-			{
-				//if the album does not have any pictures in it
-				<img src="~/images/album_with_no_images.jpg" />
-			}
+			<div class="col-md-4 text-center" id="albums">
 
-			// Displaying the albums with there pictures
-			// using carousel to make the pictures slide 
-			// one after another
-			else
-			{
-				var firstImage = images.First();
+				@if (images.Capacity == 0)
+				{
+					//if the album does not have any pictures in it
+					<img src="~/images/album_with_no_images.jpg" />
+				}
 
-				<div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="4000" data-delay="3000">
-					
-					<div class="carousel-inner" role="listbox">
-						@foreach (var image in images)
-						{
-							// if the picture is the first in the images list
-							// the class will be "item active"
-							if (image == firstImage)
+				// Displaying the albums with there pictures
+				// using carousel to make the pictures slide
+				// one after another
+				else
+				{
+					var firstImage = images.First();
+
+					<div id="album-with-pictures" class="carousel slide" data-ride="carousel" data-interval="4000" data-delay="3000">
+
+						<div class="carousel-inner" role="listbox">
+							@foreach (var image in images)
 							{
-								<div class="item active">
-									<img src="uploads/@Model.User.Id/@album.Id/@image.Name" alt="Chania" style="height: 300px;">
-								</div>
+								// if the picture is the first in the images list
+								// the class will be "item active"
+								if (image == firstImage)
+								{
+									<div class="item active">
+										<img src="uploads/@Model.User.Id/@album.Id/@image.Name" alt="Chania" style="height: 300px;">
+									</div>
 							}
 							else
 							{
-								<div class="item">
-									<img src="uploads/@Model.User.Id/@album.Id/@image.Name" alt="Chania" style="height: 300px;">
-								</div>
+									<div class="item">
+										<img src="uploads/@Model.User.Id/@album.Id/@image.Name" alt="Chania" style="height: 300px;">
+									</div>
 							}
 						}
+						</div>
 					</div>
+				}
+				<div id="album-name">
+					@(Html.ActionLink<AlbumsController>(album.Name, c => c.Details(album.Id)))
 				</div>
-			}
-			@(Html.ActionLink<AlbumsController>(album.Name, c => c.Details(album.Id)))
-			<br />
-			<label>by @Model.User.FirstName @Model.User.LastName</label>
-			<hr />
-		</div>
-	}
+				<br />
+			</div>
+		}
 }
 <div class="clearfix"></div>

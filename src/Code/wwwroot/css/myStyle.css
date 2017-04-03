@@ -242,6 +242,7 @@
 }
 
 /*===== PROFILE PAGE =======*/
+/*-- Upper part - user information*/
 #user-details {
 	background-color: white;
 	border-radius: 4px;
@@ -276,8 +277,6 @@
 	list-style: none;
 }
 
-	#user-email-and-location li {
-	}
 
 #create-edit-btns {
 	list-style: none;
@@ -303,7 +302,8 @@
 	color: white;
 	background-color: #1f7dd7;
 }
-#create:hover a{
+
+#create:hover a {
 	opacity: 0.8;
 }
 
@@ -311,9 +311,37 @@
 	color: black;
 	background-color: #e6e6e6;
 }
-#edit:hover a{
+
+#edit:hover a {
 	background-color: lightgray;
 }
+/*-- Lower part - albums visualization*/
+	#albums {
+		padding: 10px;
+		transition: all 0.33s;
+	}
+		#albums:hover {
+		transform: scale(1.01);
+	}
+#album-with-pictures {
+	justify-content: center;
+}
+
+	#album-with-pictures img {
+		min-width: 100%;
+		min-height: 100%;
+	}
+
+	#album-name a{
+		display: block;
+		background-color: #1f7dd7;
+		font-size: 18px;
+		color: white;
+		text-decoration: none;
+	}
+	#album-name a:hover{
+		opacity: 0.9;
+	}
 
 @media screen and (max-width: 990px) {
 	#user-albums-information li {
@@ -328,6 +356,15 @@
 	#create-edit-btns li {
 		width: 45.5%;
 	}
+
+	#album-with-pictures {
+		width: 100%;
+	}
+
+		#album-with-pictures img {
+			min-width: 100%;
+			min-height: 100%;
+		}
 }
 /*======= Edit Profile Page ========= */
 #form {
