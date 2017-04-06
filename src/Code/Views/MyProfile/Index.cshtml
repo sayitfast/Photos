@@ -40,11 +40,16 @@
 				<li class="col-md-6 text-center"><span class="glyphicon glyphicon-home" style="margin-right: 10px;"></span>@Model.User.Location</li>
 				<li class="col-md-6 text-center"><span class="glyphicon glyphicon-envelope" style="margin-right: 10px;"></span>@Model.User.Email</li>
 			</ul>
-				<hr />
+			<hr />
 		}
 		<ul class="row" id="create-edit-btns">
-			<li id="create" class="col-md-6 text-center">@(Html.ActionLink<AlbumsController>("Create Album", c => c.Create()))</li>
-			<li id="edit" class="col-md-6 text-center">@(Html.ActionLink<MyProfileController>("Edit Profile", c => c.Edit()))</li>
+			<li id="create" class="col-md-4 text-center">@(Html.ActionLink<AlbumsController>("Create Album", c => c.Create()))</li>
+			<li id="edit" class="col-md-4 text-center">@(Html.ActionLink<MyProfileController>("Edit Profile", c => c.Edit()))</li>
+			<li id="sign-out" class="col-md-4 text-center">
+				<form asp-area="" asp-controller="Account" asp-action="LogOff" method="post">
+					<button type="submit">Sign out</button>
+				</form>
+			</li>
 		</ul>
 		<hr />
 		<div class="row text-center" id="description">
@@ -71,54 +76,54 @@
 else
 {
 
-		@foreach (var album in Model.Albums)
-		{
-			//Taking the pictures that have as albumId the current album of the loop
-			var images = Model.Images.Where(img => img.Album == album).ToList();
+	@foreach (var album in Model.Albums)
+	{
+		//Taking the pictures that have as albumId the current album of the loop
+		var images = Model.Images.Where(img => img.Album == album).ToList();
 
-			<div class="col-md-4 text-center" id="albums">
+		<div class="col-md-4 text-center" id="albums" style="margin-top: 10px;">
 
-				@if (images.Capacity == 0)
-				{
-					//if the album does not have any pictures in it
-					<img src="~/images/album_with_no_images.jpg" />
-				}
+			@if (images.Capacity == 0)
+			{
+				//if the album does not have any pictures in it
+				<img src="~/images/album_with_no_images.jpg" />
+			}
 
-				// Displaying the albums with there pictures
-				// using carousel to make the pictures slide
-				// one after another
-				else
-				{
-					var firstImage = images.First();
+			// Displaying the albums with there pictures
+			// using carousel to make the pictures slide
+			// one after another
+			else
+			{
+				var firstImage = images.First();
 
-					<div id="album-with-pictures" class="carousel slide" data-ride="carousel" data-interval="4000" data-delay="3000">
+				<div id="album-with-pictures" class="carousel slide" data-ride="carousel" data-interval="4000" data-delay="3000">
 
-						<div class="carousel-inner" role="listbox">
-							@foreach (var image in images)
+					<div class="carousel-inner" role="listbox">
+						@foreach (var image in images)
+						{
+							// if the picture is the first in the images list
+							// the class will be "item active"
+							if (image == firstImage)
 							{
-								// if the picture is the first in the images list
-								// the class will be "item active"
-								if (image == firstImage)
-								{
-									<div class="item active">
-										<img src="uploads/@Model.User.Id/@album.Id/@image.Name" alt="Chania" style="height: 300px;">
-									</div>
+								<div class="item active">
+									<img src="uploads/@Model.User.Id/@album.Id/@image.Name" alt="Chania" style="height: 300px;">
+								</div>
 							}
 							else
 							{
-									<div class="item">
-										<img src="uploads/@Model.User.Id/@album.Id/@image.Name" alt="Chania" style="height: 300px;">
-									</div>
+								<div class="item">
+									<img src="uploads/@Model.User.Id/@album.Id/@image.Name" alt="Chania" style="height: 300px;">
+								</div>
 							}
 						}
-						</div>
 					</div>
-				}
-				<div id="album-name">
-					@(Html.ActionLink<AlbumsController>(album.Name, c => c.Details(album.Id)))
 				</div>
-				<br />
+			}
+			<div id="album-name">
+				@(Html.ActionLink<AlbumsController>(album.Name, c => c.Details(album.Id)))
 			</div>
-		}
+			<br />
+		</div>
+	}
 }
 <div class="clearfix"></div>

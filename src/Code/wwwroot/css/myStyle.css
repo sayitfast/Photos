@@ -31,27 +31,11 @@
 			transition: all 0.33s;
 			color: white;
 		}
-
 			.navbar .container ul li a:hover {
 				background-color: #1f7dd7;
 				transform: scale3d(1.1);
 			}
 
-		.navbar .container ul li button#logOff-button {
-			width: 100%;
-			height: 50px;
-			margin: 0px;
-			text-decoration: none;
-			text-align: center;
-			font-size: 18px;
-			transition: all 0.33s;
-			color: white;
-		}
-
-			.navbar .container ul li button#logOff-button:hover {
-				background-color: red;
-				transform: scale3d(1.1);
-			}
 
 		.navbar .container ul li a#login-button:hover {
 			background-color: green;
@@ -120,7 +104,8 @@
 	}
 
 		.albums #album img {
-			position: center;
+		min-width: 100%;
+		min-height: 100%;
 		}
 
 
@@ -139,6 +124,24 @@
 	line-height: 60px;
 }
 
+#album-details a{
+ display: block;
+ color: white;
+ background-color: #1f7dd7;
+ text-decoration: none;
+ font-size: 18px;
+ transition: all 0.33s;
+}
+	#album-details a:hover {
+		opacity: 0.8;
+	}
+
+#album-name{
+	width: 100%;
+	font-size: 20px;
+	font-family: Verdana;
+	color: black;
+}
 @media screen and (max-width:960px) {
 	.albums #album {
 		width: 100%;
@@ -286,10 +289,16 @@
 		height: 50px;
 		line-height: 50px;
 		display: inline-block;
-		width: 48%;
+		width: 40%;
 		text-align: center;
 	}
-
+		#create-edit-btns li#sign-out {
+		height: 50px;
+		line-height: 50px;
+		display: inline-block;
+		width: 20%;
+		text-align: center;
+	}
 		#create-edit-btns li a {
 			display: block;
 			height: inherit;
@@ -298,6 +307,19 @@
 			border-radius: 3px;
 		}
 
+#sign-out button{
+	border: none;
+	border-radius: 3px;
+	height: 50px;
+	line-height: 50px;
+	width: 100%;
+	font-size: 18px;
+	background-color: red;
+	color: white;
+}
+#sign-out button:hover {
+	opacity: 0.8;
+}
 #create a {
 	color: white;
 	background-color: #1f7dd7;
@@ -315,6 +337,7 @@
 #edit:hover a {
 	background-color: lightgray;
 }
+
 /*-- Lower part - albums visualization*/
 	#albums {
 		padding: 10px;
@@ -354,7 +377,10 @@
 	}
 
 	#create-edit-btns li {
-		width: 45.5%;
+		width: 32.5%;
+	}
+		#create-edit-btns li#sign-out {
+		width: 30%;
 	}
 
 	#album-with-pictures {

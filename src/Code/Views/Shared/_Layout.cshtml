@@ -52,10 +52,6 @@
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">
 					<li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-					@if (User.Identity.IsAuthenticated)
-					{
-						<li>@(Html.ActionLink<AlbumsController>("Create Album", al => al.Create()))</li>
-					}
 				</ul>
 				@await Html.PartialAsync("_LoginPartial")
 			</div>

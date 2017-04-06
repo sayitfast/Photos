@@ -39,6 +39,12 @@
 
 			<div class="col-md-4 text-center" id="album">
 
+				<div id="album-details">
+					<div class="col-md-8" id="album-name">
+						<div>@album.Name</div>
+					</div>
+				</div>
+
 				@if (albumImages.Count == 0)
 				{
 					<img src="~/images/album_with_no_images.jpg" />
@@ -71,10 +77,8 @@
 						</div>
 					</div>
 				}
-				@(Html.ActionLink<AlbumsController>(album.Name, c => c.Details(album.Id)))
-				<br />
-				<div class="pull-right">
-					<p style="color: gray; margin-right: 5px;">by @album.Creator.FirstName @album.Creator.LastName</p>
+				<div id="album-details">
+					@(Html.ActionLink<AlbumsController>("View", c => c.Details(album.Id)))
 				</div>
 			</div>
 				}

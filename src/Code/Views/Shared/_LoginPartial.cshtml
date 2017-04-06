@@ -8,29 +8,18 @@
 {
 	<form asp-area="" asp-controller="Account" asp-action="LogOff" method="post" id="logoutForm" class="navbar-right">
 		<ul class="nav navbar-nav">
-			<li>
-				@{ var currentUser = UserManager.GetUserAsync(User).Result;}
-				@{
-					if (currentUser.FirstName != null)
-					{
-						@(Html.ActionLink<MyProfileController>($"Welcome, {currentUser.FirstName}", c => c.Index()))
-					}
-					else
-					{
-						@(Html.ActionLink<MyProfileController>($"Welcome, {currentUser.Email}", c => c.Index()))
-					}
-				}
-			</li>
-			<li>
-				<button id="logOff-button" type="submit" class="btn btn-link navbar-btn navbar-link">Log off</button>
+			<li id="profile-icon">
+				<a asp-controller="MyProfile" asp-action="Index">
+					<img src="~/images/profile-image.png" style="width: 20px; height: 18px;"/>
+				</a>
 			</li>
 		</ul>
 	</form>
 }
 else
 {
-	   <ul class="nav navbar-nav navbar-right">
-	       <li><a asp-area="" asp-controller="Account" asp-action="Register">Register</a></li>
-		   <li><a asp-area="" asp-controller="Account" asp-action="Login" id="login-button">Log in</a></li>
- 	  </ul>
+	<ul class="nav navbar-nav navbar-right">
+		<li><a asp-area="" asp-controller="Account" asp-action="Register">Register</a></li>
+		<li><a asp-area="" asp-controller="Account" asp-action="Login" id="login-button">Log in</a></li>
+	</ul>
 }
