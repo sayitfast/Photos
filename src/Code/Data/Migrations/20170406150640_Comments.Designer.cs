@@ -8,9 +8,10 @@ using Code.Data;
 namespace Code.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170406150640_Comments")]
+    partial class Comments
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.0-rtm-22752")
@@ -48,8 +49,6 @@ namespace Code.Migrations
 
                     b.Property<string>("Content")
                         .HasMaxLength(160);
-
-                    b.Property<DateTime>("CreatedOn");
 
                     b.Property<string>("UserId");
 

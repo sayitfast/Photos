@@ -28,17 +28,47 @@
 	}
 	else
 	{
-		<div class="flex-container" id="album-details-images">
 			@foreach (var image in Model.Images)
 				{
-				<div class="flex-item-details-img">
-					<img src="~/uploads/@Model.AlbumDetails.Creator.Id/@Model.Album.Id/@image.Name" style="height: 200px; padding-left: 20px;" />
+				<div class="col-md-3" id="album-picture">
+					<img src="~/uploads/@Model.AlbumDetails.Creator.Id/@Model.Album.Id/@image.Name" />
 				</div>
 				}
-		</div>
+		<hr />
 	}
 }
+<div class="col-md-8 col-md-offset-2" id="comment-section">
+
+	@if (Model.Comments.Capacity > 0)
+	{
+		foreach (var comment in Model.Comments)
+		{
+			<div class="col-md-8 col-md-offset-2" id="comment">
+				<div id="user-information">
+					@comment.Author.FirstName @comment.Author.LastName
+				</div>
+				<p>@comment.Content</p>
+			</div>
+
+		}
+	}
+
+	@if (User.Identity.IsAuthenticated)
+	{
+		<div class="col-md-8 col-md-offset-2 text-center" id="comment-form">
+			@using (Html.BeginForm<AlbumsController>(c => c.Comment(Model.Album.Id), FormMethod.Post))
+			{
+				@Html.ValidationMessageFor(m => m.CreateComment.Content)
+				@Html.TextAreaFor(m => m.CreateComment.Content, new { @class = "form-control", @placeholder = "Comment", @style = "margin-top: 5px" })
+				<input type="submit" name="submit" value="Post" id="post-comment" class="btn btn-default btn-lg pull-right" style="margin-top: 5px; margin-bottom: 5px;" />
+			}
+		</div>
+
+	}
+</div>
+
 <div class="col-md-4 col-md-offset-4 text-center">
+	<hr />
 	@(Html.ActionLink<HomeController>("Back", c => c.Index(Model)))
 	@if (Model.AlbumDetails.Creator == currentUser)
 	{

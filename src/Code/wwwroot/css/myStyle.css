@@ -314,11 +314,11 @@
 	line-height: 50px;
 	width: 100%;
 	font-size: 18px;
-	background-color: red;
-	color: white;
+	background-color: #e6e6e6;
+	color: black;
 }
 #sign-out button:hover {
-	opacity: 0.8;
+	background-color: #ff2c2c
 }
 #create a {
 	color: white;
@@ -424,13 +424,34 @@
 
 /*=== Album Details Page*/
 
-.flex-container#album-details-images {
-	border: 1px solid red;
+#album-picture{
+	text-align: center;
+	margin-top: 10px;
+}
+#album-picture img{
+	max-height: 100%;
+	max-width: 100%;
+	
 }
 
-.flex-item-details-img {
-	display: inline-flex;
-	text-align: center;
-	align-content: center;
-	border: 1px solid green;
+#comment-section{
+	margin-top: 10px;
+}
+
+#comment-form{
+	border: 1px solid #a1a1a1;
+	margin-top: 5px;
+	border-radius: 4px;
+}
+#comment{
+	border: 1px solid #a1a1a1;
+	margin-bottom: 2px;
+	border-radius: 4px;
+}
+#comment p{
+	border: 1px solid #a1a1a1;
+	border-radius: 4px;
+	background-color: white;
+	color: black;
+	padding-left: 10px;
 }

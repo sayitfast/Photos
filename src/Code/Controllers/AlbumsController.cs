@@ -142,6 +142,19 @@ namespace Code.Controllers
 				.Where(img => img.Album == model.Album)
 				.ToList();
 
+			// gets all the comments related to the album 
+			model.Comments = this.db.Comments
+				.OrderByDescending(al => al.CreatedOn)
+				.Where(c => c.Album.Id == albumId)
+				.Select( c => new CommentDetailsViewModel
+				{
+					Author = c.User,
+					Content = c.Content,
+					CreatedOn = c.CreatedOn
+				})
+				.ToList();
+
+
 			// if there isn't such album in the Database a Not Found page will appear
 			if(model.Album == null)
 			{
@@ -267,5 +280,43 @@ namespace Code.Controllers
 
 			return RedirectToAction("AllUsers");
 		}
+
+
+		// returns the comment form in the Details view of an album
+		[Authorize]
+		[HttpGet]
+		public IActionResult Comment(int albumId)
+		{
+			CreateAlbumViewModel model = new CreateAlbumViewModel();
+
+			return View(model);
+		}
+
+		// saves the comments to the database 
+		[Authorize]
+		[HttpPost]
+		public IActionResult Comment(ParentAlbumViewModel model, int albumId)
+		{
+			var currentUser = userManager.GetUserAsync(User).Result;
+
+			var album = this.db.Album
+				.Where(al => al.Id == albumId)
+				.FirstOrDefault();
+
+			Comment comment = new Comment()
+			{
+				Id = model.CreateComment.Id,
+				Content = model.CreateComment.Content,
+				User = currentUser,
+				Album = album,
+				CreatedOn = DateTime.UtcNow
+			};
+
+			db.Comments.Add(comment);
+			db.SaveChanges();
+
+			return RedirectToAction("Details", "Albums", new { @albumId = albumId } );
+		}
+
 	}
 }

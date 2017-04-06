@@ -27,5 +27,14 @@
 		// this class is used to when taking the pictures corresponding to a 
 		// particular user or album
 		public List<Image> Images { get; set; }
+		
+		// this class is used when user is creating a comment
+		public CreateCommentViewModel CreateComment { get; set; }
+
+		//this class is used when we list the comments of an album
+		public CommentDetailsViewModel CommentDetails { get; set; }
+
+		// this class is used when we list all the comments for a specific album
+		public List<CommentDetailsViewModel> Comments { get; set; }
     }
 }
