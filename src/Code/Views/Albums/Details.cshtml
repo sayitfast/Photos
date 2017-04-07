@@ -28,11 +28,11 @@
 	}
 	else
 	{
-			@foreach (var image in Model.Images)
+		@foreach (var image in Model.Images)
 				{
-				<div class="col-md-3" id="album-picture">
-					<img src="~/uploads/@Model.AlbumDetails.Creator.Id/@Model.Album.Id/@image.Name" />
-				</div>
+			<div class="col-md-3" id="album-picture">
+				<img src="~/uploads/@Model.AlbumDetails.Creator.Id/@Model.Album.Id/@image.Name" />
+			</div>
 				}
 		<hr />
 	}
@@ -43,37 +43,52 @@
 	{
 		foreach (var comment in Model.Comments)
 		{
-			<div class="col-md-8 col-md-offset-2" id="comment">
+			<div class="col-md-10 col-md-offset-1" id="comment">
 				<div id="user-information">
-					@comment.Author.FirstName @comment.Author.LastName
+					<img src="~/uploads/@comment.Author.Id/@comment.Author.ProfilePicture" />
+					<a>@comment.Author.FirstName @comment.Author.LastName</a>
+					@{
+						if (comment.PostedBefore.Minutes == 00)
+						{
+							<div class="pull-right" style="color: dimgray;">@comment.PostedBefore.Seconds s</div>
+						}
+						else if (comment.PostedBefore.Hours == 00)
+						{
+							<div class="pull-right" style="color: dimgrey;">@comment.PostedBefore.Minutes m</div>
+						}
+						else if (comment.PostedBefore.Days == 00)
+						{
+							<div class="pull-right" style="color: dimgray;">@comment.PostedBefore.Hours h</div>
+						}
+					}
 				</div>
 				<p>@comment.Content</p>
 			</div>
 
-		}
-	}
+							}
+						}
 
 	@if (User.Identity.IsAuthenticated)
 	{
-		<div class="col-md-8 col-md-offset-2 text-center" id="comment-form">
+		<div class="col-md-10 col-md-offset-1 text-center" id="comment-form">
 			@using (Html.BeginForm<AlbumsController>(c => c.Comment(Model.Album.Id), FormMethod.Post))
 			{
 				@Html.ValidationMessageFor(m => m.CreateComment.Content)
 				@Html.TextAreaFor(m => m.CreateComment.Content, new { @class = "form-control", @placeholder = "Comment", @style = "margin-top: 5px" })
-				<input type="submit" name="submit" value="Post" id="post-comment" class="btn btn-default btn-lg pull-right" style="margin-top: 5px; margin-bottom: 5px;" />
+				<input type="submit" name="submit" value="Post" id="post-comment" class="btn btn-default btn-lg pull-right" style="margin-top: 2px; margin-bottom: 5px;" />
+					<hr />
 			}
 		</div>
 
 	}
 </div>
 
-<div class="col-md-4 col-md-offset-4 text-center">
-	<hr />
-	@(Html.ActionLink<HomeController>("Back", c => c.Index(Model)))
-	@if (Model.AlbumDetails.Creator == currentUser)
-	{
-		@(Html.ActionLink<AlbumsController>("Delete", c => c.Delete(Model.AlbumDetails.Id), new { @class = "btn btn-danger" }))
-	}
-</div>
+@if (Model.AlbumDetails.Creator == currentUser)
+{
+	<div class="col-md-4 col-md-offset-4 text-center" id="edit-button">
+		<hr />
+		@(Html.ActionLink<AlbumsController>("Edit Album", c => c.Edit(Model.AlbumDetails.Id), new { @class = "btn btn-danger" }))
+	</div>
+}
 <div class="clearfix"></div>
 

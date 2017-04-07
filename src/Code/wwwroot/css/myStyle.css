@@ -31,15 +31,16 @@
 			transition: all 0.33s;
 			color: white;
 		}
+
 			.navbar .container ul li a:hover {
 				background-color: #1f7dd7;
 				transform: scale3d(1.1);
 			}
 
 
-		.navbar .container ul li a#login-button:hover {
-			background-color: green;
-		}
+			.navbar .container ul li a#login-button:hover {
+				background-color: green;
+			}
 
 @media screen and (min-width: 1024px) {
 	.navbar .container ul li a#login-button {
@@ -104,8 +105,8 @@
 	}
 
 		.albums #album img {
-		min-width: 100%;
-		min-height: 100%;
+			min-width: 100%;
+			min-height: 100%;
 		}
 
 
@@ -124,24 +125,26 @@
 	line-height: 60px;
 }
 
-#album-details a{
- display: block;
- color: white;
- background-color: #1f7dd7;
- text-decoration: none;
- font-size: 18px;
- transition: all 0.33s;
+#album-details a {
+	display: block;
+	color: white;
+	background-color: #1f7dd7;
+	text-decoration: none;
+	font-size: 18px;
+	transition: all 0.33s;
 }
+
 	#album-details a:hover {
 		opacity: 0.8;
 	}
 
-#album-name{
+#album-name {
 	width: 100%;
 	font-size: 20px;
 	font-family: Verdana;
 	color: black;
 }
+
 @media screen and (max-width:960px) {
 	.albums #album {
 		width: 100%;
@@ -292,13 +295,15 @@
 		width: 40%;
 		text-align: center;
 	}
+
 		#create-edit-btns li#sign-out {
-		height: 50px;
-		line-height: 50px;
-		display: inline-block;
-		width: 20%;
-		text-align: center;
-	}
+			height: 50px;
+			line-height: 50px;
+			display: inline-block;
+			width: 20%;
+			text-align: center;
+		}
+
 		#create-edit-btns li a {
 			display: block;
 			height: inherit;
@@ -307,7 +312,7 @@
 			border-radius: 3px;
 		}
 
-#sign-out button{
+#sign-out button {
 	border: none;
 	border-radius: 3px;
 	height: 50px;
@@ -317,9 +322,11 @@
 	background-color: #e6e6e6;
 	color: black;
 }
-#sign-out button:hover {
-	background-color: #ff2c2c
-}
+
+	#sign-out button:hover {
+		background-color: #ff2c2c;
+	}
+
 #create a {
 	color: white;
 	background-color: #1f7dd7;
@@ -339,13 +346,15 @@
 }
 
 /*-- Lower part - albums visualization*/
-	#albums {
-		padding: 10px;
-		transition: all 0.33s;
-	}
-		#albums:hover {
+#albums {
+	padding: 10px;
+	transition: all 0.33s;
+}
+
+	#albums:hover {
 		transform: scale(1.01);
 	}
+
 #album-with-pictures {
 	justify-content: center;
 }
@@ -355,14 +364,15 @@
 		min-height: 100%;
 	}
 
-	#album-name a{
-		display: block;
-		background-color: #1f7dd7;
-		font-size: 18px;
-		color: white;
-		text-decoration: none;
-	}
-	#album-name a:hover{
+#album-name a {
+	display: block;
+	background-color: #1f7dd7;
+	font-size: 18px;
+	color: white;
+	text-decoration: none;
+}
+
+	#album-name a:hover {
 		opacity: 0.9;
 	}
 
@@ -379,9 +389,10 @@
 	#create-edit-btns li {
 		width: 32.5%;
 	}
+
 		#create-edit-btns li#sign-out {
-		width: 30%;
-	}
+			width: 30%;
+		}
 
 	#album-with-pictures {
 		width: 100%;
@@ -424,34 +435,110 @@
 
 /*=== Album Details Page*/
 
-#album-picture{
+#album-picture {
 	text-align: center;
 	margin-top: 10px;
 }
-#album-picture img{
-	max-height: 100%;
-	max-width: 100%;
-	
+
+	#album-picture img {
+		max-height: 100%;
+		max-width: 100%;
+	}
+
+#comment-section {
+	margin-top: 100px;
 }
 
-#comment-section{
-	margin-top: 10px;
-}
-
-#comment-form{
+#comment-form {
 	border: 1px solid #a1a1a1;
 	margin-top: 5px;
 	border-radius: 4px;
+	padding: 10px;
+	background-color: #f2f2f2;
 }
-#comment{
+
+#comment {
 	border: 1px solid #a1a1a1;
 	margin-bottom: 2px;
 	border-radius: 4px;
+	background-color: #f2f2f2;
 }
-#comment p{
+
+	#comment #user-information img {
+		width: 30px;
+		height: 30px;
+		margin: 3px;
+		border-radius: 1px;
+	}
+
+	#comment p {
+		background-color: white;
+		border-radius: 4px;
+		color: black;
+		padding-left: 10px;
+	}
+
+#edit-button a {
+	height: 30px;
+	line-height: 30px;
+	text-decoration: none;
+	font-size: 18px;
+	color: black;
+	background-color: #f2f2f2;
 	border: 1px solid #a1a1a1;
 	border-radius: 4px;
-	background-color: white;
-	color: black;
-	padding-left: 10px;
+	display: block;
 }
+
+	#edit-button a:hover {
+		background-color: lightgray;
+	}
+/*===== Edit Album Page =============*/
+#album-form {
+	border: 1px solid #a1a1a1;
+	background-color: #f2f2f2;
+	border-radius: 4px;
+}
+
+#title {
+	border: 1px solid #a1a1a1;
+	border-radius: 4px;
+	margin-bottom: 10px;
+	background-color: lightgray;
+}
+
+#images {
+	margin-top: 10px;
+}
+
+	#images #file {
+		border: 1px solid #a1a1a1;
+		border-radius: 4px;
+		margin-bottom: 5px;
+		transition: all 0.33s;
+		background-color: #f2f2f2;
+	}
+
+		#images #file:hover {
+			transform: scale(1.05);
+		}
+
+		#images #file img {
+			margin: 10px;
+		}
+
+		#images #file button {
+			margin-right: 5px;
+		}
+
+#comments {
+	margin-top: 10px;
+}
+
+	#comments #comment {
+		transition: all 0.33s;
+	}
+
+		#comments #comment:hover {
+			transform: scale(1.05);
+		}

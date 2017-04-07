@@ -1,0 +1,85 @@
+﻿@model ParentAlbumViewModel
+
+<div class="col-md-8 col-md-offset-2" id="album-form">
+
+	@using (Html.BeginForm<AlbumsController>(c => c.Edit(Model.Album.Id), FormMethod.Post, new { @enctype = "multipart/form-data" }))
+	{
+		<br />
+
+		@Html.TextBoxFor(c => c.Album.Name, new { @class = "form-control", @placeholder = "Description" })
+		<br />
+
+		@Html.TextAreaFor(c => c.Album.Description, new { @class = "form-control", @placeholder = "Description" })
+		<br />
+
+			<label>Add Photo</label>
+			<input type="file" name="pictures" multiple />
+		<br />
+
+		<a href="@Url.Action("Delete","Albums", new { @albumId = Model.Album.Id })" class="active">
+			<div class="btn btn-danger btn-group-lg pull-right">Delete</div>
+		</a>
+		<input type="submit" value="Save Changes" class="btn btn-primary btn-group-lg pull-right" style="margin-right: 3px;"/>
+	}
+	<hr />
+</div>
+
+
+<div class="col-md-5" id="images">
+	@if (Model.Images.Capacity > 0)
+	{
+		<div id="title">
+			<h3 class="text-center">Photos</h3>
+		</div>
+
+		@foreach (var image in Model.Images)
+		{
+			<div id="file" class="text-center">
+				<img src="~/uploads/@image.User.Id/@image.Album.Id/@image.Name" style="height: 100px; width: initial" />
+				<a href="@Url.Action("DeleteImage","Albums", new { @imageId = image.Id, @albumId = Model.Album.Id })" class="active">
+					<span class="close pull-right" style="margin-right: 5px;" aria-hidden="true">&times;</span>
+				</a>
+				<p>@image.Name</p>
+			</div>
+		}
+	}
+	else
+	{
+		<h2>@Model.Album.Name doesn't contain any images</h2>
+
+	}
+</div>
+
+
+<div class="col-md-7" id="comments">
+	@if (Model.Comments.Capacity > 0)
+	{
+		<div id="title">
+			<h3 class="text-center">Comments</h3>
+		</div>
+
+		@foreach (var comment in Model.Comments)
+		{
+			<div id="comment">
+				<div id="user-information">
+
+					<img src="~/uploads/@comment.Author.Id/@comment.Author.ProfilePicture" />
+
+					<a>@comment.Author.FirstName @comment.Author.LastName</a>
+
+					<a href="@Url.Action("DeleteComment","Albums", new { @commentId = comment.Id, @albumId = Model.Album.Id })" class="active">
+						<span class="close pull-right" style="margin-right: 5px;" aria-hidden="true">&times;</span>
+					</a>
+
+				</div>
+				<p>@comment.Content</p>
+			</div>
+		}
+	}
+	else
+	{
+		<h2>@Model.Album.Name doesn't contain any comments</h2>
+	}
+</div>
+
+<div class="clearfix"></div>

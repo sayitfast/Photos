@@ -142,15 +142,17 @@ namespace Code.Controllers
 				.Where(img => img.Album == model.Album)
 				.ToList();
 
+
 			// gets all the comments related to the album 
 			model.Comments = this.db.Comments
-				.OrderByDescending(al => al.CreatedOn)
+				.OrderByDescending(c => c.CreatedOn)
 				.Where(c => c.Album.Id == albumId)
 				.Select( c => new CommentDetailsViewModel
 				{
 					Author = c.User,
 					Content = c.Content,
-					CreatedOn = c.CreatedOn
+					CreatedOn = c.CreatedOn,
+					PostedBefore = DateTime.UtcNow - c.CreatedOn				
 				})
 				.ToList();
 
@@ -165,31 +167,173 @@ namespace Code.Controllers
 
 		}
 
-		public IActionResult Search(ParentAlbumViewModel model)
+		[Authorize]
+		[HttpGet]
+		public IActionResult Edit(int albumId)
 		{
-			var input = model.Search.Name;
+			var currentUser = userManager.GetUserAsync(User).Result;
 
-			var resultAlbumList = this.db.Album
-				.Where(al => al.Name == input)
-				.Select(al => new ListAlbumsViewModel
+			var model = new ParentAlbumViewModel();
+
+			model.Album = this.db.Album
+				.Where(al => al.Id == albumId)
+				.FirstOrDefault();
+
+			if(model.Album.User != currentUser)
+			{
+				return NotFound();
+			}
+
+			model.Images = this.db.Images
+				.Where(img => img.Album.Id == albumId)
+				.ToList();
+
+			model.Comments = this.db.Comments
+				.Where(c => c.Album.Id == albumId)
+				.OrderByDescending(c => c.CreatedOn)
+				.Select(c => new CommentDetailsViewModel
 				{
-					Id = al.Id,
-					Name = al.Name,
+					Id = c.Id,
+					Author = c.User,
+					Content = c.Content,
+					CreatedOn = c.CreatedOn
 				})
 				.ToList();
 
 			return View(model);
 		}
 
+		[Authorize]
+		[HttpPost]
+		public async Task<IActionResult> Edit(ParentAlbumViewModel model, int albumId, List<IFormFile> pictures)
+		{
+			if (ModelState.IsValid)
+			{
+				var currentUser = userManager.GetUserAsync(User).Result;
+
+				if (model.Album != null)
+				{
+					var album = this.db.Album
+						.Where(al => al.Id == albumId)
+						.FirstOrDefault();
+
+					album.Name = model.Album.Name;
+					album.Description = model.Album.Description;
+
+					db.Album.Add(album);
+					db.Update(album);
+
+					if (pictures.Capacity > 0)
+					{
+						foreach (var image in pictures)
+						{
+							string filename = image.FileName.Split('\\').Last();
+
+							var img = new Image()
+							{
+								Name = filename,
+								Album = album,
+								User = currentUser
+							};
+
+							db.Images.Add(img);
+
+							// creating the path where the images of the album will be stored
+							// we saved the album to the Database already so we can user it's Id
+							// to create an unique directory
+							string path = Path.Combine(environment.WebRootPath, "uploads", currentUser.Id, album.Id.ToString());
+
+							Directory.CreateDirectory(Path.Combine(path));
+
+							// the FileStream class that will save the image to it's directory
+							using (FileStream fs = new FileStream(Path.Combine(path, filename), FileMode.Create))
+							{
+								await image.CopyToAsync(fs);
+							}
+						}
+					}
+					db.SaveChanges();
+				}
+
+				return RedirectToAction("Details", "Albums", new { @albumId = albumId });
+			}
+
+			return RedirectToAction("Details", "Albums", new { @albumId = albumId });
+		}
+
+		// returns the comment form in the Details view of an album
+		[Authorize]
+		[HttpGet]
+		public IActionResult Comment(int albumId)
+		{
+			CreateAlbumViewModel model = new CreateAlbumViewModel();
+
+			return View(model);
+		}
+
+		// saves the comments to the database 
+		[Authorize]
+		[HttpPost]
+		public IActionResult Comment(ParentAlbumViewModel model, int albumId)
+		{
+			var currentUser = userManager.GetUserAsync(User).Result;
+
+			var album = this.db.Album
+				.Where(al => al.Id == albumId)
+				.FirstOrDefault();
+
+			Comment comment = new Comment()
+			{
+				Id = model.CreateComment.Id,
+				Content = model.CreateComment.Content,
+				User = currentUser,
+				Album = album,
+				CreatedOn = DateTime.UtcNow
+			};
+
+			db.Comments.Add(comment);
+			db.SaveChanges();
+
+			return RedirectToAction("Details", "Albums", new { @albumId = albumId });
+		}
+
+		public IActionResult DeleteComment(int commentId, int albumId)
+		{
+			var comment = this.db.Comments
+				.Where(c => c.Id == commentId)
+				.FirstOrDefault();
+
+			db.Comments.Remove(comment);
+
+			db.SaveChanges();
+
+			return RedirectToAction("Edit", "Albums", new { @albumId = albumId });
+		}
+
+		public IActionResult DeleteImage (int imageId, int albumId)
+		{
+			var image = this.db.Images
+				.Where(img => img.Id == imageId)
+				.FirstOrDefault();
+
+			db.Images.Remove(image);
+
+			db.SaveChanges();
+
+			return RedirectToAction("Edit", "Albums", new { @albumId = albumId });
+
+		}
+
+
 		// Shows the confirm deletion page to the user
-		public IActionResult Delete(int Id)
+		public IActionResult Delete(int albumId)
 		{
 
 			var model = new ParentAlbumViewModel();
 
 			// gets the album from the Database
 			model.Album = this.db.Album
-						   .Where(al => al.Id == Id)
+						   .Where(al => al.Id == albumId)
 						   .FirstOrDefault();
 
 			// if the album does not exist
@@ -281,42 +425,6 @@ namespace Code.Controllers
 			return RedirectToAction("AllUsers");
 		}
 
-
-		// returns the comment form in the Details view of an album
-		[Authorize]
-		[HttpGet]
-		public IActionResult Comment(int albumId)
-		{
-			CreateAlbumViewModel model = new CreateAlbumViewModel();
-
-			return View(model);
-		}
-
-		// saves the comments to the database 
-		[Authorize]
-		[HttpPost]
-		public IActionResult Comment(ParentAlbumViewModel model, int albumId)
-		{
-			var currentUser = userManager.GetUserAsync(User).Result;
-
-			var album = this.db.Album
-				.Where(al => al.Id == albumId)
-				.FirstOrDefault();
-
-			Comment comment = new Comment()
-			{
-				Id = model.CreateComment.Id,
-				Content = model.CreateComment.Content,
-				User = currentUser,
-				Album = album,
-				CreatedOn = DateTime.UtcNow
-			};
-
-			db.Comments.Add(comment);
-			db.SaveChanges();
-
-			return RedirectToAction("Details", "Albums", new { @albumId = albumId } );
-		}
 
 	}
 }
