@@ -120,7 +120,7 @@ else
 				</div>
 			}
 			<div id="album-name">
-				@(Html.ActionLink<AlbumsController>(album.Name, c => c.Details(album.Id)))
+				@(Html.ActionLink<AlbumsController>(album.Name, c => c.Details(album.Id, Model.User.Id)))
 			</div>
 			<br />
 		</div>

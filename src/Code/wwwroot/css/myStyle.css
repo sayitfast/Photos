@@ -436,13 +436,33 @@
 /*=== Album Details Page*/
 
 #album-picture {
+	border: 1px solid #a1a1a1;
+	border-radius: 4px;
 	text-align: center;
 	margin-top: 10px;
+	transition: all 0.33s;
+	padding: 0px;
+	background-color:#f2f2f2;
 }
+
+	#album-picture:hover {
+		transform: scale(1.01);
+	}
 
 	#album-picture img {
 		max-height: 100%;
 		max-width: 100%;
+		transition: all 0.33s;
+	}
+	#album-picture button{
+		margin-top: -20px;
+		font-size: 15px;
+		color: #1f7dd7;
+		border: none;
+	}
+	#album-picture button a{
+		color: white;
+		text-decoration: none;
 	}
 
 #comment-section {

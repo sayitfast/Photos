@@ -37,11 +37,10 @@ namespace Code.Controllers
 
 			foreach(var album in albums)
 			{
-				var images = this.db.Images
-					.Where(img => img.Album == album)
+				var albumImages = this.db.Images
+					.Where(img => img.Album.Id.ToString() == album.Id.ToString())
 					.ToList();
-
-				model.Images.AddRange(images);
+				model.Images.AddRange(albumImages);
 			}
 
 

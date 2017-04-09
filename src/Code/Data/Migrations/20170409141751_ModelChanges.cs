@@ -4,29 +4,16 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Code.Migrations
 {
-    public partial class ImagesToAlbums : Migration
+    public partial class ModelChanges : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-
             migrationBuilder.AlterColumn<int>(
                 name: "AlbumId",
                 table: "Images",
                 nullable: true,
                 oldClrType: typeof(string),
                 oldNullable: true);
-
-            migrationBuilder.AddColumn<int>(
-                name: "Description",
-                table: "Images",
-                nullable: false,
-                defaultValue: 0);
-
-            migrationBuilder.AddColumn<int>(
-                name: "Rating",
-                table: "Images",
-                nullable: false,
-                defaultValue: 0);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Images_AlbumId",
@@ -50,14 +37,6 @@ namespace Code.Migrations
 
             migrationBuilder.DropIndex(
                 name: "IX_Images_AlbumId",
-                table: "Images");
-
-            migrationBuilder.DropColumn(
-                name: "Description",
-                table: "Images");
-
-            migrationBuilder.DropColumn(
-                name: "Rating",
                 table: "Images");
 
             migrationBuilder.AlterColumn<string>(

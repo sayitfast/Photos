@@ -78,7 +78,7 @@
 					</div>
 				}
 				<div id="album-details">
-					@(Html.ActionLink<AlbumsController>("View", c => c.Details(album.Id)))
+					@(Html.ActionLink<AlbumsController>("View", c => c.Details(album.Id, album.Creator.Id)))
 				</div>
 			</div>
 				}

@@ -8,9 +8,10 @@ using Code.Data;
 namespace Code.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170408095446_Album-Category")]
+    partial class AlbumCategory
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.0-rtm-22752")
@@ -87,28 +88,6 @@ namespace Code.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Images");
-                });
-
-            modelBuilder.Entity("Code.Data.Like", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int?>("AlbumId");
-
-                    b.Property<int?>("ImageId");
-
-                    b.Property<string>("UserId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AlbumId");
-
-                    b.HasIndex("ImageId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Likes");
                 });
 
             modelBuilder.Entity("Code.Models.ApplicationUser", b =>
@@ -302,21 +281,6 @@ namespace Code.Migrations
                     b.HasOne("Code.Data.Album", "Album")
                         .WithMany()
                         .HasForeignKey("AlbumId");
-
-                    b.HasOne("Code.Models.ApplicationUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-                });
-
-            modelBuilder.Entity("Code.Data.Like", b =>
-                {
-                    b.HasOne("Code.Data.Album", "Album")
-                        .WithMany()
-                        .HasForeignKey("AlbumId");
-
-                    b.HasOne("Code.Data.Image", "Image")
-                        .WithMany()
-                        .HasForeignKey("ImageId");
 
                     b.HasOne("Code.Models.ApplicationUser", "User")
                         .WithMany()

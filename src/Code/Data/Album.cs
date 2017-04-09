@@ -17,6 +17,9 @@
 		[MaxLength(160)]
 		public string Description { get; set; }
 
+		[Required]
+		public string Category { get; set; }
+
 		public string UserId { get; set; }
 
 		public virtual ApplicationUser User { get; set; }

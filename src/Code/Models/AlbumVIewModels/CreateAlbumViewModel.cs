@@ -9,6 +9,9 @@
 		[Required]
 		public string Name { get; set; }
 
+		[Required]
+		public string Category { get; set; }
+
 		public DateTime CreatedOn { get; set; }
 
 		[MaxLength(160)]

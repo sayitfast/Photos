@@ -36,5 +36,7 @@
 
 		// this class is used when we list all the comments for a specific album
 		public List<CommentDetailsViewModel> Comments { get; set; }
+
+		public Like Like { get; set; }
     }
 }

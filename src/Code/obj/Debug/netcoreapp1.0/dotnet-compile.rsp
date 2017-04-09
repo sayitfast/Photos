@@ -238,12 +238,14 @@ C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Startup.cs
 C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Controllers\AccountController.cs
 C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Controllers\AlbumsController.cs
 C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Controllers\HomeController.cs
+C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Controllers\ImageController.cs
 C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Controllers\ManageController.cs
 C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Controllers\MyProfileController.cs
 C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Data\Album.cs
 C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Data\ApplicationDbContext.cs
 C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Data\Comment.cs
 C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Data\Image.cs
+C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Data\Like.cs
 C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Data\Migrations\20170327201602_Initial.cs
 C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Data\Migrations\20170327201602_Initial.Designer.cs
 C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Data\Migrations\20170328130603_PersonalInformation.cs
@@ -260,6 +262,12 @@ C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Data\Migrations\
 C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Data\Migrations\20170406150640_Comments.Designer.cs
 C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Data\Migrations\20170406185839_CommentsCreationTime.cs
 C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Data\Migrations\20170406185839_CommentsCreationTime.Designer.cs
+C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Data\Migrations\20170408095446_Album-Category.cs
+C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Data\Migrations\20170408095446_Album-Category.Designer.cs
+C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Data\Migrations\20170409094815_LikesTable.cs
+C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Data\Migrations\20170409094815_LikesTable.Designer.cs
+C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Data\Migrations\20170409141751_ModelChanges.cs
+C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Data\Migrations\20170409141751_ModelChanges.Designer.cs
 C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Data\Migrations\ApplicationDbContextModelSnapshot.cs
 C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Models\ApplicationUser.cs
 C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Models\AccountViewModels\ExternalLoginConfirmationViewModel.cs

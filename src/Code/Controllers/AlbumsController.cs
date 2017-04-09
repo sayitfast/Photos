@@ -62,7 +62,9 @@ namespace Code.Controllers
 					Name = model.Name,
 					Description = model.Description,
 					CreatedOn = DateTime.UtcNow,
-					UserId = currentUser.Id
+					User = currentUser,
+					Category = model.Category
+					
 				};
 
 				// saving the album to the Database
@@ -115,9 +117,13 @@ namespace Code.Controllers
 
 		// when the user clicks on an actionlink to the details of an album the album's id will
 		// be needed to find it in the Database
-		public IActionResult Details(int albumId)
+		public IActionResult Details(int albumId, string userId)
 		{
 			var model = new ParentAlbumViewModel();
+
+			var creator = this.db.Users
+				.Where(u => u.Id == userId)
+				.FirstOrDefault();
 
 			// getting the album itself, fron the Database
 			model.Album = db.Album
@@ -133,7 +139,7 @@ namespace Code.Controllers
 				Name = model.Album.Name,
 				CreatedOn = model.Album.CreatedOn,
 				Description = model.Album.Description,
-				Creator = db.Users.Where(u => u.Id == model.Album.UserId).FirstOrDefault()
+				Creator = model.Album.User
 			};
 
 			// getting the images from the Database that have as albumId the Id of the album
@@ -207,8 +213,6 @@ namespace Code.Controllers
 		[HttpPost]
 		public async Task<IActionResult> Edit(ParentAlbumViewModel model, int albumId, List<IFormFile> pictures)
 		{
-			if (ModelState.IsValid)
-			{
 				var currentUser = userManager.GetUserAsync(User).Result;
 
 				if (model.Album != null)
@@ -220,7 +224,6 @@ namespace Code.Controllers
 					album.Name = model.Album.Name;
 					album.Description = model.Album.Description;
 
-					db.Album.Add(album);
 					db.Update(album);
 
 					if (pictures.Capacity > 0)
@@ -253,7 +256,6 @@ namespace Code.Controllers
 						}
 					}
 					db.SaveChanges();
-				}
 
 				return RedirectToAction("Details", "Albums", new { @albumId = albumId });
 			}
@@ -409,7 +411,7 @@ namespace Code.Controllers
 			db.Users.Remove(user);
 
 			var UserAlbums = this.db.Album
-				.Where(al => al.UserId == user.Id).ToList();
+				.Where(al => al.User.Id == user.Id).ToList();
 
 			if (UserAlbums.Count > 0)
 			{
