@@ -48,6 +48,10 @@
 				.Where(img => img.User == currentUser)
 				.ToList();
 
+			model.Likes = db.Likes
+				.Where(l => l.UserId == currentUser.Id)
+				.ToList();
+
 			return View(model);
         }
 

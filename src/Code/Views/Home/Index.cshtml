@@ -11,10 +11,11 @@
 
 <div class="row">
 	<div class="text-center">
-		<form id="search-form" asp-area="" asp-controller="Albums" asp-action="Search">
-			@Html.TextBoxFor(m => m.Search.Name, new { @id = "search-box", @placeholder = "Search by name" })
+		@using (Html.BeginForm<SearchController>(c => c.Index(), FormMethod.Post, new { id = "search-form"}))
+		{
+			@Html.TextBoxFor(m => m.Search, new { @id = "search-box", @placeholder = "Search by category" })
 			<input type="submit" id="search-button" value="Go" />
-		</form>
+		}
 	</div>
 </div>
 <div class="row" id="latest-album-title">

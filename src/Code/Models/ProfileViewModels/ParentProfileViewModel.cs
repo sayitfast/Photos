@@ -12,6 +12,8 @@
 
 		public List<Image> Images { get; set; }
 
+		public List<Like> Likes { get; set; }
+
 		public ParentAlbumViewModel Album { get; set; }
     }
 }

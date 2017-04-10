@@ -231,8 +231,6 @@
 --reference:C:\Users\usr\.nuget\packages\System.Xml.ReaderWriter\4.3.0\ref\netstandard1.3\System.Xml.ReaderWriter.dll
 --reference:C:\Users\usr\.nuget\packages\System.Xml.XDocument\4.3.0\ref\netstandard1.3\System.Xml.XDocument.dll
 --resource:"C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\obj\Debug\netcoreapp1.0\Codedotnet-compile.deps.json",Code.deps.json
-C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\HttpFormFileBase.cs
-C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\HttpPostedFileBase.cs
 C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Program.cs
 C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Startup.cs
 C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Controllers\AccountController.cs
@@ -241,6 +239,7 @@ C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Controllers\Home
 C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Controllers\ImageController.cs
 C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Controllers\ManageController.cs
 C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Controllers\MyProfileController.cs
+C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Controllers\SearchController.cs
 C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Data\Album.cs
 C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Data\ApplicationDbContext.cs
 C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Data\Comment.cs
@@ -283,7 +282,6 @@ C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Models\AlbumVIew
 C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Models\AlbumVIewModels\CreateCommentViewModel.cs
 C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Models\AlbumVIewModels\ListAlbumsViewModel.cs
 C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Models\AlbumVIewModels\ParentAlbumViewModel.cs
-C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Models\AlbumVIewModels\SearchAlbumsViewModel.cs
 C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Models\ManageViewModels\AddPhoneNumberViewModel.cs
 C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Models\ManageViewModels\ChangePasswordViewModel.cs
 C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Models\ManageViewModels\ConfigureTwoFactorViewModel.cs
@@ -294,6 +292,9 @@ C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Models\ManageVie
 C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Models\ManageViewModels\SetPasswordViewModel.cs
 C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Models\ManageViewModels\VerifyPhoneNumberViewModel.cs
 C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Models\ProfileViewModels\ParentProfileViewModel.cs
+C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Models\SearchViewModels\ImageDetailsViewModel.cs
+C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Models\SearchViewModels\SearchResultViewModel.cs
+C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Models\SearchViewModels\UserDetailsViewModel.cs
 C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Services\IEmailSender.cs
 C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Services\ISmsSender.cs
 C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Services\MessageServices.cs

@@ -4,9 +4,9 @@
 
 	public class AlbumDetailsViewModel
     {
-		public string Name { get; set; }
-
 		public int Id { get; set; }
+
+		public string Name { get; set; }
 
 		public ApplicationUser Creator { get; set; }
 

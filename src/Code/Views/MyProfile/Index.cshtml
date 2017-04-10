@@ -31,7 +31,7 @@
 				<li class="col-md-4 text-center"><strong>@Model.Albums.Count</strong> album</li>
 			}
 			<li class="col-md-4 text-center"><strong>@Model.Images.Count</strong> photos</li>
-			<li class="col-md-4 text-center">0 likes</li>
+			<li class="col-md-4 text-center"><strong>@Model.Likes.Count</strong> likes</li>
 		</ul>
 		<hr />
 		@if (Model.User.Location != null && Model.User.Age > 0 && Model.User.Email != null)

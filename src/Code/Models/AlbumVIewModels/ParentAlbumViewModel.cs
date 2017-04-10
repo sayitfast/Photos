@@ -9,11 +9,12 @@
 	// * to use multiple models in a single view page
 	public class ParentAlbumViewModel
     {
+		// this property is used when the user searches for album
+		// in the main page 
+		public string Search { get; set; }
+
 		// this class is used when the user is creating an album
 		public CreateAlbumViewModel Create { get; set; }
-
-		// this class is used when the user is searching through the albums
-		public SearchAlbumsViewModel Search { get; set; }
 
 		// this class is used when we want to display a list of albums
 		public List<AlbumDetailsViewModel> List { get; set; }
