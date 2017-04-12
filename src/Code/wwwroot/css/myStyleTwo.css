@@ -1,0 +1,56 @@
+﻿/*=== Search Index Page*/
+#users-section{
+}
+#users-section #user{
+	border: 1px solid #a1a1a1;
+	background-color: #f2f2f2;
+	margin-bottom: 5px;
+	border-radius: 4px;
+}
+#users-section img{
+	height: initial;
+	width: 100%;
+	margin-top: 3px;
+	border-radius: 4px;
+}
+#users-section #albums-information{
+	padding: 0px;
+	list-style: none;
+	display: block;
+}
+#users-section  #albums-information li{
+	width: 100%;
+}
+@media screen and (max-width: 960px){
+	#users-section  #albums-information li{
+		width: 32%;
+		display: inline-block;
+}
+	#users-section img{
+		height: 120px;
+		width: initial;
+		margin-top: 5px;
+	}
+}
+
+#albums-section{
+}
+#albums-section #album{
+	border: 1px solid #a1a1a1;
+	background-color: #f2f2f2;
+	margin-bottom: 5px;
+	border-radius: 4px;
+}
+#albums-section #album #images{
+}
+#albums-section #album img{
+	height: 100px;
+	margin-bottom: 5px;
+	width: initial;
+}
+	#albums-section #album a {
+		display: block;
+		text-decoration: none;
+		color: white;
+		font-size: 18px;
+	}

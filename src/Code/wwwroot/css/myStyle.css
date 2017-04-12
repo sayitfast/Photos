@@ -19,22 +19,21 @@
 		margin-left: 2%;
 		width: 96%;
 		margin-top: 0.5%;
-		background: black;
+		background:  white;
 		border-radius: 4px;
 		opacity: 0.9;
-		box-shadow: 0px 3px 30px #1f7dd7;
+		box-shadow: 0px 1px 10px #1f7dd7;
 	}
 
 		.navbar .container ul li a {
 			text-align: center;
-			font-size: 18px;
+			font-size: 15px;
 			transition: all 0.33s;
-			color: white;
+			color: gray;
 		}
 
 			.navbar .container ul li a:hover {
 				background-color: #1f7dd7;
-				transform: scale3d(1.1);
 			}
 
 
@@ -111,18 +110,15 @@
 
 
 #latest-album-title {
-	margin: 0px;
+    border: none;
+	background-color: white;
+	border-radius: 2px;
 	margin-top: 20px;
-	margin-bottom: 2px;
-	background-color: black;
-	opacity: 0.9;
-	color: white;
-	border: 1px solid transparent;
-	border-top-left-radius: 4px;
-	border-top-right-radius: 4px;
-	font-size: 20px;
-	height: 60px;
-	line-height: 60px;
+	margin-bottom: 10px;
+	height: 30px;
+	line-height: 30px;
+	font-size: 18px;
+	box-shadow: 0px 1px 5px #1f7dd7;
 }
 
 #album-details a {

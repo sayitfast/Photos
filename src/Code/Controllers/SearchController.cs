@@ -83,6 +83,7 @@
 					FirstName = user.FirstName,
 					LastName = user.LastName,
 					Location = user.Location,
+					ProfilePictureName = user.ProfilePicture,
 
 					TotalAlbums = this.db.Album
 					.Where(al => al.UserId == user.Id)

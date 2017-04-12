@@ -296,7 +296,7 @@ namespace Code.Controllers
 			db.Comments.Add(comment);
 			db.SaveChanges();
 
-			return RedirectToAction("Details", "Albums", new { @albumId = albumId });
+			return RedirectToAction("Details", "Albums", new { @albumId = albumId , @userId = album.UserId});
 		}
 
 		public IActionResult DeleteComment(int commentId, int albumId)
