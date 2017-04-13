@@ -32,18 +32,11 @@
 				{
 			<div class="col-md-6 col-md-offset-3" id="album-picture">
 				<a href="~/uploads/@Model.AlbumDetails.Creator.Id/@Model.Album.Id/@image.Name">
-				<img src="~/uploads/@Model.AlbumDetails.Creator.Id/@Model.Album.Id/@image.Name" />
+					<img src="~/uploads/@Model.AlbumDetails.Creator.Id/@Model.Album.Id/@image.Name" />
 				</a>
 				<br />
 				<p style="margin-top: 3px; text-align: left; margin-left: 5px;">
-					@if (image.Rating > 1)
-					{
-						<strong>@image.Rating</strong><small> likes</small>
-					}
-					else
-					{
-						<strong>@image.Rating</strong><small> like</small>
-					}
+					<small>Rating:</small><strong>@image.Rating</strong>
 				</p>
 				<div class="row">
 					<div class="pull-left" style="margin-left: 20px;">
@@ -52,7 +45,7 @@
 							<span>@(Html.ActionLink<ImageController>("Like", c => c.Like(image.Id, Model.AlbumDetails.Id)))</span>
 						</button>
 					</div>
-					<div class="pull-right"style="margin-right: 20px;">
+					<div class="pull-right" style="margin-right: 20px;">
 						<span class="glyphicon glyphicon-thumbs-down" style="font-size: 30px; margin-top: 5px;"></span>
 						<button class="btn btn-danger">
 							<span>@(Html.ActionLink<ImageController>("Dislike", c => c.Dislike(image.Id, Model.AlbumDetails.Id)))</span>
@@ -107,7 +100,7 @@
 				@Html.ValidationMessageFor(m => m.CreateComment.Content)
 				@Html.TextAreaFor(m => m.CreateComment.Content, new { @class = "form-control", @placeholder = "Comment", @style = "margin-top: 5px" })
 				<input type="submit" name="submit" value="Post" id="post-comment" class="btn btn-default btn-lg pull-right" style="margin-top: 2px; margin-bottom: 5px;" />
-					<hr />
+				<hr />
 			}
 		</div>
 

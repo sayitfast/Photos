@@ -55,12 +55,7 @@
 			var album = this.db.Album
 				.Where(al => al.Id == albumId)
 				.FirstOrDefault();
-
-			var like = this.db.Likes
-				.Where(l => l.Image == image)
-				.FirstOrDefault();
-
-			db.Likes.Remove(like);
+			
 
 			db.SaveChanges();
 

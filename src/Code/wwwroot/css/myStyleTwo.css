@@ -1,6 +1,11 @@
 ﻿/*=== Search Index Page*/
 #users-section{
 }
+#users-section h3{
+	border: 1px solid #a1a1a1;
+	background-color: #f2f2f2;
+	border-radius: 4px;
+}
 #users-section #user{
 	border: 1px solid #a1a1a1;
 	background-color: #f2f2f2;
