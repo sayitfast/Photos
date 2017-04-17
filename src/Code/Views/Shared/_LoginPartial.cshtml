@@ -6,8 +6,17 @@
 
 @if (SignInManager.IsSignedIn(User))
 {
+	var currentUser = UserManager.GetUserAsync(User).Result;
 	<form asp-area="" asp-controller="Account" asp-action="LogOff" method="post" id="logoutForm" class="navbar-right">
 		<ul class="nav navbar-nav">
+			@if (currentUser.isAdmin == true)
+			{
+				<li id="admin-main">@(Html.ActionLink<AdminController>("Admin Panel", c => c.Panel()))</li>
+				<li id="admin"><a href="#">Users</a></li>
+				<li id="admin"><a href="#">Albums</a></li>
+				<li id="admin"><a href="#">Categories</a></li>
+
+			}
 			<li id="profile-icon">
 				<a asp-controller="MyProfile" asp-action="Index">
 					<span class="glyphicon glyphicon-user"></span>

@@ -15,6 +15,10 @@
 		public DateTime CreatedOn { get; set; }
 
 		public int TotalImages { get; set; }
+
+		public string Category { get; set; }
+
+		public string CoverImage { get; set; }
 	}
 
 

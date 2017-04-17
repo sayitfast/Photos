@@ -15,6 +15,8 @@ namespace Code.Models.SearchViewModels
 
 		public string Location { get; set; }
 
+		public string Email { get; set; }
+
 		public string ProfilePictureName { get; set; }
 
 		public int TotalAlbums { get; set; }

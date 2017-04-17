@@ -1,4 +1,11 @@
-﻿/*=== Search Index Page*/
+﻿/*=== Admin dorpdown ======*/
+li#admin-main{
+	background-color: #1f7dd7;
+}
+li#admin {
+	background-color: gray;
+}
+/*=== Search Index Page*/
 #users-section{
 }
 #users-section h3{
@@ -59,3 +66,52 @@
 		color: white;
 		font-size: 18px;
 	}
+
+/* ====== Admin Panel ======== */
+/* ----- users dashboard ------*/
+#users-dashboard h3{
+	padding: 10px;
+	background-color: #1f7dd7;
+	color: white;
+	opacity: 0.8;
+}
+img#image{
+	height: 30px;
+}
+#users-table {
+	    margin-top: -10px;
+	    border: 2px solid #1f7dd7;
+		opacity: 0.8;
+		font-family: arial, sans-serif;
+		border-collapse: collapse;
+		width: 100%;
+	}
+	#users-table td, th {
+		border: 1px solid #a1a1a1;
+		padding: 8px;
+		text-align: center;
+	}
+	tr:nth-child(even) {
+    background-color: #dddddd;
+}
+/*----- albums dashboard ----*/
+#albums-dashboard h3{
+	padding: 10px;
+	background-color: #1f7dd7;
+	color: white;
+	opacity: 0.8;
+}
+	#albums-table {
+	    margin-top: -10px;
+	    border: 2px solid #1f7dd7;
+		opacity: 0.8;
+		font-family: arial, sans-serif;
+		border-collapse: collapse;
+		width: 100%;
+	}
+	#albums-table td, th {
+		border: 1px solid #a1a1a1;
+		padding: 8px;
+		text-align: center;
+	}
+

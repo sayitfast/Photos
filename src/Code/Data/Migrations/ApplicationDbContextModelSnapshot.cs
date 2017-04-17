@@ -70,7 +70,9 @@ namespace Code.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("AlbumId");
+                    b.Property<string>("AlbumId");
+
+                    b.Property<int?>("AlbumId1");
 
                     b.Property<string>("Desctiprion");
 
@@ -82,7 +84,7 @@ namespace Code.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AlbumId");
+                    b.HasIndex("AlbumId1");
 
                     b.HasIndex("UserId");
 
@@ -160,6 +162,8 @@ namespace Code.Migrations
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256);
+
+                    b.Property<bool>("isAdmin");
 
                     b.HasKey("Id");
 
@@ -301,7 +305,7 @@ namespace Code.Migrations
                 {
                     b.HasOne("Code.Data.Album", "Album")
                         .WithMany()
-                        .HasForeignKey("AlbumId");
+                        .HasForeignKey("AlbumId1");
 
                     b.HasOne("Code.Models.ApplicationUser", "User")
                         .WithMany()
