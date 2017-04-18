@@ -8,10 +8,9 @@ using Code.Data;
 namespace Code.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170328130603_PersonalInformation")]
-    partial class PersonalInformation
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.0-rtm-22752")
@@ -21,6 +20,9 @@ namespace Code.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Category")
+                        .IsRequired();
 
                     b.Property<DateTime>("CreatedOn");
 
@@ -38,6 +40,75 @@ namespace Code.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Album");
+                });
+
+            modelBuilder.Entity("Code.Data.Comment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("AlbumId");
+
+                    b.Property<string>("Content")
+                        .HasMaxLength(160);
+
+                    b.Property<DateTime>("CreatedOn");
+
+                    b.Property<string>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AlbumId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Comments");
+                });
+
+            modelBuilder.Entity("Code.Data.Image", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("AlbumId");
+
+                    b.Property<string>("Description");
+
+                    b.Property<string>("Name");
+
+                    b.Property<int>("Rating");
+
+                    b.Property<string>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AlbumId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Images");
+                });
+
+            modelBuilder.Entity("Code.Data.Like", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("AlbumId");
+
+                    b.Property<int?>("ImageId");
+
+                    b.Property<string>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AlbumId");
+
+                    b.HasIndex("ImageId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Likes");
                 });
 
             modelBuilder.Entity("Code.Models.ApplicationUser", b =>
@@ -81,12 +152,16 @@ namespace Code.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed");
 
+                    b.Property<string>("ProfilePicture");
+
                     b.Property<string>("SecurityStamp");
 
                     b.Property<bool>("TwoFactorEnabled");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256);
+
+                    b.Property<bool>("isAdmin");
 
                     b.HasKey("Id");
 
@@ -208,6 +283,43 @@ namespace Code.Migrations
 
             modelBuilder.Entity("Code.Data.Album", b =>
                 {
+                    b.HasOne("Code.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("Code.Data.Comment", b =>
+                {
+                    b.HasOne("Code.Data.Album", "Album")
+                        .WithMany()
+                        .HasForeignKey("AlbumId");
+
+                    b.HasOne("Code.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("Code.Data.Image", b =>
+                {
+                    b.HasOne("Code.Data.Album", "Album")
+                        .WithMany()
+                        .HasForeignKey("AlbumId");
+
+                    b.HasOne("Code.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("Code.Data.Like", b =>
+                {
+                    b.HasOne("Code.Data.Album", "Album")
+                        .WithMany()
+                        .HasForeignKey("AlbumId");
+
+                    b.HasOne("Code.Data.Image", "Image")
+                        .WithMany()
+                        .HasForeignKey("ImageId");
+
                     b.HasOne("Code.Models.ApplicationUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
