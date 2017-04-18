@@ -59,7 +59,13 @@
 	line-height: 35px;
 	transition: all 0.33s;
 }
-
+/*===== Login Page ======*/
+#login-form{
+		border: 1px solid #a1a1a1;
+	border-radius: 4px;
+	padding: 10px;
+	background-color: #f2f2f2;
+}
 /* Home - index styling */
 #search-form {
 	height: 60px;

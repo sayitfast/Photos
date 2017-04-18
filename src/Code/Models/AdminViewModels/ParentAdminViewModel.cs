@@ -10,6 +10,6 @@
 
 		public List<UserDetailsViewModel> Users { get; set; }
 
-		public List<ImageDetailsViewModel> Images { get; set; }
+		public List<SearchViewModels.ImageDetailsViewModel> Images { get; set; }
     }
 }

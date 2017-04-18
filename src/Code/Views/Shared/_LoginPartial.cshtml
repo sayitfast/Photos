@@ -12,7 +12,7 @@
 			@if (currentUser.isAdmin == true)
 			{
 				<li id="admin-main">@(Html.ActionLink<AdminController>("Admin Panel", c => c.Panel()))</li>
-				<li id="admin"><a href="#">Users</a></li>
+				<li id="admin">@(Html.ActionLink<AdminController>("Users", c => c.Users()))</li>
 				<li id="admin"><a href="#">Albums</a></li>
 				<li id="admin"><a href="#">Categories</a></li>
 

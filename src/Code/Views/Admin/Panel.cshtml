@@ -11,6 +11,7 @@
 			<th>Albums</th>
 			<th>Images</th>
 			<th>Email</th>
+			<th>Admin</th>
 		</tr>
 		@foreach (var user in Model.Users)
 		{
@@ -29,6 +30,14 @@
 				<td>@user.TotalAlbums</td>
 				<td>@user.TotalImages</td>
 				<td>@user.Email</td>
+				@if(user.isAdmin == true)
+				{
+					<td><span class="glyphicon glyphicon-ok"></span></td>
+				}
+				else
+				{
+					<td><span class="glyphicon glyphicon-remove"></span></td>
+				}
 			</tr>
 
 		}
@@ -37,14 +46,14 @@
 
 <div id="albums-dashboard">
 	<h3>Albums</h3>
-	<table id="albums-table">
+	<table id="albums-table" >
 		<tr>
 			<th>Name</th>
 			<th>Creator</th>
 			<th>Category</th>
 			<th>Description</th>
-			<th>Images</th>
 			<th>Published</th>
+			<th>View</th>
 		</tr>
 		@foreach (var album in Model.Albums)
 		{
@@ -53,8 +62,8 @@
 				<td>@album.Creator.FirstName @album.Creator.LastName</td>
 				<td>@album.Category</td>
 				<td>@album.Description</td>
-				<td>@album.TotalImages</td>
 				<td>@album.CreatedOn</td>
+				<td>@(Html.ActionLink<AlbumsController>("View", c => c.Details(album.Id, album.Creator.Id)))</td>
 			</tr>
 
 		}

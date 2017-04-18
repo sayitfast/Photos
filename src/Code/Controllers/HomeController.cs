@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Code.Data;
 using Code.Models.AlbumVIewModels;
 using System.Collections.Generic;
+using Code.Models.SearchViewModels;
 
 namespace Code.Controllers
 {
@@ -33,12 +34,20 @@ namespace Code.Controllers
 				.Take(12)
 				.ToList();
 
-			model.Images = new List<Image>();
+			model.Images = new List<ImageDetailsViewModel>();
 
 			foreach(var album in albums)
 			{
 				var albumImages = this.db.Images
 					.Where(img => img.Album.Id.ToString() == album.Id.ToString())
+					.Select(img => new ImageDetailsViewModel()
+					{
+						Id = img.Id,
+						Album = img.Album,
+						Name = img.Name,
+						Rating = img.Rating,
+						User = img.User
+					})
 					.ToList();
 				model.Images.AddRange(albumImages);
 			}

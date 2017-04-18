@@ -1,0 +1,49 @@
+﻿@model List<Code.Models.SearchViewModels.UserDetailsViewModel>
+
+
+@foreach (var user in Model)
+{
+	<div class="row" id="personal-dashboard">
+		<div class="col-md-3 text-center" id="u1">
+			<br />
+			<img src="~/uploads/@user.Id/@user.ProfilePictureName" />
+			<br />
+			<ul>
+				<li id="al_info"><strong>@user.TotalAlbums</strong> albums</li>
+				<li id="al_info"><strong>@user.TotalImages</strong> images</li>
+				<li id="al_info"><strong>@user.TotalLikes</strong> likes</li>
+			</ul>
+			<ul>
+				<li id="u_info"><span class="glyphicon glyphicon-envelope"></span> @user.Email</li>
+				<li id="u_info"><span class="glyphicon glyphicon-home"></span> @user.Location</li>
+			</ul>
+		</div>
+		<div class="col-md-9" id="u3">
+			<div id="albums-dashboard"style="margin-top: 3px;">
+				<h3>Albums</h3>
+				<table id="albums-table">
+					<tr>
+						<th>Name</th>
+						<th>Category</th>
+						<th>Description</th>
+						<th>Published</th>
+						<th>View</th>
+					</tr>
+					@foreach (var album in user.Albums)
+				{
+						<tr>
+							<td>@album.Name</td>
+							<td>@album.Category</td>
+							<td>@album.Description</td>
+							<td>@album.CreatedOn</td>
+							<td>@(Html.ActionLink<AlbumsController>("View", c => c.Details(album.Id, album.Creator.Id)))</td>
+						</tr>
+				}
+				</table>
+				<br />
+			</div>
+		</div>
+	</div>
+
+}
+<div class="clearfix"></div>

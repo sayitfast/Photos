@@ -1,6 +1,7 @@
 ﻿namespace Code.Models.AlbumVIewModels
 {
 	using Data;
+	using SearchViewModels;
 	using System.Collections.Generic;
 
 	// combining all album classes in one parent class 
@@ -27,7 +28,7 @@
 
 		// this class is used to when taking the pictures corresponding to a 
 		// particular user or album
-		public List<Image> Images { get; set; }
+		public List<ImageDetailsViewModel> Images { get; set; }
 		
 		// this class is used when user is creating a comment
 		public CreateCommentViewModel CreateComment { get; set; }

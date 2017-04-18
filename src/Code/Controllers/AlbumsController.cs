@@ -13,6 +13,7 @@ namespace Code.Controllers
 	using Microsoft.AspNetCore.Hosting;
 	using System.Threading.Tasks;
 	using System.Collections.Generic;
+	using Models.SearchViewModels;
 
 	public class AlbumsController : Controller
 	{
@@ -146,6 +147,14 @@ namespace Code.Controllers
 			// the user clicked on 
 			model.Images = this.db.Images
 				.Where(img => img.Album == model.Album)
+				.Select(img => new ImageDetailsViewModel()
+				{
+					Id = img.Id,
+					Album = img.Album,
+					Name = img.Name,
+					Rating = img.Rating,
+					User = img.User
+				})
 				.ToList();
 
 
@@ -181,17 +190,34 @@ namespace Code.Controllers
 
 			var model = new ParentAlbumViewModel();
 
-			model.Album = this.db.Album
+			model.AlbumDetails = this.db.Album
 				.Where(al => al.Id == albumId)
+				.Select(al => new AlbumDetailsViewModel()
+				{
+					Id = al.Id,
+					Category= al.Category,
+					Creator = al.User,
+					Description= al.Description,
+					Name = al.Name,
+					CreatedOn = al.CreatedOn
+				})
 				.FirstOrDefault();
 
-			if(model.Album.User != currentUser)
+			if(model.AlbumDetails.Creator != currentUser && currentUser.isAdmin == false)
 			{
 				return NotFound();
 			}
 
 			model.Images = this.db.Images
 				.Where(img => img.Album.Id == albumId)
+				.Select(img => new ImageDetailsViewModel()
+				{
+					Id = img.Id,
+					Album = img.Album,
+					User = img.User,
+					Rating = img.Rating,
+					Name = img.Name
+				})
 				.ToList();
 
 			model.Comments = this.db.Comments
@@ -257,10 +283,10 @@ namespace Code.Controllers
 					}
 					db.SaveChanges();
 
-				return RedirectToAction("Details", "Albums", new { @albumId = albumId });
+				return RedirectToAction("Details", "Albums", new { @albumId = albumId, @userID = currentUser.Id });
 			}
 
-			return RedirectToAction("Details", "Albums", new { @albumId = albumId });
+			return RedirectToAction("Details", "Albums", new { @albumId = albumId, @userID = currentUser.Id });
 		}
 
 		// returns the comment form in the Details view of an album

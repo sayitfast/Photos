@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Code.Data;
+using Code.Models.AlbumVIewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,6 +19,8 @@ namespace Code.Models.SearchViewModels
 
 		public string Email { get; set; }
 
+		public bool isAdmin { get; set; }
+
 		public string ProfilePictureName { get; set; }
 
 		public int TotalAlbums { get; set; }
@@ -24,6 +28,8 @@ namespace Code.Models.SearchViewModels
 		public int TotalImages { get; set; }
 
 		public int TotalLikes { get; set; }
+
+		public List<AlbumDetailsViewModel> Albums { get; set; }
 
 
     }

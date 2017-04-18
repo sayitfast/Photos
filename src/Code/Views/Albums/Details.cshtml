@@ -107,11 +107,11 @@
 	}
 </div>
 
-@if (Model.AlbumDetails.Creator == currentUser)
+@if (currentUser.isAdmin == true || Model.AlbumDetails.Creator == currentUser)
 {
 	<div class="col-md-4 col-md-offset-4 text-center" id="edit-button">
 		<hr />
-		@(Html.ActionLink<AlbumsController>("Edit Album", c => c.Edit(Model.AlbumDetails.Id), new { @class = "btn btn-danger" }))
+		@(Html.ActionLink<AlbumsController>("Edit Album", c => c.Edit(Model.AlbumDetails.Id)))
 	</div>
 }
 <div class="clearfix"></div>
