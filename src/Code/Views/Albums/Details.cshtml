@@ -35,21 +35,15 @@
 					<img src="~/uploads/@Model.AlbumDetails.Creator.Id/@Model.Album.Id/@image.Name" />
 				</a>
 				<br />
-				<p style="margin-top: 3px; text-align: left; margin-left: 5px;">
-					<small>Rating:</small><strong>@image.Rating</strong>
-				</p>
 				<div class="row">
-					<div class="pull-left" style="margin-left: 20px;">
-						<span class="glyphicon glyphicon-thumbs-up" style="font-size: 30px; margin-top: 5px;"></span>
-						<button class="btn btn-primary">
-							<span>@(Html.ActionLink<ImageController>("Like", c => c.Like(image.Id, Model.AlbumDetails.Id)))</span>
-						</button>
-					</div>
-					<div class="pull-right" style="margin-right: 20px;">
-						<span class="glyphicon glyphicon-thumbs-down" style="font-size: 30px; margin-top: 5px;"></span>
-						<button class="btn btn-danger">
-							<span>@(Html.ActionLink<ImageController>("Dislike", c => c.Dislike(image.Id, Model.AlbumDetails.Id)))</span>
-						</button>
+					<div class="text-center" style="font-size: 50px;">
+						<a href="@(Url.Action("Like", "Image", new { @imageId = image.Id, @albumId = Model.AlbumDetails.Id}))">
+							<span class="glyphicon glyphicon-chevron-left"></span>
+						</a>
+						<strong> @image.Rating </strong>
+						<a href="@(Url.Action("Dislike", "Image", new { @imageId = image.Id, @albumId = Model.AlbumDetails.Id}))">
+							<span class="glyphicon glyphicon-chevron-right"></span>
+						</a>
 					</div>
 				</div>
 			</div>
@@ -67,24 +61,7 @@
 				<div id="user-information">
 					<img src="~/uploads/@comment.Author.Id/@comment.Author.ProfilePicture" />
 					<a>@comment.Author.FirstName @comment.Author.LastName</a>
-					@{
-						if (comment.PostedBefore.Minutes == 00)
-						{
-							<div class="pull-right" style="color: dimgray;">@comment.PostedBefore.Seconds s</div>
-						}
-						else if (comment.PostedBefore.Hours == 00)
-						{
-							<div class="pull-right" style="color: dimgrey;">@comment.PostedBefore.Minutes m</div>
-						}
-						else if (comment.PostedBefore.Days == 00)
-						{
-							<div class="pull-right" style="color: dimgray;">@comment.PostedBefore.Hours h</div>
-						}
-						else
-						{
-							<div class="pull-right" style="color: dimgray;">@comment.PostedBefore.Days d</div>
-						}
-					}
+					<div class="pull-right" style="margin-right: 3px;">@comment.CreatedOn</div>
 				</div>
 				<p>@comment.Content</p>
 			</div>

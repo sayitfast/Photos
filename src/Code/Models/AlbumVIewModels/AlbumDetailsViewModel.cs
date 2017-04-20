@@ -18,8 +18,5 @@
 
 		public string Category { get; set; }
 
-		public string CoverImage { get; set; }
 	}
-
-
 }

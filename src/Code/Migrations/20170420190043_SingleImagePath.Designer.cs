@@ -8,13 +8,13 @@ using Code.Data;
 namespace Code.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170418105725_Initial")]
-    partial class Initial
+    [Migration("20170420190043_SingleImagePath")]
+    partial class SingleImagePath
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
-                .HasAnnotation("ProductVersion", "1.1.0-rtm-22752")
+                .HasAnnotation("ProductVersion", "1.0.1")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("Code.Data.Album", b =>
@@ -28,11 +28,11 @@ namespace Code.Migrations
                     b.Property<DateTime>("CreatedOn");
 
                     b.Property<string>("Description")
-                        .HasMaxLength(160);
+                        .HasAnnotation("MaxLength", 160);
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(100);
+                        .HasAnnotation("MaxLength", 100);
 
                     b.Property<string>("UserId");
 
@@ -51,7 +51,7 @@ namespace Code.Migrations
                     b.Property<int?>("AlbumId");
 
                     b.Property<string>("Content")
-                        .HasMaxLength(160);
+                        .HasAnnotation("MaxLength", 160);
 
                     b.Property<DateTime>("CreatedOn");
 
@@ -112,10 +112,41 @@ namespace Code.Migrations
                     b.ToTable("Likes");
                 });
 
+            modelBuilder.Entity("Code.Data.SingleImages", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Category")
+                        .IsRequired();
+
+                    b.Property<DateTime>("CreatedOn");
+
+                    b.Property<string>("Description")
+                        .IsRequired();
+
+                    b.Property<string>("Location");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasAnnotation("MaxLength", 20);
+
+                    b.Property<string>("Path");
+
+                    b.Property<int>("Rating");
+
+                    b.Property<string>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("SingleImages");
+                });
+
             modelBuilder.Entity("Code.Models.ApplicationUser", b =>
                 {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<string>("Id");
 
                     b.Property<int>("AccessFailedCount");
 
@@ -127,7 +158,7 @@ namespace Code.Migrations
                     b.Property<string>("Description");
 
                     b.Property<string>("Email")
-                        .HasMaxLength(256);
+                        .HasAnnotation("MaxLength", 256);
 
                     b.Property<bool>("EmailConfirmed");
 
@@ -142,10 +173,10 @@ namespace Code.Migrations
                     b.Property<DateTimeOffset?>("LockoutEnd");
 
                     b.Property<string>("NormalizedEmail")
-                        .HasMaxLength(256);
+                        .HasAnnotation("MaxLength", 256);
 
                     b.Property<string>("NormalizedUserName")
-                        .HasMaxLength(256);
+                        .HasAnnotation("MaxLength", 256);
 
                     b.Property<string>("PasswordHash");
 
@@ -160,7 +191,7 @@ namespace Code.Migrations
                     b.Property<bool>("TwoFactorEnabled");
 
                     b.Property<string>("UserName")
-                        .HasMaxLength(256);
+                        .HasAnnotation("MaxLength", 256);
 
                     b.Property<bool>("isAdmin");
 
@@ -178,17 +209,16 @@ namespace Code.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole", b =>
                 {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<string>("Id");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
 
                     b.Property<string>("Name")
-                        .HasMaxLength(256);
+                        .HasAnnotation("MaxLength", 256);
 
                     b.Property<string>("NormalizedName")
-                        .HasMaxLength(256);
+                        .HasAnnotation("MaxLength", 256);
 
                     b.HasKey("Id");
 
@@ -264,6 +294,8 @@ namespace Code.Migrations
 
                     b.HasIndex("RoleId");
 
+                    b.HasIndex("UserId");
+
                     b.ToTable("AspNetUserRoles");
                 });
 
@@ -321,6 +353,13 @@ namespace Code.Migrations
                         .WithMany()
                         .HasForeignKey("ImageId");
 
+                    b.HasOne("Code.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("Code.Data.SingleImages", b =>
+                {
                     b.HasOne("Code.Models.ApplicationUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId");

@@ -8,9 +8,10 @@ using Code.Data;
 namespace Code.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170420163409_SingleImageCategory")]
+    partial class SingleImageCategory
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.1")
@@ -116,8 +117,7 @@ namespace Code.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Category")
-                        .IsRequired();
+                    b.Property<string>("Category");
 
                     b.Property<DateTime>("CreatedOn");
 
@@ -129,8 +129,6 @@ namespace Code.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasAnnotation("MaxLength", 20);
-
-                    b.Property<string>("Path");
 
                     b.Property<int>("Rating");
 

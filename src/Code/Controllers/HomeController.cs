@@ -39,7 +39,7 @@ namespace Code.Controllers
 			foreach(var album in albums)
 			{
 				var albumImages = this.db.Images
-					.Where(img => img.Album.Id.ToString() == album.Id.ToString())
+					.Where(img => img.Album.Id == album.Id)
 					.Select(img => new ImageDetailsViewModel()
 					{
 						Id = img.Id,

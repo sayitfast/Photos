@@ -60,11 +60,7 @@
 					Name = al.Name,
 					CreatedOn = al.CreatedOn,
 					Category = al.Category,
-					Creator = al.User,
-					CoverImage = this.db.Images
-					.Where(img => img.Album.Id == al.Id)
-					.FirstOrDefault()
-					.Name
+					Creator = al.User
 				})
 				.ToList();
 
@@ -109,6 +105,49 @@
 
 			return View(model);
 
+		}
+
+		public IActionResult AlbumDashboard(int albumId)
+		{
+			var model = new ParentAlbumViewModel();
+
+			model.AlbumDetails= this.db.Album
+				.Where(al => al.Id == albumId)
+				.Select(al => new AlbumDetailsViewModel()
+				{
+					Id = al.Id,
+					Category = al.Category,
+					Creator = al.User,
+					Description = al.Description,
+					CreatedOn = al.CreatedOn,
+					Name = al.Name
+				})
+				.FirstOrDefault();
+
+			model.Images = this.db.Images
+				.Where(img => img.Album.Id == albumId)
+				.Select(img => new ImageDetailsViewModel()
+				{
+					Id = img.Id,
+					Name = img.Name,
+					Album = img.Album,
+					Rating = img.Rating,
+					User = img.User
+				})
+				.ToList();
+
+			model.Comments = this.db.Comments
+				.Where(c => c.Album.Id == albumId)
+				.Select(c => new CommentDetailsViewModel()
+				{
+					Id = c.Id,
+					Author = c.User,
+					Content = c.Content,
+					CreatedOn = c.CreatedOn
+				})
+				.ToList();
+
+			return View(model);
 		}
     }
 }

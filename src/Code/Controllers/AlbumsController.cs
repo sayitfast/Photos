@@ -21,13 +21,6 @@ namespace Code.Controllers
 		private readonly UserManager<ApplicationUser> userManager;
 		private IHostingEnvironment environment;
 
-
-		// this is the constructor of the AlbumsController
-		// it allows us the use:
-		// - UserManager => when we want to get the current user using the site
-		// - Database => when we want to read ot write information from the Database
-		// - System Environment => allows using the FileStream class when we are
-		// uploading pictures ( user profile picture and albums pictures )
 		public AlbumsController(ApplicationDbContext db,
 			UserManager<ApplicationUser> userManager,
 			IHostingEnvironment environment)
@@ -37,8 +30,7 @@ namespace Code.Controllers
 			this.environment = environment;
 		}
 
-		//GET: Returns the Create album form that will be displayed to the uses
-		// who are logged in
+		//GET: Albums/Create
 		[Authorize]
 		[HttpGet]
 		public IActionResult Create()
@@ -46,7 +38,8 @@ namespace Code.Controllers
 			return View();
 		}
 
-		//POST: Sends the information from the Create form to the Database
+		//POST: Albums/Create
+		//Redirect: Albums/Details/{id}
 		[Authorize]
 		[HttpPost]
 		public async Task<IActionResult> Create(CreateAlbumViewModel model, List<IFormFile> Files)
@@ -116,8 +109,6 @@ namespace Code.Controllers
 			return RedirectToAction("Index", "MyProfile");
 		}
 
-		// when the user clicks on an actionlink to the details of an album the album's id will
-		// be needed to find it in the Database
 		public IActionResult Details(int albumId, string userId)
 		{
 			var model = new ParentAlbumViewModel();
@@ -166,8 +157,7 @@ namespace Code.Controllers
 				{
 					Author = c.User,
 					Content = c.Content,
-					CreatedOn = c.CreatedOn,
-					PostedBefore = DateTime.UtcNow - c.CreatedOn				
+					CreatedOn = c.CreatedOn
 				})
 				.ToList();
 
@@ -182,6 +172,7 @@ namespace Code.Controllers
 
 		}
 
+		//GET: Edit/albumId?={id}
 		[Authorize]
 		[HttpGet]
 		public IActionResult Edit(int albumId)
@@ -235,20 +226,22 @@ namespace Code.Controllers
 			return View(model);
 		}
 
+		//POST: Edit/
 		[Authorize]
 		[HttpPost]
 		public async Task<IActionResult> Edit(ParentAlbumViewModel model, int albumId, List<IFormFile> pictures)
 		{
-				var currentUser = userManager.GetUserAsync(User).Result;
 
-				if (model.Album != null)
+			var currentUser = userManager.GetUserAsync(User).Result;
+
+				if (model.AlbumDetails != null)
 				{
 					var album = this.db.Album
 						.Where(al => al.Id == albumId)
 						.FirstOrDefault();
 
-					album.Name = model.Album.Name;
-					album.Description = model.Album.Description;
+					album.Name = model.AlbumDetails.Name;
+					album.Description = model.AlbumDetails.Description;
 
 					db.Update(album);
 
@@ -289,7 +282,7 @@ namespace Code.Controllers
 			return RedirectToAction("Details", "Albums", new { @albumId = albumId, @userID = currentUser.Id });
 		}
 
-		// returns the comment form in the Details view of an album
+		//GET: Comment/{id}
 		[Authorize]
 		[HttpGet]
 		public IActionResult Comment(int albumId)
@@ -299,7 +292,8 @@ namespace Code.Controllers
 			return View(model);
 		}
 
-		// saves the comments to the database 
+		//POST: Comment/
+		//Redirect: Albums/Details
 		[Authorize]
 		[HttpPost]
 		public IActionResult Comment(ParentAlbumViewModel model, int albumId)
@@ -316,7 +310,7 @@ namespace Code.Controllers
 				Content = model.CreateComment.Content,
 				User = currentUser,
 				Album = album,
-				CreatedOn = DateTime.UtcNow
+				CreatedOn = DateTime.UtcNow.AddHours(3)
 			};
 
 			db.Comments.Add(comment);

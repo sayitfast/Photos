@@ -63,7 +63,7 @@
 				<td>@album.Category</td>
 				<td>@album.Description</td>
 				<td>@album.CreatedOn</td>
-				<td>@(Html.ActionLink<AlbumsController>("View", c => c.Details(album.Id, album.Creator.Id)))</td>
+				<td>@(Html.ActionLink<AdminController>("View", c => c.AlbumDashboard(album.Id)))</td>
 			</tr>
 
 		}

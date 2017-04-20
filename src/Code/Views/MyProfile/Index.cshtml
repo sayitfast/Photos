@@ -31,16 +31,18 @@
 				<li class="col-md-4 text-center"><strong>@Model.Albums.Count</strong> album</li>
 			}
 			<li class="col-md-4 text-center"><strong>@Model.Images.Count</strong> photos</li>
-			<li class="col-md-4 text-center"><strong>@Model.Likes.Count</strong> likes</li>
+			<li class="col-md-4 text-center">Rating <strong>@Model.Likes.Count</strong></li>
 		</ul>
-		<hr />
+		<br />
+		<br />
 		@if (Model.User.Location != null && Model.User.Age > 0 && Model.User.Email != null)
 		{
 			<ul class="row" id="user-email-and-location">
 				<li class="col-md-6 text-center"><span class="glyphicon glyphicon-home" style="margin-right: 10px;"></span>@Model.User.Location</li>
 				<li class="col-md-6 text-center"><span class="glyphicon glyphicon-envelope" style="margin-right: 10px;"></span>@Model.User.Email</li>
 			</ul>
-			<hr />
+			<br />
+			<br />
 		}
 		<ul class="row" id="create-edit-btns">
 			<li id="create" class="col-md-4 text-center">@(Html.ActionLink<AlbumsController>("Create Album", c => c.Create()))</li>
@@ -51,7 +53,8 @@
 				</form>
 			</li>
 		</ul>
-		<hr />
+		<br />
+		<br />
 		<div class="row text-center" id="description">
 			@if (Model.User.Description != null)
 			{

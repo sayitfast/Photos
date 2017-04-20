@@ -1,11 +1,4 @@
-﻿/*=== Admin dorpdown ======*/
-li#admin-main{
-	background-color: #1f7dd7;
-}
-li#admin {
-	background-color: gray;
-}
-/*=== Search Index Page*/
+﻿/*=== Search Index Page*/
 #users-section{
 }
 #users-section h3{
@@ -68,7 +61,17 @@ li#admin {
 	}
 
 /* ====== Admin Panel ======== */
+ul.nav li#admin-main
+{
+	background-color: #1f7dd7;
+}
+ul.nav li#admin
+{
+	background-color: #a1a1a1;
+}
+
 /* ----- users dashboard ------*/
+
 #users-dashboard h3{
 	padding: 10px;
 	background-color: #1f7dd7;
@@ -156,4 +159,20 @@ img#image{
 
 }
 #personal-dashboard #u3{
+}
+/*===== Admin Album Edit Page ===== */
+#admin_album{
+	border: 1px solid red;
+}
+#admin_edit_form{
+	border: 1px solid blue;
+}
+#album_images{
+	border: 1px solid black;
+}
+/* === Uploading image form ===*/
+.upload_img_form{
+	border: 1px solid #a1a1a1;
+	border-radius: 4px;
+	padding: 20px;
 }
