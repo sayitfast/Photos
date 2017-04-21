@@ -11,10 +11,11 @@
 	using Microsoft.AspNetCore.Hosting;
 	using System.IO;
 	using System.Threading.Tasks;
+	using Models.ProfileViewModels;
 
 	[Authorize]
 	public class MyProfileController : Controller
-    {
+	{
 		private readonly ApplicationDbContext db;
 		private readonly UserManager<ApplicationUser> userManager;
 		private IHostingEnvironment environment;
@@ -29,31 +30,61 @@
 		}
 
 
-		public IActionResult Index()
-        {
-			var currentUser = userManager.GetUserAsync(User).Result;
+		public IActionResult Index(int albumsPage = 1)
+		{
+			var usedId = userManager.GetUserId(User);
 
-			var model = new ParentProfileViewModel();
+			int pageSize = 4;
 
-			model.User = db.Users
-				.Where(u => u.Id == currentUser.Id)
+			var user = this.db.Users
+				.Where(u => u.Id == usedId)
+				.Select(u => new MyProfileViewModel()
+				{
+					Id = u.Id,
+					Age = u.Age,
+					FirstName = u.FirstName,
+					LastName = u.LastName,
+					isAdmin = u.isAdmin,
+					Description = u.Description,
+					Email = u.Email,
+					Location = u.Location,
+					ProfilePictureName = u.ProfilePicture,
+					LikesCount = this.db.Likes
+					.Where(l => l.UserId == u.Id)
+					.Count(),
+					CommentsCount = this.db.Comments
+					.Where(c => c.User.Id == u.Id)
+					.Count(),
+					MyAlbums = this.db.Album
+					.OrderByDescending(al => al.CreatedOn)
+					.Skip((albumsPage - 1) * pageSize)
+					.Take(pageSize)
+					.Where(al => al.UserId == u.Id)
+					.Select(al => new MyAlbumViewModel()
+					{
+						Id = al.Id,
+						Name = al.Name,
+						Category = al.Category,
+						CreatedOn = al.CreatedOn,
+						Description = al.Description,
+						AlbumImages = this.db.Images
+						.Where(img => img.Album.Id == al.Id)
+						.Select(img => new MyAlbumImageViewModel()
+						{
+							Id = img.Id,
+							Name = img.Name,
+							Path = $"/uploads/{u.Id}/{al.Id}/{img.Name}"
+
+						}).ToList()
+
+					}).ToList()
+				})
 				.FirstOrDefault();
 
-			model.Albums = db.Album
-				 .Where(al => al.User == currentUser)
-				 .OrderByDescending(al => al.CreatedOn)
-				 .ToList();
+			ViewBag.CurrentAlbumsPage = albumsPage;
 
-			model.Images = db.Images
-				.Where(img => img.User == currentUser)
-				.ToList();
-
-			model.Likes = db.Likes
-				.Where(l => l.UserId == currentUser.Id)
-				.ToList();
-
-			return View(model);
-        }
+			return View(user);
+		}
 
 		// this method will form that user will fill
 		[HttpGet]

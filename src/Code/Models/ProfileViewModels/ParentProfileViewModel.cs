@@ -6,14 +6,6 @@
 
 	public class ParentProfileViewModel
     {
-		public ApplicationUser User { get; set; }
-
-		public List<Album> Albums { get; set; }
-
-		public List<Image> Images { get; set; }
-
-		public List<Like> Likes { get; set; }
-
-		public ParentAlbumViewModel Album { get; set; }
+		
     }
 }

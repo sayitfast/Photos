@@ -280,6 +280,9 @@ C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Models\ManageVie
 C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Models\ManageViewModels\RemoveLoginViewModel.cs
 C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Models\ManageViewModels\SetPasswordViewModel.cs
 C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Models\ManageViewModels\VerifyPhoneNumberViewModel.cs
+C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Models\ProfileViewModels\MyAlbumImageViewModel.cs
+C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Models\ProfileViewModels\MyAlbumViewModel.cs
+C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Models\ProfileViewModels\MyProfileViewModel.cs
 C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Models\ProfileViewModels\ParentProfileViewModel.cs
 C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Models\SearchViewModels\ImageDetailsViewModel.cs
 C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Models\SearchViewModels\SearchResultViewModel.cs

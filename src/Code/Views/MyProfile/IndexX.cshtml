@@ -1,0 +1,132 @@
+﻿@model Code.Models.ProfileViewModels.MyProfileViewModel
+
+
+<div class="row" id="user-details">
+	<div class="col-md-3" id="profile-picture-area">
+		@if (Model.User.ProfilePicture == null)
+		{
+			<img src="~/images/no-profile-image.jpg" class="profile-picture" />
+		}
+		else
+		{
+			<img src="~/uploads/@Model.User.Id/@Model.User.ProfilePicture" class="profile-picture" />
+		}
+		@if (Model.User.FirstName == null)
+			{
+			<h2>@Model.User.Email</h2>
+			}
+			else
+			{
+			<h2><strong>@Model.User.FirstName</strong></h2>
+			}
+	</div>
+	<div class="col-md-9" id="user-information">
+		<ul class="row" id="user-albums-information">
+			@if (Model.Albums.Count > 1)
+			{
+				<li class="col-md-4 text-center"><strong>@Model.Albums.Count</strong> albums</li>
+			}
+			else
+			{
+				<li class="col-md-4 text-center"><strong>@Model.Albums.Count</strong> album</li>
+			}
+			<li class="col-md-4 text-center"><strong>@Model.Images.Count</strong> photos</li>
+			<li class="col-md-4 text-center">Rating <strong>@Model.Likes.Count</strong></li>
+		</ul>
+		<br />
+		<br />
+		@if (Model.User.Location != null && Model.User.Age > 0 && Model.User.Email != null)
+		{
+			<ul class="row" id="user-email-and-location">
+				<li class="col-md-6 text-center"><span class="glyphicon glyphicon-home" style="margin-right: 10px;"></span>@Model.User.Location</li>
+				<li class="col-md-6 text-center"><span class="glyphicon glyphicon-envelope" style="margin-right: 10px;"></span>@Model.User.Email</li>
+			</ul>
+			<br />
+			<br />
+		}
+		<ul class="row" id="create-edit-btns">
+			<li id="create" class="col-md-4 text-center">@(Html.ActionLink<AlbumsController>("Create Album", c => c.Create()))</li>
+			<li id="edit" class="col-md-4 text-center">@(Html.ActionLink<MyProfileController>("Edit Profile", c => c.Edit()))</li>
+			<li id="sign-out" class="col-md-4 text-center">
+				<form asp-area="" asp-controller="Account" asp-action="LogOff" method="post">
+					<button type="submit">Sign out</button>
+				</form>
+			</li>
+		</ul>
+		<br />
+		<br />
+		<div class="row text-center" id="description">
+			@if (Model.User.Description != null)
+			{
+				<div class="row text-center" id="description-area">
+					<p>@Model.User.Description</p>
+				</div>
+			}
+		</div>
+	</div>
+</div>
+
+<br />
+<hr />
+
+@if (Model.Albums == null || !Model.Albums.Any())
+{
+	// if the user have not uploaded any album
+	<div class="col-md-6 col-md-offset-3 text-center">
+		<h1>You don't have any albums.</h1>
+	</div>
+}
+else
+{
+
+	@foreach (var album in Model.Albums)
+	{
+		//Taking the pictures that have as albumId the current album of the loop
+		var images = Model.Images.Where(img => img.Album == album).ToList();
+
+		<div class="col-md-4 text-center" id="albums" style="margin-top: 10px;">
+
+			@if (images.Capacity == 0)
+			{
+				//if the album does not have any pictures in it
+				<img src="~/images/album_with_no_images.jpg" />
+			}
+
+			// Displaying the albums with there pictures
+			// using carousel to make the pictures slide
+			// one after another
+			else
+			{
+				var firstImage = images.First();
+
+				<div id="album-with-pictures" class="carousel slide" data-ride="carousel" data-interval="4000" data-delay="3000">
+
+					<div class="carousel-inner" role="listbox">
+						@foreach (var image in images)
+						{
+							// if the picture is the first in the images list
+							// the class will be "item active"
+							if (image == firstImage)
+							{
+							<div class="item active">
+								<img src="uploads/@Model.User.Id/@album.Id/@image.Name" alt="Chania" style="height: 300px;">
+							</div>
+							}
+							else
+							{
+							<div class="item">
+								<img src="uploads/@Model.User.Id/@album.Id/@image.Name" alt="Chania" style="height: 300px;">
+							</div>
+							}
+						}
+					</div>
+				</div>
+			}
+			<div id="album-name">
+				@(Html.ActionLink<AlbumsController>(album.Name, c => c.Details(album.Id, Model.User.Id)))
+			</div>
+			<br />
+		</div>
+	}
+}
+<div class="clearfix"></div>

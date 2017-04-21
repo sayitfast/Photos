@@ -250,104 +250,56 @@ img.img_cover{
 }
 
 /*===== PROFILE PAGE =======*/
-/*-- Upper part - user information*/
-#user-details {
-	background-color: white;
+.u_profile{
+	border: 1px solid #a1a1a1;
+	background-color: #f2f2f2;
 	border-radius: 4px;
 }
 
-#profile-picture-area {
-	text-align: center;
+.u_info{
+
 }
-
-	#profile-picture-area img {
-		border-radius: 2px;
-		margin-top: 10px;
-		height: 300px;
-		width: initial;
-	}
-
-#description {
-	text-align: center;
-	font-size: 18px;
-}
-
-#user-albums-information {
+.u_profile_img{
+	width: 50%;
 	margin-top: 10px;
+}
+.u_activity_info{
+	list-style:none;
+	text-align: center;
+	padding-left: 0px;
+}
+.u_activity_info li{
+	display: inline-block;
+}
+.u_actionlinks{
 	list-style: none;
+	text-align: center;
+	padding-left: 0px;
 }
-
-	#user-albums-information li {
-		font-size: 20px;
-		display: inline-block;
-	}
-
-#user-email-and-location {
-	list-style: none;
+.u_actionlinks li{
+	display: inline-block;
+	padding: 2px;
 }
-
-
-#create-edit-btns {
-	list-style: none;
-}
-
-	#create-edit-btns li {
-		height: 50px;
-		line-height: 50px;
-		display: inline-block;
-		width: 40%;
-		text-align: center;
-	}
-
-		#create-edit-btns li#sign-out {
-			height: 50px;
-			line-height: 50px;
-			display: inline-block;
-			width: 20%;
-			text-align: center;
-		}
-
-		#create-edit-btns li a {
-			display: block;
-			height: inherit;
-			font-size: 18px;
-			text-decoration: none;
-			border-radius: 3px;
-		}
-
-#sign-out button {
-	border: none;
-	border-radius: 3px;
-	height: 50px;
-	line-height: 50px;
-	width: 100%;
-	font-size: 18px;
-	background-color: #e6e6e6;
-	color: black;
-}
-
-	#sign-out button:hover {
-		background-color: #ff2c2c;
-	}
-
-#create a {
+li.create a{
+	list-style:none;
+	display: block;
+	text-decoration:none;
 	color: white;
-	background-color: #1f7dd7;
 }
 
-#create:hover a {
-	opacity: 0.8;
+.u_uploads{
+	border-left: 1px solid #a1a1a1;
+	padding-left: 0px;
+	margin-top: 10px;
 }
-
-#edit a {
-	color: black;
-	background-color: #e6e6e6;
+.u_album{
+	border: 1px solid #a1a1a1;
+	margin-top: 10px;
 }
-
-#edit:hover a {
-	background-color: lightgray;
+.a_details_link a{
+	color: gray;
+	font-size: 30px;
 }
-
 /*-- Lower part - albums visualization*/
 #albums {
 	padding: 10px;
