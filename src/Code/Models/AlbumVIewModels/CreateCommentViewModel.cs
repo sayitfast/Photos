@@ -1,10 +1,9 @@
-﻿using Code.Data;
-using Microsoft.AspNetCore.Identity;
-using System.ComponentModel.DataAnnotations;
-
-namespace Code.Models.AlbumVIewModels
+﻿namespace Code.Models.AlbumVIewModels
 {
-    public class CreateCommentViewModel
+	using Code.Data;
+	using System.ComponentModel.DataAnnotations;
+
+	public class CreateCommentViewModel
     {
 
 		public int Id { get; set; }

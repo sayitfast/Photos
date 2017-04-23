@@ -14,6 +14,7 @@ namespace Code.Controllers
 	using System.Threading.Tasks;
 	using System.Collections.Generic;
 	using Models.SearchViewModels;
+	using Models.AlbumVIewModels.EditAlbumViewModels;
 
 	public class AlbumsController : Controller
 	{
@@ -109,217 +110,187 @@ namespace Code.Controllers
 			return RedirectToAction("Index", "MyProfile");
 		}
 
+		// Albums/Details/{id}
 		public IActionResult Details(int albumId, string userId)
 		{
-			var model = new ParentAlbumViewModel();
-
-			var creator = this.db.Users
-				.Where(u => u.Id == userId)
-				.FirstOrDefault();
-
-			// getting the album itself, fron the Database
-			model.Album = db.Album
-				.Where(al => al.Id == albumId)
-				.FirstOrDefault();
-
-			// creating the AlbumDetails view model will allow us
-			// to see the details of the particular album and user that
-			// is it's creator
-			model.AlbumDetails = new AlbumDetailsViewModel
-			{
-				Id = model.Album.Id,
-				Name = model.Album.Name,
-				CreatedOn = model.Album.CreatedOn,
-				Description = model.Album.Description,
-				Creator = model.Album.User
-			};
-
-			// getting the images from the Database that have as albumId the Id of the album
-			// the user clicked on 
-			model.Images = this.db.Images
-				.Where(img => img.Album == model.Album)
-				.Select(img => new ImageDetailsViewModel()
-				{
-					Id = img.Id,
-					Album = img.Album,
-					Name = img.Name,
-					Rating = img.Rating,
-					User = img.User
-				})
-				.ToList();
-
-
-			// gets all the comments related to the album 
-			model.Comments = this.db.Comments
-				.OrderByDescending(c => c.CreatedOn)
-				.Where(c => c.Album.Id == albumId)
-				.Select( c => new CommentDetailsViewModel
-				{
-					Author = c.User,
-					Content = c.Content,
-					CreatedOn = c.CreatedOn
-				})
-				.ToList();
-
-
-			// if there isn't such album in the Database a Not Found page will appear
-			if(model.Album == null)
-			{
-				return NotFound();
-			}
-
-			return View(model);
-
-		}
-
-		//GET: Edit/albumId?={id}
-		[Authorize]
-		[HttpGet]
-		public IActionResult Edit(int albumId)
-		{
-			var currentUser = userManager.GetUserAsync(User).Result;
-
-			var model = new ParentAlbumViewModel();
-
-			model.AlbumDetails = this.db.Album
-				.Where(al => al.Id == albumId)
-				.Select(al => new AlbumDetailsViewModel()
-				{
-					Id = al.Id,
-					Category= al.Category,
-					Creator = al.User,
-					Description= al.Description,
-					Name = al.Name,
-					CreatedOn = al.CreatedOn
-				})
-				.FirstOrDefault();
-
-			if(model.AlbumDetails.Creator != currentUser && currentUser.isAdmin == false)
-			{
-				return NotFound();
-			}
-
-			model.Images = this.db.Images
-				.Where(img => img.Album.Id == albumId)
-				.Select(img => new ImageDetailsViewModel()
-				{
-					Id = img.Id,
-					Album = img.Album,
-					User = img.User,
-					Rating = img.Rating,
-					Name = img.Name
-				})
-				.ToList();
-
-			model.Comments = this.db.Comments
-				.Where(c => c.Album.Id == albumId)
-				.OrderByDescending(c => c.CreatedOn)
-				.Select(c => new CommentDetailsViewModel
-				{
-					Id = c.Id,
-					Author = c.User,
-					Content = c.Content,
-					CreatedOn = c.CreatedOn
-				})
-				.ToList();
-
-			return View(model);
-		}
-
-		//POST: Edit/
-		[Authorize]
-		[HttpPost]
-		public async Task<IActionResult> Edit(ParentAlbumViewModel model, int albumId, List<IFormFile> pictures)
-		{
-
-			var currentUser = userManager.GetUserAsync(User).Result;
-
-				if (model.AlbumDetails != null)
-				{
-					var album = this.db.Album
-						.Where(al => al.Id == albumId)
-						.FirstOrDefault();
-
-					album.Name = model.AlbumDetails.Name;
-					album.Description = model.AlbumDetails.Description;
-
-					db.Update(album);
-
-					if (pictures.Capacity > 0)
-					{
-						foreach (var image in pictures)
-						{
-							string filename = image.FileName.Split('\\').Last();
-
-							var img = new Image()
-							{
-								Name = filename,
-								Album = album,
-								User = currentUser
-							};
-
-							db.Images.Add(img);
-
-							// creating the path where the images of the album will be stored
-							// we saved the album to the Database already so we can user it's Id
-							// to create an unique directory
-							string path = Path.Combine(environment.WebRootPath, "uploads", currentUser.Id, album.Id.ToString());
-
-							Directory.CreateDirectory(Path.Combine(path));
-
-							// the FileStream class that will save the image to it's directory
-							using (FileStream fs = new FileStream(Path.Combine(path, filename), FileMode.Create))
-							{
-								await image.CopyToAsync(fs);
-							}
-						}
-					}
-					db.SaveChanges();
-
-				return RedirectToAction("Details", "Albums", new { @albumId = albumId, @userID = currentUser.Id });
-			}
-
-			return RedirectToAction("Details", "Albums", new { @albumId = albumId, @userID = currentUser.Id });
-		}
-
-		//GET: Comment/{id}
-		[Authorize]
-		[HttpGet]
-		public IActionResult Comment(int albumId)
-		{
-			CreateAlbumViewModel model = new CreateAlbumViewModel();
-
-			return View(model);
-		}
-
-		//POST: Comment/
-		//Redirect: Albums/Details
-		[Authorize]
-		[HttpPost]
-		public IActionResult Comment(ParentAlbumViewModel model, int albumId)
-		{
-			var currentUser = userManager.GetUserAsync(User).Result;
 
 			var album = this.db.Album
-				.Where(al => al.Id == albumId)
+				.Where(a => a.Id == albumId)
+				.Select(a => new AlbumDetailsViewModel()
+				{
+					Id = a.Id,
+					Name = a.Name,
+					Category = a.Category,
+					CreatedOn = a.CreatedOn,
+					Description = a.Description,
+					Creator = this.db.Users
+					.Where(u => u.Id == userId)
+					.FirstOrDefault(),
+					Images = this.db.Images
+					.Where(img => img.Album.Id == a.Id)
+					.Select(img => new AlbumImageDetailsViewModel()
+					{
+						Id = img.Id,
+						Name = img.Name,
+						Rating = img.Rating,
+						Path = userId + "/" + albumId + "/" + img.Name ,
+						Album = a
+					}).ToList(),
+					Comments = this.db.Comments
+					.Where(c => c.Album.Id == a.Id)
+					.Select(c => new CommentDetailsViewModel()
+					{
+						Id = c.Id,
+						Author = c.User,
+						Content = c.Content,
+						CreatedOn = c.CreatedOn
+
+					}).ToList()
+				})
 				.FirstOrDefault();
 
-			Comment comment = new Comment()
+			if(album == null)
 			{
-				Id = model.CreateComment.Id,
-				Content = model.CreateComment.Content,
-				User = currentUser,
-				Album = album,
-				CreatedOn = DateTime.UtcNow.AddHours(3)
-			};
+				return NotFound();
+			}
 
-			db.Comments.Add(comment);
-			db.SaveChanges();
-
-			return RedirectToAction("Details", "Albums", new { @albumId = albumId , @userId = album.UserId});
+			return View(album);
 		}
 
-		public IActionResult DeleteComment(int commentId, int albumId)
+
+		//GET: Albums/Edit?albumId={id}
+		[Authorize]
+		[HttpGet]
+		public IActionResult Edit(int albumId, string userId)
+		{
+			var album = this.db.Album
+				.Where(al => al.Id == albumId)
+				.Select(al => new AlbumEditViewModel()
+				{
+					Id = al.Id,
+					Name = al.Name,
+					Description = al.Description,
+					User = this.db.Users
+					.Where(u => u.Id == userId)
+					.FirstOrDefault(),
+					Comments = this.db.Comments
+					.Where(c => c.Album.Id == albumId)
+					.Select(c => new AlbumCommentsEditViewModel()
+					{
+						Id = c.Id,
+						Content = c.Content,
+						CreatedOn = c.CreatedOn,
+						Creator = c.User
+
+					}).ToList(),
+					Images = this.db.Images
+					.Where(img => img.Album.Id == albumId)
+					.Select(img => new AlbumImageEditViewModel()
+					{
+						Id = img.Id,
+						Name = img.Name,
+						Rating = img.Rating,
+						Path = userId + "/" + albumId + "/" + img.Name
+
+					})
+					.ToList()
+				})
+				.FirstOrDefault();
+
+			return View(album);
+		}
+
+		//POST: Albums/Edit?albumId={id}
+		[Authorize]
+		[HttpPost]
+		public async Task<IActionResult> Edit(AlbumDetailsViewModel model, List<IFormFile> pictures, string userId)
+		{
+			if (ModelState.IsValid)
+			{
+				var album = this.db.Album
+					.Where(al => al.Id == model.Id)
+					.FirstOrDefault();
+
+				album.Name = model.Name;
+				album.Description = model.Description;
+
+				db.Update(album);
+
+				if (pictures.Capacity > 0)
+				{
+					foreach (var image in pictures)
+					{
+						string filename = image.FileName.Split('\\').Last();
+
+						var img = new Image()
+						{
+							Name = filename,
+							Album = album,
+							User = this.db.Users
+							.Where(u => u.Id == userId)
+							.FirstOrDefault()
+						};
+
+						db.Images.Add(img);
+					
+						string path = Path.Combine(environment.WebRootPath, "uploads", userId, album.Id.ToString());
+
+						Directory.CreateDirectory(Path.Combine(path));
+
+						using (FileStream fs = new FileStream(Path.Combine(path, filename), FileMode.Create))
+						{
+							await image.CopyToAsync(fs);
+						}
+					}
+				}
+
+				db.SaveChanges();
+			}
+
+			return RedirectToAction("Details", "Albums", new { @albumId = model.Id, @userId = userId});
+		}
+
+		//GET: Albums/Comment?albumId={id}
+		[Authorize]
+		[HttpGet]
+		public IActionResult Comment()
+		{
+
+			return View();
+		}
+
+		//POST: Albums/Comment?albumId={id}
+		[Authorize]
+		[HttpPost]
+		public IActionResult Comment(AlbumDetailsViewModel model)
+		{
+			if(ModelState.IsValid)
+			{
+				var author = userManager.GetUserAsync(User).Result;
+
+				var comment = new Comment()
+				{
+					Album = this.db.Album
+					.Where(al => al.Id == model.Id)
+					.FirstOrDefault(),
+					Content = model.PostComment.Content,
+					User = author,
+					CreatedOn = DateTime.UtcNow.AddHours(3)
+				};
+
+				db.Comments.Add(comment);
+
+				db.SaveChanges();
+
+				return RedirectToAction("Details", "Albums", new { @albumId = model.Id, @userId = comment.Album.UserId });
+
+			}
+
+			return BadRequest();
+		}
+
+		// Album/DeleteComment?commentId={id}/albumId={id}/userId={id}
+		public IActionResult DeleteComment(int commentId, int albumId, string userId)
 		{
 			var comment = this.db.Comments
 				.Where(c => c.Id == commentId)
@@ -329,8 +300,12 @@ namespace Code.Controllers
 
 			db.SaveChanges();
 
-			return RedirectToAction("Edit", "Albums", new { @albumId = albumId });
+			return RedirectToAction("Edit", "Albums", new { @albumId = albumId, @userId = userId});
 		}
+
+
+
+
 
 		public IActionResult DeleteImage (int imageId, int albumId)
 		{
@@ -345,7 +320,6 @@ namespace Code.Controllers
 			return RedirectToAction("Edit", "Albums", new { @albumId = albumId });
 
 		}
-
 
 		// Shows the confirm deletion page to the user
 		public IActionResult Delete(int albumId)

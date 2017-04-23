@@ -6,12 +6,12 @@
 	using Microsoft.AspNetCore.Authorization;
 	using Models;
 	using Data;
-	using Models.AlbumVIewModels;
 	using Microsoft.AspNetCore.Http;
 	using Microsoft.AspNetCore.Hosting;
 	using System.IO;
 	using System.Threading.Tasks;
 	using Models.ProfileViewModels;
+	using Models.SingleImageViewModels;
 
 	[Authorize]
 	public class MyProfileController : Controller
@@ -30,11 +30,9 @@
 		}
 
 
-		public IActionResult Index(int albumsPage = 1)
+		public IActionResult Index()
 		{
 			var usedId = userManager.GetUserId(User);
-
-			int pageSize = 4;
 
 			var user = this.db.Users
 				.Where(u => u.Id == usedId)
@@ -55,10 +53,25 @@
 					CommentsCount = this.db.Comments
 					.Where(c => c.User.Id == u.Id)
 					.Count(),
+					MyImages = this.db.SingleImages
+					.Where(img => img.User.Id == u.Id)
+					.Take(6)
+					.Select(img => new SingleImageDetailsViewModel()
+					{
+						Id = img.Id,
+						Name = img.Name,
+						Description = img.Description,
+						Location = img.Location,
+						Category = img.Category,
+						Path = img.Path,
+						Rating = img.Rating,
+						UploadedOn = img.CreatedOn,
+						User = u
+					})
+					.ToList(),
 					MyAlbums = this.db.Album
 					.OrderByDescending(al => al.CreatedOn)
-					.Skip((albumsPage - 1) * pageSize)
-					.Take(pageSize)
+					.Take(3)
 					.Where(al => al.UserId == u.Id)
 					.Select(al => new MyAlbumViewModel()
 					{
@@ -81,12 +94,10 @@
 				})
 				.FirstOrDefault();
 
-			ViewBag.CurrentAlbumsPage = albumsPage;
-
 			return View(user);
 		}
 
-		// this method will form that user will fill
+		// GET: MyProfile/Edit
 		[HttpGet]
 		public IActionResult Edit()
 		{
@@ -96,7 +107,7 @@
 
 			return View(current);
 		}
-		// this method will sent the information to the database
+		// POST: MyProfile/Edit
 		[HttpPost]
 		public async Task<IActionResult> Edit(ApplicationUser user, IFormFile ProfilePictureFile)
 		{
@@ -132,6 +143,82 @@
 			}
 
 			return View("Edit");
+		}
+
+		// MyProfile/MyAlbumsAll?page=1
+		public IActionResult MyAlbumsAll(int page = 1)
+		{
+			var user = userManager.GetUserAsync(User).Result;
+
+			var pageSize = 6;
+
+			if(user == null)
+			{
+				return NotFound();
+			}
+
+			var albums = this.db.Album
+				.OrderByDescending( al => al.CreatedOn)
+				.Skip((page - 1) * pageSize)
+				.Take(pageSize)
+				.Where(al => al.UserId == user.Id)
+				.Select(al => new MyAlbumViewModel()
+				{
+					Id = al.Id,
+					Category = al.Category,
+					CreatedOn = al.CreatedOn,
+					Description = al.Description,
+					Name = al.Name,
+					AlbumImages = this.db.Images
+					.Where(i => i.Album.Id == al.Id)
+					.Select(i => new MyAlbumImageViewModel()
+					{
+						Id = i.Id,
+						Name = i.Name,
+						Path = $"/uploads/{al.UserId}/{al.Id}/{i.Name}"
+					})
+					.ToList()
+				})
+				.ToList();
+
+			ViewBag.CurrentPage = page;
+
+			return View(albums);
+		}
+
+		// MyProfile/MyImagesAll?page=1
+		public IActionResult MyImagesAll(int page = 1)
+		{
+			var user = userManager.GetUserAsync(User).Result;
+
+			if(user == null)
+			{
+				return NotFound();
+			}
+
+			var pageSize = 16;
+
+			var images = this.db.SingleImages
+				.Where(i => i.User.Id == user.Id)
+				.OrderByDescending(i => i.CreatedOn)
+				.Skip((page - 1) * pageSize)
+				.Take(pageSize)
+				.Select(i => new SingleImageDetailsViewModel()
+				{
+					Id = i.Id,
+					Name = i.Name,
+					Description = i.Description,
+					Category = i.Category,
+					Location = i.Location,
+					Path = i.Path,
+					Rating = i.Rating,
+					UploadedOn = i.CreatedOn,
+					
+				}).ToList();
+
+			ViewBag.CurrentPage = page;
+
+			return View(images);
 		}
 	}
 }

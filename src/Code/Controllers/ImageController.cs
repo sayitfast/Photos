@@ -119,7 +119,7 @@
 					await File.CopyToAsync(fs);
 				}
 
-				img.Path = path + File.FileName;
+				img.Path = $"uploads/{user.Id}/images/{File.FileName}";
 
 				db.SingleImages.Add(img);
 				db.SaveChanges();

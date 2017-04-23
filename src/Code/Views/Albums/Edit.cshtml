@@ -1,56 +1,139 @@
-﻿@model ParentAlbumViewModel
+﻿@model Code.Models.AlbumVIewModels.EditAlbumViewModels.AlbumEditViewModel
 
-<div class="col-md-8 col-md-offset-2" id="album-form">
+<div class="row">
 
-	@using (Html.BeginForm<AlbumsController>(c => c.Edit(Model.AlbumDetails.Id), FormMethod.Post, new { @enctype = "multipart/form-data" }))
-	{
-		<br />
+	<div class="col-md-4" id="album-form">
+		@using (Html.BeginForm<AlbumsController>(c => c.Edit(Model.Id, Model.User.Id), FormMethod.Post, new { @enctype = "multipart/form-data" }))
+			{
 
-		@Html.TextBoxFor(c => c.AlbumDetails.Name, new { @class = "form-control", @placeholder = "Description" })
-		<br />
+			@Html.HiddenFor(m => m.Id)
+			@Html.HiddenFor(m => m.User.Id)
 
-		@Html.TextAreaFor(c => c.AlbumDetails.Description, new { @class = "form-control", @placeholder = "Description" })
-		<br />
+			<br />
+			@Html.ValidationMessageFor(m => m.Name)
+			@Html.TextBoxFor(c => c.Name, new { @class = "form-control", @placeholder = "Description" })
+			<br />
 
-			<label>Add Photo</label>
-			<input type="file" name="pictures" multiple />
-		<br />
+			@Html.ValidationMessageFor(m => m.Description)
+				@Html.TextAreaFor(c => c.Description, new { @class = "form-control", @placeholder = "Description" })
+				<br />
 
-		<a href="@Url.Action("Delete","Albums", new { @albumId = Model.AlbumDetails.Id })" class="active">
-			<div class="btn btn-danger btn-group-lg pull-right">Delete</div>
-		</a>
-		<input type="submit" value="Save Changes" class="btn btn-primary btn-group-lg pull-right" style="margin-right: 3px;"/>
-	}
-	<hr />
-</div>
+				<label>Add Photo</label>
+				<input type="file" name="pictures" multiple />
+				<br />
+				<a href="@Url.Action("Delete", "Albums", new { @albumId = Model.Id })" class="active">
+					<div class="btn btn-danger btn-group-lg pull-right">Delete</div>
+				</a>
+				<input type="submit" value="Save Changes" class="btn btn-primary btn-group-lg pull-right" style="margin-right: 3px;" />
+			}
+		<hr />
 
+		<hr style="border: 1px solid gray;"/>
+		<div class="row" id="comments" style="padding: 5px;">
+			@if (Model.Comments.Capacity > 0)
+			{
+				@foreach (var comment in Model.Comments)
+				{
+					<div class="c_details">
+						<div>
+							<a href="@Url.Action("DeleteComment", "Albums", new { @commentId = comment.Id, @albumId = Model.Id, @userId = Model.User.Id })" class="active">
+								<span class="close pull-right" style="margin-right: 5px;" aria-hidden="true">&times;</span>
+							</a>
+							<p><strong>@comment.Creator.FirstName @comment.Creator.LastName</strong>: @comment.Content</p>
+						</div>
+					</div>
+				}
+				
+			}
+			else
+			{
+				<h2>@Model.Name doesn't contain any comments</h2>
+			}
 
-<div class="col-md-5" id="images">
-	@if (Model.Images.Capacity > 0)
-	{
-		<div id="title">
-			<h3 class="text-center">Photos</h3>
 		</div>
 
-		@foreach (var image in Model.Images)
-		{
-			<div id="file" class="text-center">
-				<img src="~/uploads/@image.User.Id/@image.Album.Id/@image.Name" style="height: 100px; width: initial" />
-				<a href="@Url.Action("DeleteImage","Albums", new { @imageId = image.Id, @albumId = Model.AlbumDetails.Id })" class="active">
-					<span class="close pull-right" style="margin-right: 5px;" aria-hidden="true">&times;</span>
-				</a>
-				<p>@image.Name</p>
-			</div>
-		}
-	}
-	else
-	{
-		<h2>@Model.AlbumDetails.Name doesn't contain any images</h2>
+		</div>
 
-	}
+	<div class="col-md-8" id="images">
+		@if (Model.Images.Capacity > 0)
+			{
+			@foreach (var image in Model.Images)
+				{
+				<div id="file" class="col-md-3 text-center">
+					<img src="~/uploads/@image.Path" style="height: 100px; width: initial" />
+					<a href="@Url.Action("DeleteImage", "Albums", new { @imageId = image.Id, @albumId = Model.Id })" class="active">
+						<span class="close pull-right" style="margin-right: 5px;" aria-hidden="true">&times;</span>
+					</a>
+					<p>@image.Name</p>
+				</div>
+				}
+			}
+			else
+			{
+			<h2>@Model.Name doesn't contain any images</h2>
+			}
+	</div>
+
 </div>
 
 
+
+@{
+
+	/*<div class="row" style="border: 1px solid red;">
+		<div class="col-md-4" id="album-form" style="border: 1px solid blue;">
+
+			@using (Html.BeginForm<AlbumsController>(c => c.Edit(Model.Id, Model.User.Id), FormMethod.Post, new { @enctype = "multipart/form-data" }))
+			{
+				<br />
+
+				@Html.TextBoxFor(c => c.Name, new { @class = "form-control", @placeholder = "Description" })
+				<br />
+
+				@Html.TextAreaFor(c => c.Description, new { @class = "form-control", @placeholder = "Description" })
+				<br />
+
+				<label>Add Photo</label>
+				<input type="file" name="pictures" multiple />
+				<br />
+
+				<a href="@Url.Action("Delete", "Albums", new { @albumId = Model.Id })" class="active">
+					<div class="btn btn-danger btn-group-lg pull-right">Delete</div>
+				</a>
+				<input type="submit" value="Save Changes" class="btn btn-primary btn-group-lg pull-right" style="margin-right: 3px;" />
+			}
+			<hr />
+		</div>
+
+		<div class="col-md-7 col-md-offset-5" id="images" style="border: 1px solid black;">
+
+			<h1>IMAGE</h1>
+
+			@if (Model.Images.Capacity > 0)
+			{
+				<div id="title">
+					<h3 class="text-center">Photos</h3>
+				</div>
+
+				@foreach (var image in Model.Images)
+				{
+					<div id="file" class="col-md-3 text-center">
+						<img src="~/uploads/@image.Path" style="height: 100px; width: initial" />
+						<a href="@Url.Action("DeleteImage", "Albums", new { @imageId = image.Id, @albumId = Model.Id })" class="active">
+							<span class="close pull-right" style="margin-right: 5px;" aria-hidden="true">&times;</span>
+						</a>
+						<p>@image.Name</p>
+					</div>
+				}
+			}
+			else
+			{
+				<h2>@Model.Name doesn't contain any images</h2>
+			}
+		</div>
+	</div>
+
+	/*
 <div class="col-md-7" id="comments">
 	@if (Model.Comments.Capacity > 0)
 	{
@@ -63,11 +146,11 @@
 			<div id="comment">
 				<div id="user-information">
 
-					<img src="~/uploads/@comment.Author.Id/@comment.Author.ProfilePicture" />
+					<img src="~/uploads/@comment.Author.Id/@comment.Author.ProfilePicture" class="img-responsive"/>
 
 					<a>@comment.Author.FirstName @comment.Author.LastName</a>
 
-					<a href="@Url.Action("DeleteComment","Albums", new { @commentId = comment.Id, @albumId = Model.AlbumDetails.Id })" class="active">
+					<a href="@Url.Action("DeleteComment", "Albums", new { @commentId = comment.Id, @albumId = Model.Id })" class="active">
 						<span class="close pull-right" style="margin-right: 5px;" aria-hidden="true">&times;</span>
 					</a>
 
@@ -78,8 +161,9 @@
 	}
 	else
 	{
-		<h2>@Model.AlbumDetails.Name doesn't contain any comments</h2>
+		<h2>@Model.Name doesn't contain any comments</h2>
 	}
 </div>
-
+*/
+}
 <div class="clearfix"></div>

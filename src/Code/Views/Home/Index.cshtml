@@ -87,8 +87,10 @@
 						</div>
 					</div>
 				}
-				<div id="album-details">
-					@(Html.ActionLink<AlbumsController>("View", c => c.Details(album.Id, album.Creator.Id)))
+				<div class="a_details_link" style="margin-right: 10px;">
+					<a href="@(Url.Action("Details", "Albums", new { @albumId = album.Id, @userId = album.Creator.Id }))" title="View" class="pull-right">
+						<span class="glyphicon glyphicon-option-horizontal"></span>
+					</a>
 				</div>
 			</div>
 				}

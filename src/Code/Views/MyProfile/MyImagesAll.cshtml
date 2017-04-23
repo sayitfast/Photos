@@ -1,0 +1,11 @@
+﻿@model List<Code.Models.SingleImageViewModels.SingleImageDetailsViewModel>
+
+<div class="row">
+	@foreach (var image in Model)
+	{
+		<div class="col-md-4  text-center u_image">
+			<img src="@image.Path" style="height: initial; width:100%;" />
+			<h4><strong>@image.Name</strong> @image.Description</h4>
+		</div>
+	}
+</div>

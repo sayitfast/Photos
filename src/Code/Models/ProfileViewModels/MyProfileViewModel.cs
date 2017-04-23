@@ -1,5 +1,6 @@
 ﻿namespace Code.Models.ProfileViewModels
 {
+	using SingleImageViewModels;
 	using System.Collections.Generic;
 
 	public class MyProfileViewModel
@@ -27,6 +28,8 @@
 		public int CommentsCount { get; set; }
 
 		public List<MyAlbumViewModel> MyAlbums { get; set; }
+
+		public List<SingleImageDetailsViewModel> MyImages { get; set; }
 
     }
 }
