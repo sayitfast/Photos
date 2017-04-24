@@ -64,7 +64,7 @@
 				@foreach (var image in Model.MyImages)
 				{
 					<div class="col-md-4  text-center u_image">
-						<img src="@image.Path" style="height: initial; width:100%;" />
+						<img src="~/uploads/@image.Path" style="height: initial; width:100%;" />
 						<h4><strong>@image.Name</strong> @image.Description</h4>
 					</div>
 				}
@@ -131,8 +131,9 @@
 			<div class="text-center" style="margin-top: 10px;">
 				<a href="@(Url.Action("MyAlbumsAll", "MyProfile"))" class="btn btn-primary">View All</a>
 			</div>
+			<hr />
 
 		}
 	</div>
-
-	<div class="clearfix"></div>
+</div>
+<div class="clearfix"></div>

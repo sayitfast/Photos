@@ -86,7 +86,7 @@
 
 			return RedirectToAction("Details", "Albums", new { albumId, album.UserId });
 		}
-        
+
 		//GET: Image/Upload
 		[Authorize]
 		[HttpGet]
@@ -125,7 +125,11 @@
 					await File.CopyToAsync(fs);
 				}
 
-				img.Path = $"uploads/{user.Id}/images/{File.FileName}";
+				img.Path = user.Id + "/images/" + File.FileName ;
+
+				user.ImagesCount++;
+
+				db.Update(user);
 
 				db.SingleImages.Add(img);
 				db.SaveChanges();
