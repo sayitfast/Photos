@@ -98,11 +98,11 @@
 					<br />
 					<div class="row">
 						<div class="col-md-6 col-md-offset-3 text-center">
-							<a href="@(Url.Action("Like", "Image", new { @imageId = image.Id, @albumId = Model.Id}))">
+							<a href="@(Url.Action("Dislike", "Image", new { @imageId = image.Id, @albumId = Model.Id}))">
 								<span class="glyphicon glyphicon-chevron-left"></span>
 							</a>
 							<span><strong>@image.Rating</strong></span>
-							<a href="@(Url.Action("Dislike", "Image", new { @imageId = image.Id, @albumId = Model.Id}))">
+							<a href="@(Url.Action("Like", "Image", new { @imageId = image.Id, @albumId = Model.Id, @userId = Model.Creator.Id}))">
 								<span class="glyphicon glyphicon-chevron-right"></span>
 							</a>
 						</div>

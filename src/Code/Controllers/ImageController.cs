@@ -34,7 +34,7 @@
 		}
 		
 		// For images in album
-		public IActionResult Like(int imageId, int albumId)
+		public IActionResult Like(int imageId, int albumId, string userId)
 		{
 			var image = this.db.Images
 				.Where(img => img.Id == imageId && 
@@ -55,6 +55,12 @@
 			};
 
 			db.Likes.Add(like);
+
+			var currentUser = userManager.GetUserAsync(User).Result;
+
+			currentUser.LikesCount++;
+
+			db.Update(currentUser);
 
 			db.SaveChanges();
 

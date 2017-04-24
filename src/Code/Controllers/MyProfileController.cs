@@ -47,12 +47,6 @@
 					Email = u.Email,
 					Location = u.Location,
 					ProfilePictureName = u.ProfilePicture,
-					LikesCount = this.db.Likes
-					.Where(l => l.UserId == u.Id)
-					.Count(),
-					CommentsCount = this.db.Comments
-					.Where(c => c.User.Id == u.Id)
-					.Count(),
 					MyImages = this.db.SingleImages
 					.Where(img => img.User.Id == u.Id)
 					.Take(6)
@@ -90,7 +84,11 @@
 
 						}).ToList()
 
-					}).ToList()
+					}).ToList(),
+					AlbumCount = u.AlbumsCount,
+					ImagesCount = u.ImagesCount,
+					CommentsCount = u.CommentsCount,
+					LikesCount = u.LikesCount
 				})
 				.FirstOrDefault();
 

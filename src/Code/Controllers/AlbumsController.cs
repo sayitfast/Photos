@@ -15,6 +15,7 @@ namespace Code.Controllers
 	using System.Collections.Generic;
 	using Models.SearchViewModels;
 	using Models.AlbumVIewModels.EditAlbumViewModels;
+	using Models.AlbumVIewModels.DeleteAlbumViewModels;
 
 	public class AlbumsController : Controller
 	{
@@ -45,13 +46,11 @@ namespace Code.Controllers
 		[HttpPost]
 		public async Task<IActionResult> Create(CreateAlbumViewModel model, List<IFormFile> Files)
 		{
-			// gets the current logged in user
+			
 			var currentUser = userManager.GetUserAsync(User).Result;
 
-			// if the user has successfully filled all the required fields
 			if (ModelState.IsValid)
 			{
-				//creating the album itself
 				var album = new Album()
 				{
 					Name = model.Name,
@@ -61,14 +60,11 @@ namespace Code.Controllers
 					Category = model.Category
 					
 				};
-
-				// saving the album to the Database
-				// it is saved at this state of the method in order to user
-				// this album's id when we are uploading it's pictures later on
+				
 				db.Album.Add(album);
+
 				db.SaveChanges();
 
-				// if the user has uploaded a picture
 				if (Files.Capacity > 0)
 				{
 					foreach (var image in Files)
@@ -83,30 +79,29 @@ namespace Code.Controllers
 						};
 
 						db.Images.Add(img);
-
-						// creating the path where the images of the album will be stored
-						// we saved the album to the Database already so we can user it's Id
-						// to create an unique directory
+						
 						string path = Path.Combine(environment.WebRootPath, "uploads", currentUser.Id, album.Id.ToString());
 
 						Directory.CreateDirectory(Path.Combine(path));
 
-						// the FileStream class that will save the image to it's directory
 						using (FileStream fs = new FileStream(Path.Combine(path, filename), FileMode.Create))
 						{
 							await image.CopyToAsync(fs);
 						}
-					}
-				}
-			
-				db.SaveChanges();
 
-				// when everything is saved to the Database the user will be redirected automatically to the
-				// details of the album if there are images
+						currentUser.ImagesCount++;
+					}
+
+					currentUser.AlbumsCount++;
+				}
+
+				db.Update(currentUser);
+
+				db.SaveChanges();
+				
 				return RedirectToAction("Index", "MyProfile");
 			}
 
-			// if the user hasn't uploaded any picture/s he will be redirected to his profile page
 			return RedirectToAction("Index", "MyProfile");
 		}
 
@@ -205,6 +200,11 @@ namespace Code.Controllers
 		[HttpPost]
 		public async Task<IActionResult> Edit(AlbumDetailsViewModel model, List<IFormFile> pictures, string userId)
 		{
+
+			var user = this.db.Users
+				.Where(u => u.Id == userId)
+				.FirstOrDefault();
+			
 			if (ModelState.IsValid)
 			{
 				var album = this.db.Album
@@ -241,6 +241,8 @@ namespace Code.Controllers
 						{
 							await image.CopyToAsync(fs);
 						}
+
+						user.ImagesCount++;
 					}
 				}
 
@@ -280,6 +282,8 @@ namespace Code.Controllers
 
 				db.Comments.Add(comment);
 
+				author.CommentsCount++;
+
 				db.SaveChanges();
 
 				return RedirectToAction("Details", "Albums", new { @albumId = model.Id, @userId = comment.Album.UserId });
@@ -289,138 +293,161 @@ namespace Code.Controllers
 			return BadRequest();
 		}
 
-		// Album/DeleteComment?commentId={id}/albumId={id}/userId={id}
+		// in Albums/Edit?albumId{id}/userId={id}
+		// Albums/DeleteComment?commentId={id}/albumId={id}/userId={id}
 		public IActionResult DeleteComment(int commentId, int albumId, string userId)
 		{
+
+			// finds the author of the comment
+			var user = this.db.Comments
+				.Where(c => c.Id == commentId)
+				.Select(c => new DeleteAlbumCommentsViewModel()
+				{
+					User = c.User
+				})
+				.FirstOrDefault();
+
+
 			var comment = this.db.Comments
 				.Where(c => c.Id == commentId)
 				.FirstOrDefault();
 
 			db.Comments.Remove(comment);
 
+			user.User.CommentsCount--;
+
+			db.Users.Update(user.User);
+
 			db.SaveChanges();
 
 			return RedirectToAction("Edit", "Albums", new { @albumId = albumId, @userId = userId});
 		}
 
-
-
-
-
-		public IActionResult DeleteImage (int imageId, int albumId)
+		// in Albums/Edit?albumId{id}/userId={id}
+		// Albums/DeleteImage?imageId={id}/albumId={id}/userId={id}
+		public IActionResult DeleteImage (int imageId, int albumId, string userId)
 		{
 			var image = this.db.Images
 				.Where(img => img.Id == imageId)
 				.FirstOrDefault();
 
-			db.Images.Remove(image);
-
-			db.SaveChanges();
-
-			return RedirectToAction("Edit", "Albums", new { @albumId = albumId });
-
-		}
-
-		// Shows the confirm deletion page to the user
-		public IActionResult Delete(int albumId)
-		{
-
-			var model = new ParentAlbumViewModel();
-
-			// gets the album from the Database
-			model.Album = this.db.Album
-						   .Where(al => al.Id == albumId)
-						   .FirstOrDefault();
-
-			// if the album does not exist
-			if (model.Album == null)
+			if(image == null)
 			{
 				return NotFound();
 			}
 
-			return View(model);
+			var user = this.db.Users
+				.Where(u => u.Id == userId)
+				.FirstOrDefault();
+
+			var likes = this.db.Likes
+				.Where(l => l.Image.Id == imageId)
+				.ToList();
+
+			if(likes.Count > 0)
+			{
+				foreach(var like in likes)
+				{
+					if(like.UserId == userId)
+					{
+						user.LikesCount--;
+					}
+				}
+				db.Likes.RemoveRange(likes);
+			}
+
+			db.Images.Remove(image);
+
+			user.ImagesCount--;
+
+			db.Update(user);
+
+			db.SaveChanges();
+
+			return RedirectToAction("Edit", "Albums", new { @albumId = albumId, @userId = userId });
 
 		}
 
-		// if the user confirms the deletion
-		public IActionResult ConfirmedDeletion(int Id)
+		// in Albums/Edit?albumId{id}/userId={id}
+		// Albums/Delete?albumId={id}
+		public IActionResult Delete(int albumId, string userId)
 		{
-			// gets the album from the Database
-			var album = new Album();
 
-			foreach (var albm in db.Album)
+			var album = this.db.Album
+				.Where(al => al.Id == albumId)
+				.FirstOrDefault();
+
+			if(album == null)
 			{
-				if (albm.Id == Id)
-				{
-					album = albm;
-					break;
-				}
+				return NotFound();
 			}
-			
-			// gets all images that correspond to this album
-			var albumImages = this.db.Images
-				.Where(img => img.Album == album)
+
+			var user = this.db.Users
+				.Where(u => u.Id == userId)
+				.FirstOrDefault();
+
+			var images = this.db.Images
+				.Where(img => img.Album.Id == albumId)
 				.ToList();
 
-
-			if (albumImages.Count > 0)
+			if(images.Count > 0)
 			{
-				// deletes all pictures that have as albumId the id of that album
-				foreach (var image in albumImages)
+				foreach(var image in images)
 				{
-					db.Images.Remove(image);
+					var likes = this.db.Likes
+						.Where(l => l.Image.Id == image.Id)
+						.ToList();
+
+					if(likes.Count > 0)
+					{
+
+						foreach(var like in likes)
+						{
+							if(like.UserId == userId)
+							{
+								user.LikesCount--;
+							}
+						}
+						db.Likes.RemoveRange(likes);
+					}
+
+					user.ImagesCount--;
 				}
+
+				db.Images.RemoveRange(images);
+				
 			}
 
-			// after the deletion of the pictures, the album it self is deleted from the Database
+			var comments = this.db.Comments
+				.Where(c => c.Album.Id == albumId)
+				.ToList();
+
+			if(comments.Count > 0)
+			{
+
+				foreach(var comment in comments)
+				{
+					if(comment.User.Id == userId)
+					{
+						user.CommentsCount--;
+					}
+				}
+
+				db.Comments.RemoveRange(comments);
+			}
+
+			db.SaveChanges();
+
 			db.Album.Remove(album);
+
+			user.AlbumsCount--;
+
+			db.Update(user);
 
 			db.SaveChanges();
 
 			return RedirectToAction("Index", "MyProfile");
 		}
-
-		// admin property that show a list of all users in the Database
-		public IActionResult AllUsers()
-		{
-			var users = db.Users.ToList();
-
-			return View(users);
-		}
-
-		// when an admin wants to delete an user
-		public IActionResult DeleteUser(string Id)
-		{
-
-		var user = new ApplicationUser();
-
-			foreach (var profile in db.Users)
-			{
-				if (profile.Id == Id)
-				{
-					user = profile;
-					break;
-				}
-			}
-			db.Users.Remove(user);
-
-			var UserAlbums = this.db.Album
-				.Where(al => al.User.Id == user.Id).ToList();
-
-			if (UserAlbums.Count > 0)
-			{
-				for (int index = 0; index < UserAlbums.Count; index++)
-				{
-					db.Album.Remove(UserAlbums[index]);
-					db.SaveChanges();
-				}
-			}
-
-			db.SaveChanges();
-
-			return RedirectToAction("AllUsers");
-		}
-
-
+		
 	}
 }

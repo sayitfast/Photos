@@ -23,6 +23,10 @@
 
 		public string Description { get; set; }
 
+		public int AlbumCount { get; set; }
+
+		public int ImagesCount { get; set; }
+
 		public int LikesCount { get; set; }
 
 		public int CommentsCount { get; set; }
