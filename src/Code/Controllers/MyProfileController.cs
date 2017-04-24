@@ -12,6 +12,7 @@
 	using System.Threading.Tasks;
 	using Models.ProfileViewModels;
 	using Models.SingleImageViewModels;
+	using System;
 
 	[Authorize]
 	public class MyProfileController : Controller
@@ -194,7 +195,7 @@
 				return NotFound();
 			}
 
-			var pageSize = 16;
+			var pageSize = 5;
 
 			var images = this.db.SingleImages
 				.Where(i => i.User.Id == user.Id)
@@ -215,6 +216,8 @@
 				}).ToList();
 
 			ViewBag.CurrentPage = page;
+
+			ViewBag.TotalPages = Math.Ceiling(this.db.SingleImages.Where(img => img.User.Id == user.Id).Count() / 5.0);
 
 			return View(images);
 		}
