@@ -8,6 +8,7 @@
 	using Models;
 	using Models.AlbumVIewModels;
 	using Models.SearchViewModels;
+	using Models.HomeVIewModels;
 
 	public class SearchController : Controller
 	{
@@ -30,87 +31,29 @@
 		}
 
 		[HttpPost]
-		public IActionResult Index(ParentAlbumViewModel model)
+		public IActionResult Index(HomeViewModel model)
 		{
-			string input = model.Search
-				.ToLower()
-				.Trim();
+			if (model.Search == null)
+			{
+				return RedirectToAction("Index", "Home");
+			}
 
 			var result = new SearchResultViewModel();
 
-			result.Albums = this.db.Album
-				.Where(al => al.Category == input)
-				.OrderByDescending(al => al.CreatedOn)
-				.Select(al => new AlbumDetailsViewModel()
-				{
-					Id = al.Id,
-					Creator = al.User,
-					CreatedOn = al.CreatedOn,
-					Name = al.Name,
-					Description = al.Description,
-				})
-				.ToList();
-
-			result.Users = new List<UserDetailsViewModel>()
-				.OrderByDescending(u => u.TotalImages)
-				.ToList();
-
-			result.Images = new List<ImageDetailsViewModel>();
-
-			foreach (var album in result.Albums)
+			switch (model.Option)
 			{
-				result.Images
-					.AddRange(this.db.Images
-					.Where(img => img.Album.Id == album.Id)
-					.OrderByDescending(img => img.Rating)
-					.Select(img => new ImageDetailsViewModel()
-					{
-						Id = img.Id,
-						Name = img.Name,
-						Album = img.Album,
-						User = img.User,
-						Rating = img.Rating
-					})
-					.ToList());
+				case "SingleImages":
+					
+					break;
+				case "Album":
 
-				var user = this.db.Users
-					.Where(u => u.Id == album.Creator.Id)
-					.FirstOrDefault();
+					break;
+				case "Users":
 
-				var details = new UserDetailsViewModel()
-				{
-					Id = user.Id,
-					FirstName = user.FirstName,
-					LastName = user.LastName,
-					Location = user.Location,
-					ProfilePictureName = user.ProfilePicture,
-
-					TotalAlbums = this.db.Album
-					.Where(al => al.UserId == user.Id)
-					.Count(),
-
-					TotalImages = this.db.Images
-					.Where(img => img.UserId == user.Id)
-					.Count(),
-
-					TotalLikes = this.db.Likes
-					.Where(l => l.UserId == user.Id)
-					.Count()
-				};
-
-				if(result.Users.Count > 0) 
-				{
-					if(result.Users.All(c => c.Id != details.Id))
-					{
-						result.Users.Add(details);
-					}
-				}
-				else
-				{
-					result.Users.Add(details);
-				}
+					break;
 			}
-			return View(result);
+
+			return View();
 		}
 	}
 }
