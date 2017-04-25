@@ -446,6 +446,14 @@ namespace Code.Controllers
 
 			db.SaveChanges();
 
+
+			string path = Path.Combine(environment.WebRootPath, "uploads", userId, albumId.ToString());
+
+			if (System.IO.Directory.Exists(path))
+			{
+				System.IO.Directory.Delete(path, true);
+			}
+
 			return RedirectToAction("Index", "MyProfile");
 		}
 		

@@ -8,7 +8,6 @@
 			@Html.ValidationMessageFor(i => i.Name, null, new { @class = "text-danger" })
 			<br />
 			@Html.TextAreaFor(i => i.Description, new { @class = "form-control", @placeholder = "Descrtiption" });
-			@Html.ValidationMessageFor(i => i.Description, null, new { @class = "text-danger" })
 			<br />
 
 				var selectList = new SelectList(new List<SelectListItem>
@@ -39,8 +38,8 @@
 				new SelectListItem { Text = "Vintage", Value = "vintage" },
 				new SelectListItem { Text = "Sky", Value = "sky" }
 			}, "Value", "Text");
+
 			@Html.TextBoxFor(i => i.Location, new { @class = "form-control", @placeholder = "Location" });
-			@Html.ValidationMessageFor(i => i.Name, null, new { @class = "text-danger" })
 			<br />
 			@Html.DropDownListFor(m => m.Category, selectList, "Category", new { @class = "form-control" })
 			@Html.ValidationMessageFor(m => m.Category, null, new { @class = "text-danger" })

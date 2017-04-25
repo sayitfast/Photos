@@ -8,8 +8,8 @@ using Code.Data;
 namespace Code.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170420190043_SingleImagePath")]
-    partial class SingleImagePath
+    [Migration("20170425141830_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -144,6 +144,24 @@ namespace Code.Migrations
                     b.ToTable("SingleImages");
                 });
 
+            modelBuilder.Entity("Code.Data.SingleImagesLikes", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("ImageId");
+
+                    b.Property<string>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ImageId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("SingleImagesLikes");
+                });
+
             modelBuilder.Entity("Code.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id");
@@ -151,6 +169,10 @@ namespace Code.Migrations
                     b.Property<int>("AccessFailedCount");
 
                     b.Property<int>("Age");
+
+                    b.Property<int>("AlbumsCount");
+
+                    b.Property<int>("CommentsCount");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
@@ -164,7 +186,11 @@ namespace Code.Migrations
 
                     b.Property<string>("FirstName");
 
+                    b.Property<int>("ImagesCount");
+
                     b.Property<string>("LastName");
+
+                    b.Property<int>("LikesCount");
 
                     b.Property<string>("Location");
 
@@ -360,6 +386,17 @@ namespace Code.Migrations
 
             modelBuilder.Entity("Code.Data.SingleImages", b =>
                 {
+                    b.HasOne("Code.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("Code.Data.SingleImagesLikes", b =>
+                {
+                    b.HasOne("Code.Data.SingleImages", "Image")
+                        .WithMany()
+                        .HasForeignKey("ImageId");
+
                     b.HasOne("Code.Models.ApplicationUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId");

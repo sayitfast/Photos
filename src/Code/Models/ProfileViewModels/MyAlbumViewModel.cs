@@ -15,6 +15,8 @@
 
 		public DateTime CreatedOn { get; set; }
 
+		public ApplicationUser User { get; set; }
+
 		public List<MyAlbumImageViewModel> AlbumImages { get; set; }
     }
 }

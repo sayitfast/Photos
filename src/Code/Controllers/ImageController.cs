@@ -14,10 +14,11 @@
 	using System;
 	using System.IO;
 	using System.Threading.Tasks;
+	using Microsoft.AspNetCore.Hosting.Server;
 
 	[Authorize]
 	public class ImageController : Controller
-    {
+	{
 		private readonly ApplicationDbContext db;
 
 		private readonly UserManager<ApplicationUser> userManager;
@@ -32,12 +33,13 @@
 			this.userManager = userManager;
 			this.environment = environment;
 		}
-		
+
 		// For images in album
+		[Authorize]
 		public IActionResult Like(int imageId, int albumId, string userId)
 		{
 			var image = this.db.Images
-				.Where(img => img.Id == imageId && 
+				.Where(img => img.Id == imageId &&
 				img.Album.Id == albumId)
 				.FirstOrDefault();
 
@@ -68,6 +70,7 @@
 		}
 
 		// For images in album
+		[Authorize]
 		public IActionResult Dislike(int imageId, int albumId)
 		{
 			var image = this.db.Images
@@ -80,11 +83,131 @@
 			var album = this.db.Album
 				.Where(al => al.Id == albumId)
 				.FirstOrDefault();
-			
+
 
 			db.SaveChanges();
 
 			return RedirectToAction("Details", "Albums", new { albumId, album.UserId });
+		}
+
+
+		// For single images
+		[Authorize]
+		public IActionResult LikeImage(int imageId)
+		{
+			var image = this.db.SingleImages
+				.Where(img => img.Id == imageId)
+				.FirstOrDefault();
+
+			if (image == null)
+			{
+				return NotFound();
+			}
+
+			var currentUser = userManager.GetUserAsync(User).Result;
+
+			var like = new SingleImagesLikes
+			{
+				User = currentUser,
+				Image = image
+			};
+
+			db.SingleImagesLikes.Add(like);
+
+			currentUser.LikesCount++;
+
+			image.Rating++;
+
+			db.Update(image);
+
+			db.Update(currentUser);
+
+			db.SaveChanges();
+
+			return RedirectToAction("Index", "Home");
+		}
+
+		// For single images
+		[Authorize]
+		public IActionResult DislikeImage(int imageId)
+		{
+			var image = this.db.SingleImages
+				.Where(img => img.Id == imageId)
+				.FirstOrDefault();
+
+			if (image == null)
+			{
+				return NotFound();
+			}
+
+			image.Rating--;
+
+			db.Update(image);
+
+			db.SaveChanges();
+
+			return RedirectToAction("Index", "Home");
+		}
+
+
+		// For single images
+		[Authorize]
+		public IActionResult DeleteImage(int imageId)
+		{
+			var currentUser = userManager.GetUserAsync(User).Result;
+
+			var image = this.db.SingleImages
+				.Where(img => img.Id == imageId)
+				.FirstOrDefault();
+
+			if(image == null)
+			{
+				return NotFound();
+			}
+
+			currentUser.ImagesCount--;
+
+			db.Update(currentUser);
+
+			var imageLikes = this.db.SingleImagesLikes
+				.Where(l => l.Image.Id == imageId)
+				.Select(l => new SingleImagesLikes()
+				{
+					Id = l.Id,
+					Image = l.Image,
+					User = l.User
+				})
+				.ToList();
+
+			if(imageLikes.Count() > 0)
+			{
+				foreach(var like in imageLikes)
+				{
+					var likeUser = this.db.Users
+						.Where(u => u.Id == like.User.Id)
+						.FirstOrDefault();
+
+					likeUser.LikesCount--;
+
+					db.SingleImagesLikes.Remove(like);
+				}
+			}
+
+			db.SingleImages.Remove(image);
+
+			db.SaveChanges();
+
+			string userId = image.Path.Split('/').First();
+			string filename = image.Path.Split('/').Last();
+
+			string path = Path.Combine(environment.WebRootPath, "uploads", userId, "images", filename);
+
+			if (System.IO.File.Exists(path))
+			{
+				System.IO.File.Delete(path);
+			}
+
+			return RedirectToAction("Index", "MyProfile");
 		}
 
 		//GET: Image/Upload
@@ -101,9 +224,14 @@
 		public async Task<IActionResult> Upload(UploadImageViewModel image, IFormFile File)
 		{
 
-			if(File != null && ModelState.IsValid)
+			if (File != null && ModelState.IsValid)
 			{
 				var user = userManager.GetUserAsync(User).Result;
+
+				if(image.Description == null)
+				{
+					image.Description = string.Empty;
+				}
 
 				var img = new SingleImages()
 				{
@@ -125,7 +253,7 @@
 					await File.CopyToAsync(fs);
 				}
 
-				img.Path = user.Id + "/images/" + File.FileName ;
+				img.Path = user.Id + "/images/" + File.FileName;
 
 				user.ImagesCount++;
 
@@ -134,7 +262,7 @@
 				db.SingleImages.Add(img);
 				db.SaveChanges();
 
-				return RedirectToAction("Details", "Image", new { @imgId = img.Id });
+				return RedirectToAction("Index", "MyProfile");
 			}
 
 			return View(image);

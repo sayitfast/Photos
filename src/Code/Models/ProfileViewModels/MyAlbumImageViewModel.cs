@@ -1,4 +1,6 @@
-﻿namespace Code.Models.ProfileViewModels
+﻿using Code.Data;
+
+namespace Code.Models.ProfileViewModels
 {
     public class MyAlbumImageViewModel
     {

@@ -21,6 +21,8 @@
 
 		public DbSet<SingleImages> SingleImages { get; set; }
 
+		public DbSet<SingleImagesLikes> SingleImagesLikes { get; set; }
+
 		protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

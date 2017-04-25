@@ -39,13 +39,18 @@
 					@if (User.Identity.IsAuthenticated)
 					{
 						var currentUser = UserManager.GetUserAsync(User).Result;
-						@if (currentUser.ProfilePicture == null)
+
+						if (currentUser != null)
 						{
-							<img src="~/images/no-profile-image.jpg" class="navbar-profile-picture" />
-						}
-						else
-						{
-							<img src="~/uploads/@currentUser.Id/@currentUser.ProfilePicture" class="navbar-profile-picture" />
+							@if (currentUser.ProfilePicture == null)
+							{
+								<img src="~/images/no-profile-image.jpg" class="navbar-profile-picture" />
+							}
+							else
+							{
+								<img src="~/uploads/@currentUser.Id/@currentUser.ProfilePicture" class="navbar-profile-picture" />
+							}
+
 						}
 					}
 				</a>

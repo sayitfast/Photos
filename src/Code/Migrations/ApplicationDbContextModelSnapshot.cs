@@ -143,6 +143,24 @@ namespace Code.Migrations
                     b.ToTable("SingleImages");
                 });
 
+            modelBuilder.Entity("Code.Data.SingleImagesLikes", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("ImageId");
+
+                    b.Property<string>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ImageId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("SingleImagesLikes");
+                });
+
             modelBuilder.Entity("Code.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id");
@@ -367,6 +385,17 @@ namespace Code.Migrations
 
             modelBuilder.Entity("Code.Data.SingleImages", b =>
                 {
+                    b.HasOne("Code.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("Code.Data.SingleImagesLikes", b =>
+                {
+                    b.HasOne("Code.Data.SingleImages", "Image")
+                        .WithMany()
+                        .HasForeignKey("ImageId");
+
                     b.HasOne("Code.Models.ApplicationUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId");

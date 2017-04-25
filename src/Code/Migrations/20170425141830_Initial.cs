@@ -16,12 +16,16 @@ namespace Code.Migrations
                     Id = table.Column<string>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
                     Age = table.Column<int>(nullable: false),
+                    AlbumsCount = table.Column<int>(nullable: false),
+                    CommentsCount = table.Column<int>(nullable: false),
                     ConcurrencyStamp = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     Email = table.Column<string>(maxLength: 256, nullable: true),
                     EmailConfirmed = table.Column<bool>(nullable: false),
                     FirstName = table.Column<string>(nullable: true),
+                    ImagesCount = table.Column<int>(nullable: false),
                     LastName = table.Column<string>(nullable: true),
+                    LikesCount = table.Column<int>(nullable: false),
                     Location = table.Column<string>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
@@ -98,10 +102,12 @@ namespace Code.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Category = table.Column<string>(nullable: false),
                     CreatedOn = table.Column<DateTime>(nullable: false),
-                    Description = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: false),
                     Location = table.Column<string>(nullable: true),
-                    Name = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(maxLength: 20, nullable: false),
+                    Path = table.Column<string>(nullable: true),
                     Rating = table.Column<int>(nullable: false),
                     UserId = table.Column<string>(nullable: true)
                 },
@@ -260,6 +266,32 @@ namespace Code.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "SingleImagesLikes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    ImageId = table.Column<int>(nullable: true),
+                    UserId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SingleImagesLikes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_SingleImagesLikes_SingleImages_ImageId",
+                        column: x => x.ImageId,
+                        principalTable: "SingleImages",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_SingleImagesLikes_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Likes",
                 columns: table => new
                 {
@@ -338,6 +370,16 @@ namespace Code.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_SingleImagesLikes_ImageId",
+                table: "SingleImagesLikes",
+                column: "ImageId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SingleImagesLikes_UserId",
+                table: "SingleImagesLikes",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "EmailIndex",
                 table: "AspNetUsers",
                 column: "NormalizedEmail");
@@ -388,7 +430,7 @@ namespace Code.Migrations
                 name: "Likes");
 
             migrationBuilder.DropTable(
-                name: "SingleImages");
+                name: "SingleImagesLikes");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
@@ -407,6 +449,9 @@ namespace Code.Migrations
 
             migrationBuilder.DropTable(
                 name: "Images");
+
+            migrationBuilder.DropTable(
+                name: "SingleImages");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

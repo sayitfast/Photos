@@ -10,7 +10,7 @@
 		}
 		else
 		{
-			<img src="~/uploads/@Model.Id/@Model.ProfilePictureName" class="u_profile_img" />
+			<img src="~/images/no-profile-image.jpg" class="u_profile_img" />
 		}
 		<h3>@Model.FirstName @Model.LastName</h3>
 		@{ var totalImages = 0;}
@@ -64,7 +64,7 @@
 				@foreach (var image in Model.MyImages)
 				{
 					<div class="col-md-4  text-center u_image">
-						<img src="~/uploads/@image.Path" style="height: initial; width:100%;" />
+						<img src="~/uploads/@image.Path" style="height: 175px; width:initial; margin-left: 0px;" />
 						<h4><strong>@image.Name</strong> @image.Description</h4>
 					</div>
 				}
@@ -75,6 +75,7 @@
 					<a href="@(Url.Action("MyImagesAll", "MyProfile"))" class="btn btn-primary">View All</a>
 				</div>
 			</div>
+			<br />
 
 		}
 		@if (Model.MyAlbums.Capacity > 0)
@@ -101,13 +102,13 @@
 										if (image == firstImage)
 										{
 											<div class="item active">
-												<img src="@image.Path" alt="Chania" class="u_album_img" />
+												<img src="@image.Path" alt="Chania" class="u_album_img" style="height: 300px; widows: initial" />
 											</div>
 										}
 										else
 										{
 											<div class="item">
-												<img src="@image.Path" alt="Chania" class="u_album_img" />
+												<img src="@image.Path" alt="Chania" class="u_album_img"  style="height: 300px; widows: initial" />
 											</div>
 										}
 									}
@@ -132,8 +133,8 @@
 				<a href="@(Url.Action("MyAlbumsAll", "MyProfile"))" class="btn btn-primary">View All</a>
 			</div>
 			<hr />
-
 		}
+
 	</div>
 </div>
 <div class="clearfix"></div>

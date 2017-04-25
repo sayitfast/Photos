@@ -13,6 +13,7 @@
 	using Models.ProfileViewModels;
 	using Models.SingleImageViewModels;
 	using System;
+	using Models.ProfileViewModels.EditProfileViewModels;
 
 	[Authorize]
 	public class MyProfileController : Controller
@@ -100,23 +101,34 @@
 		[HttpGet]
 		public IActionResult Edit()
 		{
-			var user = userManager.GetUserAsync(User);
+			var userId = userManager.GetUserId(User);
 
-			var current = user.Result;
+			var user = this.db.Users
+				.Where(u => u.Id == userId)
+				.Select(u => new EditProfileViewModel()
+				{
+					FirstName = u.FirstName,
+					LastName = u.LastName,
+					Description = u.Description,
+					Location = u.Location,
+					Age = u.Age.ToString()
+				})
+				.FirstOrDefault();
 
-			return View(current);
+			return View(user);
 		}
 		// POST: MyProfile/Edit
 		[HttpPost]
-		public async Task<IActionResult> Edit(ApplicationUser user, IFormFile ProfilePictureFile)
+		public async Task<IActionResult> Edit(EditProfileViewModel user, IFormFile ProfilePictureFile)
 		{
 			if (ModelState.IsValid)
 			{
 				var currentUser = userManager.GetUserAsync(User).Result;
+
 				currentUser.FirstName = user.FirstName;
 				currentUser.LastName = user.LastName;
 				currentUser.Location = user.Location;
-				currentUser.Age = user.Age;
+				currentUser.Age = int.Parse(user.Age);
 				currentUser.Description = user.Description;
 
 				if (ProfilePictureFile != null)
@@ -149,7 +161,7 @@
 		{
 			var user = userManager.GetUserAsync(User).Result;
 
-			var pageSize = 6;
+			var pageSize = 5;
 
 			if(user == null)
 			{
@@ -157,30 +169,33 @@
 			}
 
 			var albums = this.db.Album
-				.OrderByDescending( al => al.CreatedOn)
+				.Where(al => al.UserId == user.Id)
+				.OrderByDescending(al => al.CreatedOn)
 				.Skip((page - 1) * pageSize)
 				.Take(pageSize)
-				.Where(al => al.UserId == user.Id)
 				.Select(al => new MyAlbumViewModel()
 				{
 					Id = al.Id,
+					Name = al.Name,
+					Description = al.Description,
 					Category = al.Category,
 					CreatedOn = al.CreatedOn,
-					Description = al.Description,
-					Name = al.Name,
 					AlbumImages = this.db.Images
-					.Where(i => i.Album.Id == al.Id)
-					.Select(i => new MyAlbumImageViewModel()
+					.Where(img => img.Album.Id == al.Id)
+					.Select(img => new MyAlbumImageViewModel()
 					{
-						Id = i.Id,
-						Name = i.Name,
-						Path = $"/uploads/{al.UserId}/{al.Id}/{i.Name}"
+						Id = img.Id,
+						Name = img.Name,
+						Path = user.Id + "/" + al.Id.ToString() + "/" +  img.Name
 					})
-					.ToList()
+					.ToList(),
+					User = user
 				})
 				.ToList();
 
 			ViewBag.CurrentPage = page;
+
+			ViewBag.TotalPages = Math.Ceiling(this.db.Album.Where(al => al.User.Id == user.Id).Count() / 5.0);
 
 			return View(albums);
 		}

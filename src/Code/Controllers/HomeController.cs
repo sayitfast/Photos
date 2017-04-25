@@ -4,11 +4,13 @@ using Code.Data;
 using Code.Models.AlbumVIewModels;
 using System.Collections.Generic;
 using Code.Models.SearchViewModels;
+using Code.Models.HomeVIewModels;
+using Code.Models.SingleImageViewModels;
 
 namespace Code.Controllers
 {
 	public class HomeController : Controller
-    {
+	{
 		private readonly ApplicationDbContext db;
 
 		public HomeController(ApplicationDbContext db)
@@ -16,49 +18,50 @@ namespace Code.Controllers
 			this.db = db;
 		}
 
-        public IActionResult Index(ParentAlbumViewModel model)
-        {
-			model.List = this.db.Album
-				.OrderByDescending(al => al.CreatedOn)
-				.Select(al => new AlbumDetailsViewModel
+		public IActionResult Index()
+		{
+			var model = new HomeViewModel();
+
+				model.Images = this.db.SingleImages
+				.Take(12)
+				.OrderByDescending(img => img.CreatedOn)
+				.Select(img => new SingleImageDetailsViewModel()
 				{
-					Id = al.Id,
-					Name = al.Name,
-					Creator = al.User,
+					Id = img.Id,
+					Name = img.Name,
+					Path = img.Path,
+					Rating = img.Rating
 				})
-				.Take(12)
 				.ToList();
 
-			var albums = this.db.Album
-				.OrderByDescending(al => al.CreatedOn)
-				.Take(12)
-				.ToList();
-
-			model.Images = new List<ImageDetailsViewModel>();
-
-			foreach(var album in albums)
-			{
-				var albumImages = this.db.Images
-					.Where(img => img.Album.Id == album.Id)
-					.Select(img => new ImageDetailsViewModel()
-					{
-						Id = img.Id,
-						Album = img.Album,
-						Name = img.Name,
-						Rating = img.Rating,
-						User = img.User
-					})
-					.ToList();
-				model.Images.AddRange(albumImages);
-			}
+				model.Albums = this.db.Album
+					   .Take(6)
+					   .OrderByDescending(al => al.CreatedOn)
+					   .Select(al => new HomeAlbumsDetailsViewModel()
+					   {
+						     Id = al.Id,
+						     Name = al.Name,
+							 User = al.User,
+						     Images = this.db.Images
+							.Where(img => img.Album.Id == al.Id)
+							.Select(img => new AlbumImageDetailsViewModel()
+							{
+								Id = img.Id,
+								Name = img.Name,
+								Rating = img.Rating,
+								Album = al,
+								Path = al.UserId + "/" + al.Id.ToString() + "/" + img.Name
+							})
+							.ToList()
+					   }).ToList();
 
 
 			return View(model);
-        }
+		}
 
-        public IActionResult Error()
-        {
-            return View();
-        }
-    }
+		public IActionResult Error()
+		{
+			return View();
+		}
+	}
 }

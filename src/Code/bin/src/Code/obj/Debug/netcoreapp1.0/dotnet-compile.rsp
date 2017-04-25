@@ -249,14 +249,9 @@ C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Data\Comment.cs
 C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Data\Image.cs
 C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Data\Like.cs
 C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Data\SingleImages.cs
-C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Migrations\20170420140104_Initial.cs
-C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Migrations\20170420140104_Initial.Designer.cs
-C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Migrations\20170420163409_SingleImageCategory.cs
-C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Migrations\20170420163409_SingleImageCategory.Designer.cs
-C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Migrations\20170420190043_SingleImagePath.cs
-C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Migrations\20170420190043_SingleImagePath.Designer.cs
-C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Migrations\20170424113734_ProfileActivityCounts.cs
-C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Migrations\20170424113734_ProfileActivityCounts.Designer.cs
+C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Data\SingleImagesLikes.cs
+C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Migrations\20170425141830_Initial.cs
+C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Migrations\20170425141830_Initial.Designer.cs
 C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Migrations\ApplicationDbContextModelSnapshot.cs
 C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Models\ApplicationUser.cs
 C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Models\AccountViewModels\ExternalLoginConfirmationViewModel.cs
@@ -281,6 +276,8 @@ C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Models\AlbumVIew
 C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Models\AlbumVIewModels\EditAlbumViewModels\AlbumCommentsEditViewModel.cs
 C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Models\AlbumVIewModels\EditAlbumViewModels\AlbumEditViewModel.cs
 C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Models\AlbumVIewModels\EditAlbumViewModels\AlbumImageEditViewModel.cs
+C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Models\HomeVIewModels\HomeAlbumsDetailsViewModel.cs
+C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Models\HomeVIewModels\HomeViewModel.cs
 C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Models\ManageViewModels\AddPhoneNumberViewModel.cs
 C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Models\ManageViewModels\ChangePasswordViewModel.cs
 C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Models\ManageViewModels\ConfigureTwoFactorViewModel.cs
