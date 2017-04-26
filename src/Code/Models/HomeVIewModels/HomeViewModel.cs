@@ -10,8 +10,6 @@ namespace Code.Models.HomeVIewModels
 {
     public class HomeViewModel
     {
-		[MinLength(1)]
-		[MaxLength(50)]
 		public string Search { get; set; }
 
 		public string Option { get; set; }

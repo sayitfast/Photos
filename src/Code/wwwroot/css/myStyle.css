@@ -62,6 +62,11 @@ img.img_cover {
 .f_input {
 	padding: 0px;
 }
+.f_input .list{
+	font-size: 20px;
+	height: 60px;
+	line-height: 60px;
+}
 .f_input input{
 	font-size: 20px;
 	height: 60px;

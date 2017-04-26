@@ -124,7 +124,7 @@
 
 			db.SaveChanges();
 
-			return RedirectToAction("Index", "Home");
+			return RedirectToAction("Details", "Image", new { @imageId = imageId});
 		}
 
 		// For single images
@@ -146,7 +146,7 @@
 
 			db.SaveChanges();
 
-			return RedirectToAction("Index", "Home");
+			return RedirectToAction("Details", "Image", new { @imageId = imageId });
 		}
 
 
@@ -269,11 +269,11 @@
 		}
 
 		// For non-album images
-		public IActionResult Details(int imgId)
+		public IActionResult Details(int imageId)
 		{
 
 			var image = this.db.SingleImages
-				.Where(img => img.Id == imgId)
+				.Where(img => img.Id == imageId)
 				.Select(img => new SingleImageDetailsViewModel()
 				{
 					Id = img.Id,
@@ -289,7 +289,7 @@
 				.FirstOrDefault();
 
 
-			return View();
+			return View(image);
 		}
 	}
 }

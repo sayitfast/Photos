@@ -24,15 +24,43 @@
 		@using (Html.BeginForm<SearchController>(c => c.Index(), FormMethod.Post))
 		{
 			<div class="col-md-8 f_input">
-				@Html.TextBoxFor(m => m.Search, new { @id = "search-box", @placeholder = "Search by category", @class = "form-control", @style = "width: 100%; border-radius: 0px;" })
-				@Html.ValidationMessageFor(m => m.Search, null ,new { @class = "text-danger" })
-			</div>
+				@{var searchList = new SelectList(new List<SelectListItem>
+					{
+					new SelectListItem { Text = "Travel", Value = "travel" },
+					new SelectListItem { Text = "Holiday", Value = "holiday" },
+					new SelectListItem { Text = "Food", Value = "food" },
+					new SelectListItem { Text = "Business", Value = "business" },
+					new SelectListItem { Text = "Night", Value = "night" },
+					new SelectListItem { Text = "Sunset", Value = "sunset" },
+					new SelectListItem { Text = "Technology", Value = "technology" },
+					new SelectListItem { Text = "Abstract", Value = "abstract" },
+					new SelectListItem { Text = "Mountains", Value = "mountains" },
+					new SelectListItem { Text = "Music", Value = "music" },
+					new SelectListItem { Text = "Black And White", Value = "black and white" },
+					new SelectListItem { Text = "Car", Value = "car" },
+					new SelectListItem { Text = "City", Value = "city" },
+					new SelectListItem { Text = "Flowers", Value = "flowers" },
+					new SelectListItem { Text = "Landscape", Value = "lanscape" },
+					new SelectListItem { Text = "Ocean", Value = "ocean" },
+					new SelectListItem { Text = "Photography", Value = "photography" },
+					new SelectListItem { Text = "Animal", Value = "animal" },
+					new SelectListItem { Text = "Art", Value = "art" },
+					new SelectListItem { Text = "Beach", Value = "beach" },
+					new SelectListItem { Text = "Fashion", Value = "fasion" },
+					new SelectListItem { Text = "Sport", Value = "sport" },
+					new SelectListItem { Text = "People", Value = "people" },
+					new SelectListItem { Text = "Vintage", Value = "vintage" },
+					new SelectListItem { Text = "Sky", Value = "sky" }
+					}, "Value", "Text");
+				}
+					@Html.DropDownListFor(m => m.Search, searchList, null, new { @class = "form-control list", @style = "width: 100%; border-radius: 0px;" })
+					@Html.ValidationMessageFor(m => m.Search, null, new { @class = "text-danger" })
+</div>
 			<div class="col-md-3 f_options">
 				@{var selectList = new SelectList(new List<SelectListItem>
 					{
 					new SelectListItem { Text = "Photos", Value = "SingleImages" },
-					new SelectListItem { Text = "Albums", Value = "Album" },
-					new SelectListItem { Text = "People", Value = "Users" }
+					new SelectListItem { Text = "Albums", Value = "Album" }
 					}, "Value", "Text");
 				}
 					@Html.DropDownListFor(m => m.Option, selectList, null , new { @class = "form-control list", @style = "width: 100%; border-radius: 0px;" })
