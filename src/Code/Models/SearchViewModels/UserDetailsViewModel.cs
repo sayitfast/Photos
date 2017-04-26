@@ -1,5 +1,6 @@
 ﻿using Code.Data;
 using Code.Models.AlbumVIewModels;
+using Code.Models.SingleImageViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,6 +32,8 @@ namespace Code.Models.SearchViewModels
 
 		public List<AlbumDetailsViewModel> Albums { get; set; }
 
+		public List<SingleImageDetailsViewModel> Images { get; set; }
 
+		public List<CommentDetailsViewModel> Comments { get; set; }
     }
 }

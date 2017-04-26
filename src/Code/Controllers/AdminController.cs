@@ -8,6 +8,7 @@
 	using Models.AdminViewModels;
 	using Models.AlbumVIewModels;
 	using Models.SearchViewModels;
+	using Models.SingleImageViewModels;
 	using System;
 	using System.Linq;
 
@@ -27,7 +28,7 @@
 
         public IActionResult Panel()
         {
-			var model = new ParentAdminViewModel();
+			var model = new AdminViewModel();
 
 			model.Users = this.db.Users
 				.Select(u => new UserDetailsViewModel()
@@ -39,15 +40,9 @@
 					ProfilePictureName = u.ProfilePicture,
 					Email = u.Email,
 					isAdmin = u.isAdmin,
-					TotalAlbums = this.db.Album
-					.Where(al => al.UserId == u.Id)
-					.Count(),
-					TotalImages = this.db.Images
-					.Where(img => img.UserId == u.Id)
-					.Count(),
-					TotalLikes = this.db.Likes
-					.Where(l => l.UserId == u.Id)
-					.Count()
+					TotalAlbums = u.AlbumsCount,
+					TotalImages = u.ImagesCount,
+					TotalLikes = u.LikesCount
 				})
 				.OrderBy(u => u.FirstName)
 				.ToList();
@@ -79,15 +74,9 @@
 					ProfilePictureName = u.ProfilePicture,
 					Email = u.Email,
 					isAdmin = u.isAdmin,
-					TotalAlbums = this.db.Album
-				   .Where(al => al.UserId == u.Id)
-				   .Count(),
-					TotalImages = this.db.Images
-				   .Where(img => img.UserId == u.Id)
-				   .Count(),
-					TotalLikes = this.db.Likes
-				   .Where(l => l.UserId == u.Id)
-				   .Count(),
+					TotalAlbums = u.AlbumsCount,
+					TotalImages = u.ImagesCount,
+					TotalLikes = u.LikesCount,
 					Albums = this.db.Album
 					.Where(al => al.UserId == u.Id)
 					.Select(al => new AlbumDetailsViewModel()
@@ -99,7 +88,32 @@
 						Category = al.Category,
 						Creator = al.User
 					})
-					.ToList()
+					.ToList(),
+					Images = this.db.SingleImages
+					.Where(img => img.User.Id == u.Id)
+					.Select(img => new SingleImageDetailsViewModel()
+					{
+						Id = img.Id,
+						Path = img.Path,
+						Category = img.Category,
+						Description = img.Description,
+						User = img.User,
+						Location = img.Location,
+						Name = img.Name,
+						Rating = img.Rating,
+						UploadedOn = img.CreatedOn
+
+					}).ToList(),
+					Comments = this.db.Comments
+					.Where(c => c.User.Id == u.Id)
+					.Select(c => new CommentDetailsViewModel()
+					{
+						Id = c.Id,
+						Content = c.Content,
+						CreatedOn = c.CreatedOn,
+						Album = c.Album
+
+					}).ToList()
 				})
 				.OrderBy(u => u.FirstName).ToList();
 

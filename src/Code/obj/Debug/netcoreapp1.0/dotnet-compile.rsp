@@ -261,7 +261,7 @@ C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Models\AccountVi
 C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Models\AccountViewModels\ResetPasswordViewModel.cs
 C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Models\AccountViewModels\SendCodeViewModel.cs
 C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Models\AccountViewModels\VerifyCodeViewModel.cs
-C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Models\AdminViewModels\ParentAdminViewModel.cs
+C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Models\AdminViewModels\AdminViewModel.cs
 C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Models\AlbumVIewModels\CreateAlbumViewModel.cs
 C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Models\AlbumVIewModels\CreateCommentViewModel.cs
 C:\Users\usr\Desktop\GitHub Repositories\Photos\Photos\src\Code\Models\AlbumVIewModels\ListAlbumsViewModel.cs

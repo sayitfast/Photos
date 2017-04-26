@@ -19,7 +19,33 @@
 			</ul>
 		</div>
 		<div class="col-md-9" id="u3">
-			<div id="albums-dashboard"style="margin-top: 3px;">
+			<div id="albums-dashboard" style="margin-top: 3px;">
+				<h3>Images</h3>
+				<table id="albums-table">
+					<tr>
+						<th>Id</th>
+						<th>Name</th>
+						<th>Description</th>
+						<th>Category</th>
+						<th>Location</th>
+						<th>Rating</th>
+						<th>Published</th>
+					</tr>
+					@foreach (var image in user.Images)
+					{
+						<tr>
+							<td>@image.Id</td>
+							<td>@image.Name</td>
+							<td>@image.Description</td>
+							<td>@image.Category</td>
+							<td>@image.Location</td>
+							<td>@image.Rating</td>
+							<td>@image.UploadedOn</td>
+						</tr>
+					}
+				</table>
+			</div>
+			<div id="albums-dashboard" style="margin-top: 3px;">
 				<h3>Albums</h3>
 				<table id="albums-table">
 					<tr>
@@ -42,6 +68,27 @@
 				</table>
 				<br />
 			</div>
+			<div id="albums-dashboard" style="margin-top: 3px;">
+				<h3>Comments</h3>
+				<table id="albums-table">
+					<tr>
+						<th>Id</th>
+						<th>Content</th>
+						<th>Album</th>
+						<th>Posted</th>
+					</tr>
+					@foreach (var comment in user.Comments)
+				{
+						<tr>
+							<td>@comment.Id</td>
+							<td>@comment.Content</td>
+							<td>@(Html.ActionLink<AdminController>(comment.Album.Name, c => c.AlbumDashboard(comment.Album.Id)))</td>
+							<td>@comment.CreatedOn</td>
+						</tr>
+				}
+				</table>
+			</div>
+			<br />
 		</div>
 	</div>
 

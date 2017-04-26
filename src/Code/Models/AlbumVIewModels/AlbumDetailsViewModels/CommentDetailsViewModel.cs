@@ -1,10 +1,13 @@
 ﻿namespace Code.Models.AlbumVIewModels
 {
+	using Data;
 	using System;
 
 	public class CommentDetailsViewModel
     {
 		public int Id { get; set; }
+
+		public Album Album { get; set; }
 
 		public ApplicationUser Author { get; set; }
 
