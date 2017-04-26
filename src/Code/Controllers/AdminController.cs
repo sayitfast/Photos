@@ -26,11 +26,28 @@
 			this.db = db;
 		}
 
-        public IActionResult Panel()
+        public IActionResult Panel(int page = 1)
         {
+			ViewBag.TotalPages = Math.Ceiling(this.db.Users.Count() / 10.0);
+
+			ViewBag.CurrentPage = page;
+
+			if(page < 1 || page > ViewBag.CurrentPage)
+			{
+				if (ViewBag.TotalPages != 0)
+				{
+					return NotFound();
+				}
+			}
+
+			int pageSize = 10;
+
 			var model = new AdminViewModel();
 
 			model.Users = this.db.Users
+				.OrderBy(u => u.FirstName)
+				.Skip((page - 1) * pageSize)
+				.Take(pageSize)
 				.Select(u => new UserDetailsViewModel()
 				{
 					Id = u.Id,
@@ -47,24 +64,13 @@
 				.OrderBy(u => u.FirstName)
 				.ToList();
 
-			model.Albums = this.db.Album
-				.Select(al => new AlbumDetailsViewModel()
-				{
-					Id = al.Id,
-					Description = al.Description,
-					Name = al.Name,
-					CreatedOn = al.CreatedOn,
-					Category = al.Category,
-					Creator = al.User
-				})
-				.ToList();
-
             return View(model);
         }
 
-		public IActionResult Users()
+		public IActionResult UserDetails(string userId)
 		{
 			var model = this.db.Users
+				.Where(u => u.Id == userId)
 				.Select(u => new UserDetailsViewModel()
 				{
 					Id = u.Id,
@@ -111,11 +117,12 @@
 						Id = c.Id,
 						Content = c.Content,
 						CreatedOn = c.CreatedOn,
-						Album = c.Album
+						Album = c.Album,
+						Author = c.User
 
 					}).ToList()
 				})
-				.OrderBy(u => u.FirstName).ToList();
+				.FirstOrDefault();
 
 			return View(model);
 

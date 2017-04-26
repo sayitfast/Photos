@@ -5,7 +5,7 @@
 	@foreach (var image in Model)
 	{
 		<div class="u_image text-center" style="width:100%;">
-			<a href="@Url.Action("DeleteImage", "Image", new { @imageId = image.Id})" class="active" title="Delete Image">
+			<a href="@Url.Action("DeleteImage", "Image", new { @imageId = image.Id, @userId = image.User.Id})" class="active" title="Delete Image">
 				<span class="close pull-right" style="margin-right: 5px;" aria-hidden="true">&times;</span>
 			</a>
 			<img src="~/uploads/@image.Path" style="height: initial; width:100%;" />

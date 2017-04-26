@@ -3,17 +3,16 @@
 
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
+@{
+	var currentUser = UserManager.GetUserAsync(User).Result; 
 
-@if (SignInManager.IsSignedIn(User))
+	}
+@if (currentUser != null && SignInManager.IsSignedIn(User))
 {
-	var currentUser = UserManager.GetUserAsync(User).Result;
-	<form asp-area="" asp-controller="Account" asp-action="LogOff" method="post" id="logoutForm" class="navbar-right">
-		<ul class="nav navbar-nav">
-			@if (currentUser.isAdmin == true)
+		<ul class="nav navbar-nav pull-right">
+			@if (currentUser.isAdmin != false)
 			{
-				<li id="admin-main">@(Html.ActionLink<AdminController>("Admin Panel", c => c.Panel()))</li>
-				<li id="admin">@(Html.ActionLink<AdminController>("Users", c => c.Users()))</li>
-				<li id="admin"><a href="#">Categories</a></li>
+				<li id="admin-main">@(Html.ActionLink<AdminController>("Admin Panel", c => c.Panel(1)))</li>
 
 			}
 			<li>
@@ -27,7 +26,6 @@
 				</a>
 			</li>
 		</ul>
-	</form>
 }
 else
 {

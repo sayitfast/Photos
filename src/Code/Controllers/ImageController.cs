@@ -152,9 +152,18 @@
 
 		// For single images
 		[Authorize]
-		public IActionResult DeleteImage(int imageId)
+		public IActionResult DeleteImage(int imageId, string userId)
 		{
 			var currentUser = userManager.GetUserAsync(User).Result;
+
+			var user = this.db.Users
+				.Where(u => u.Id == userId)
+				.FirstOrDefault();
+
+			if(userId != currentUser.Id)
+			{
+				return BadRequest();
+			}
 
 			var image = this.db.SingleImages
 				.Where(img => img.Id == imageId)
@@ -197,10 +206,10 @@
 
 			db.SaveChanges();
 
-			string userId = image.Path.Split('/').First();
+			string ownerId = image.Path.Split('/').First();
 			string filename = image.Path.Split('/').Last();
 
-			string path = Path.Combine(environment.WebRootPath, "uploads", userId, "images", filename);
+			string path = Path.Combine(environment.WebRootPath, "uploads", ownerId, "images", filename);
 
 			if (System.IO.File.Exists(path))
 			{

@@ -158,6 +158,9 @@ namespace Code.Controllers
 		[HttpGet]
 		public IActionResult Edit(int albumId, string userId)
 		{
+
+			var currentUser = userManager.GetUserAsync(User).Result;
+
 			var album = this.db.Album
 				.Where(al => al.Id == albumId)
 				.Select(al => new AlbumEditViewModel()
@@ -191,6 +194,11 @@ namespace Code.Controllers
 					.ToList()
 				})
 				.FirstOrDefault();
+
+			if(album.User != currentUser)
+			{
+				return BadRequest();
+			}
 
 			return View(album);
 		}
@@ -298,6 +306,8 @@ namespace Code.Controllers
 		public IActionResult DeleteComment(int commentId, int albumId, string userId)
 		{
 
+			var currentUser = userManager.GetUserAsync(User).Result;
+
 			// finds the author of the comment
 			var user = this.db.Comments
 				.Where(c => c.Id == commentId)
@@ -307,6 +317,11 @@ namespace Code.Controllers
 				})
 				.FirstOrDefault();
 
+			if(user.User.Id != currentUser.Id)
+			{
+				return BadRequest();
+			}
+		
 
 			var comment = this.db.Comments
 				.Where(c => c.Id == commentId)
@@ -327,6 +342,9 @@ namespace Code.Controllers
 		// Albums/DeleteImage?imageId={id}/albumId={id}/userId={id}
 		public IActionResult DeleteImage (int imageId, int albumId, string userId)
 		{
+
+			var currnetUser = userManager.GetUserAsync(User).Result;
+
 			var image = this.db.Images
 				.Where(img => img.Id == imageId)
 				.FirstOrDefault();
@@ -339,6 +357,11 @@ namespace Code.Controllers
 			var user = this.db.Users
 				.Where(u => u.Id == userId)
 				.FirstOrDefault();
+
+			if(user.Id != currnetUser.Id)
+			{
+				return BadRequest();
+			}
 
 			var likes = this.db.Likes
 				.Where(l => l.Image.Id == imageId)
@@ -373,18 +396,20 @@ namespace Code.Controllers
 		public IActionResult Delete(int albumId, string userId)
 		{
 
+			var currentUser = userManager.GetUserAsync(User).Result;
+
 			var album = this.db.Album
 				.Where(al => al.Id == albumId)
 				.FirstOrDefault();
 
-			if(album == null)
-			{
-				return NotFound();
-			}
-
 			var user = this.db.Users
 				.Where(u => u.Id == userId)
 				.FirstOrDefault();
+
+			if(user.Id != currentUser.Id)
+			{
+				return BadRequest();
+			}
 
 			var images = this.db.Images
 				.Where(img => img.Album.Id == albumId)
@@ -396,41 +421,54 @@ namespace Code.Controllers
 				{
 					var likes = this.db.Likes
 						.Where(l => l.Image.Id == image.Id)
+						.Select(l => new Like()
+						{
+							Id = l.Id,
+							Image = l.Image,
+							UserId = l.UserId
+						})
 						.ToList();
 
 					if(likes.Count > 0)
 					{
-
-						foreach(var like in likes)
+						foreach (var like in likes)
 						{
-							if(like.UserId == userId)
+							if (like.UserId == userId)
 							{
 								user.LikesCount--;
 							}
 						}
 						db.Likes.RemoveRange(likes);
 					}
-
 					user.ImagesCount--;
 				}
-
 				db.Images.RemoveRange(images);
-				
 			}
 
 			var comments = this.db.Comments
 				.Where(c => c.Album.Id == albumId)
 				.ToList();
 
+			var commentsUsers = this.db.Comments
+				.Where(c => c.Album.Id == albumId)
+				.Select(c => new CommentDetailsViewModel()
+				{
+					Author = c.User
+
+				}).ToList();
+
 			if(comments.Count > 0)
 			{
 
-				foreach(var comment in comments)
+				foreach(var comment in commentsUsers)
 				{
-					if(comment.User.Id == userId)
-					{
-						user.CommentsCount--;
-					}
+					var author = this.db.Users
+						.Where(u => u.Id == comment.Author.Id)
+						.FirstOrDefault();
+
+					author.CommentsCount--;
+
+					db.Update(author);
 				}
 
 				db.Comments.RemoveRange(comments);

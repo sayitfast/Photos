@@ -1,5 +1,7 @@
 ﻿@model Code.Models.AdminViewModels.AdminViewModel
 
+@Html.Partial("_PagingUsersPartial");
+
 <div id="users-dashboard">
 	<h3>Users</h3>
 	<table id="users-table">
@@ -12,6 +14,7 @@
 			<th>Images</th>
 			<th>Email</th>
 			<th>Admin</th>
+			<th>Inspect</th>
 		</tr>
 		@foreach (var user in Model.Users)
 		{
@@ -38,34 +41,17 @@
 				{
 					<td><span class="glyphicon glyphicon-remove"></span></td>
 				}
+				<td>
+					<a href="@(Url.Action("UserDetails", "Admin", new { @userId = user.Id}))">
+			          <span class="glyphicon glyphicon-link"></span>	
+				    </a>
+				</td>
 			</tr>
 
 		}
 	</table>
 </div>
 
-<div id="albums-dashboard">
-	<h3>Albums</h3>
-	<table id="albums-table" >
-		<tr>
-			<th>Name</th>
-			<th>Creator</th>
-			<th>Category</th>
-			<th>Description</th>
-			<th>Published</th>
-			<th>View</th>
-		</tr>
-		@foreach (var album in Model.Albums)
-		{
-			<tr>
-				<td>@album.Name</td>
-				<td>@album.Creator.FirstName @album.Creator.LastName</td>
-				<td>@album.Category</td>
-				<td>@album.Description</td>
-				<td>@album.CreatedOn</td>
-				<td>@(Html.ActionLink<AdminController>("View", c => c.AlbumDashboard(album.Id)))</td>
-			</tr>
+@Html.Partial("_PagingUsersPartial");
 
-		}
-	</table>
-</div>
+<div class="clearfix"></div>

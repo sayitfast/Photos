@@ -227,6 +227,7 @@
 					Path = i.Path,
 					Rating = i.Rating,
 					UploadedOn = i.CreatedOn,
+					User = i.User
 					
 				}).ToList();
 
