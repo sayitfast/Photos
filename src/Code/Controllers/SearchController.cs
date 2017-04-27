@@ -26,14 +26,12 @@
 			this.userManager = userManager;
 		}
 
-		// GET: Search/Index
 		[HttpGet]
 		public IActionResult Index()
 		{
 			return View();
 		}
 
-		// POST: Search/Index
 		[HttpPost]
 		public IActionResult Index(HomeViewModel model)
 		{
@@ -58,7 +56,6 @@
 
 		}
 
-		// Search/ImagesSearch?category={category}&page={1}
 		public IActionResult ImagesSearch(string category, int page = 1)
 		{
 			ViewBag.TotalPages = Math.Ceiling(
@@ -100,7 +97,6 @@
 			return View(result);
 		}
 
-		// Search/AlbumsSearch?category={category}&page={1}
 		public IActionResult AlbumsSearch(string category, int page = 1)
 		{
 			ViewBag.TotalPages = Math.Ceiling(

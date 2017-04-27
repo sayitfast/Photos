@@ -12,8 +12,6 @@
 			<th>Location</th>
 			<th>Albums</th>
 			<th>Images</th>
-			<th>Comments</th>
-			<th>Likes</th>
 			<th>Email</th>
 			<th>Admin</th>
 			<th>Inspect</th>
@@ -34,8 +32,6 @@
 				<td>@user.Location</td>
 				<td>@user.TotalAlbums</td>
 				<td>@user.TotalImages</td>
-				<td>@user.TotalComments</td>
-				<td>@user.TotalLikes</td>
 				<td>@user.Email</td>
 				@if(user.isAdmin == true)
 				{
@@ -51,6 +47,7 @@
 				    </a>
 				</td>
 			</tr>
+
 		}
 	</table>
 </div>

@@ -6,7 +6,5 @@
 	public class AdminViewModel
     {
 		public List<UserDetailsViewModel> Users { get; set; }
-
-		public List<UserDetailsViewModel> Admins { get; set; }
     }
 }

@@ -298,7 +298,7 @@ namespace Code.Controllers
 
 			}
 
-			return RedirectToAction("Details", "Albums", new { @albumId = model.Id, @userId = model.Creator.Id });
+			return BadRequest();
 		}
 
 		// in Albums/Edit?albumId{id}/userId={id}
@@ -433,13 +433,10 @@ namespace Code.Controllers
 					{
 						foreach (var like in likes)
 						{
-							var author = this.db.Users
-								.Where(u => u.Id == like.UserId)
-								.FirstOrDefault();
-
-							author.LikesCount--;
-
-							db.Update(author);
+							if (like.UserId == userId)
+							{
+								user.LikesCount--;
+							}
 						}
 						db.Likes.RemoveRange(likes);
 					}

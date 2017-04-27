@@ -1,9 +1,5 @@
 ﻿@model CreateAlbumViewModel
 
-@{
-	ViewData["Title"] = $"Create Album";
-}
-
 <div class="col-md-8 col-md-offset-2">
 	@using (Html.BeginForm<AlbumsController>(c => c.Create(), FormMethod.Post, new { @enctype = "multipart/form-data" }))
 	{ 
@@ -44,7 +40,7 @@
 
 		<hr />
 		<label>Choose file:</label>
-		<input type="file" accept=".jpeg,.jpg,.png" name="Files" id="Files" multiple />
+		<input type="file" name="Files" id="Files" multiple />
 		<br />
 		<input type="submit" name="submit" value="Upload" class="btn btn-primary"/>
 	}

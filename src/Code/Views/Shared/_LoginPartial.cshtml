@@ -13,10 +13,6 @@
 			@if (currentUser.isAdmin != false)
 			{
 				<li id="admin-main">@(Html.ActionLink<AdminController>("Admin Panel", c => c.Panel(1)))</li>
-				if (currentUser.isSuperAdmin == true)
-				{
-					<li id="super-admin-main">@(Html.ActionLink<SuperAdminController>("CEO Panel", c => c.Index(1)))</li>
-				}
 
 			}
 			<li>

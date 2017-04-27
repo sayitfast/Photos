@@ -18,7 +18,6 @@ namespace Code.Controllers
 			this.db = db;
 		}
 
-		// Home/Index
 		public IActionResult Index()
 		{
 			var model = new HomeViewModel();
@@ -37,7 +36,7 @@ namespace Code.Controllers
 
 				model.Albums = this.db.Album
 					   .Take(6)
-					   .OrderByDescending(al => al.Id)
+					   .OrderByDescending(al => al.CreatedOn)
 					   .Select(al => new HomeAlbumsDetailsViewModel()
 					   {
 						     Id = al.Id,
@@ -58,6 +57,11 @@ namespace Code.Controllers
 
 
 			return View(model);
+		}
+
+		public IActionResult Error()
+		{
+			return View();
 		}
 	}
 }

@@ -9,7 +9,7 @@
 		public int Id { get; set; }
 
 		[Required]
-		[MinLength(1), MaxLength(160)]
+		[MinLength(10), MaxLength(160)]
 		public string Content { get; set; }
 
 		public ApplicationUser User { get; set; }

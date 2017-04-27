@@ -2,16 +2,13 @@
 
 @inject UserManager<ApplicationUser> UserMenager
 
-@{
-	ViewData["Title"] = $"Edit Profile";
-}
 
 <div class="col-md-6 col-md-offset-3" id="form">
 
 	@using (Html.BeginForm<MyProfileController>(c => c.Edit(), FormMethod.Post, new { @enctype = "multipart/form-data" }))
 	{
 		<label style="color: white">Profile photo:</label>
-		<input type="file" accept=".jpeg,.jpg,.png" name="ProfilePictureFile" />
+		<input type="file" name="ProfilePictureFile" />
 		<br>
 		@Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", @placeholder = "First name" })
 		<br>
@@ -28,17 +25,15 @@
 
 		var list = new List<SelectListItem>();
 
-		for(int i = 1; i <= 120; i++)
+		for(int i = 120; i >= 1; i--)
 		{
 			list.Add(new SelectListItem { Text = $"{i.ToString()}", Value = $"{i.ToString()}" });
 		}
 		var selectList = new SelectList(list, "Value", "Text");
-		
-		<div style="width: 50%; margin-left: 25%;">
-			@Html.DropDownListFor(m => m.Age, selectList, null, new { @class = "form-control" })
-		</div>
-		
-		<br />
+
+		@Html.DropDownListFor(m => m.Age, selectList, "0", new { @class = "form-control" })
+
+		<br>
 		<span class="text-danger">
 			@Html.ValidationMessageFor(m => m.Description)
 		</span>

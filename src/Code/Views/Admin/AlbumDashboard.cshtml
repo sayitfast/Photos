@@ -1,0 +1,15 @@
+﻿@model Code.Models.AlbumVIewModels.ParentAlbumViewModel
+<div class="row" id="admin_album">
+	<div class="col-md-4" id="admin_edit_form">
+		<h1>ADMIN FORM EDIT</h1>
+	</div>
+	<div class="col-md-8" id="album_images">
+		@foreach(var image in Model.Images)
+		{
+			<div class="col-md-3" id="album_img">
+				<img src="~/uploads/@image.User.Id/@image.Album.Id/@image.Name" style="width: initial; height: 100px;"/>
+			</div>
+
+		}
+	</div>
+</div>  

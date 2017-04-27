@@ -220,8 +220,6 @@ namespace Code.Migrations
 
                     b.Property<bool>("isAdmin");
 
-                    b.Property<bool>("isSuperAdmin");
-
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedEmail")

@@ -30,8 +30,6 @@ namespace Code.Models.SearchViewModels
 
 		public int TotalLikes { get; set; }
 
-		public int TotalComments { get; set; }
-
 		public List<AlbumDetailsViewModel> Albums { get; set; }
 
 		public List<SingleImageDetailsViewModel> Images { get; set; }
