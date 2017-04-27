@@ -61,13 +61,11 @@
 	}
 
 /* ====== Admin Panel ======== */
-ul.nav li#admin-main
-{
+ul.nav li#admin-main{
 	background-color: #1f7dd7;
 }
-ul.nav li#admin
-{
-	background-color: #a1a1a1;
+ul.nav li#super-admin-main{
+	background-color: green;
 }
 
 /* ----- users dashboard ------*/
@@ -175,4 +173,32 @@ img#image{
 	border: 1px solid #a1a1a1;
 	border-radius: 4px;
 	padding: 20px;
+}
+
+/*===== Super admin page =====*/
+
+.s_admin_users h3{
+	padding: 10px;
+	background-color: green;
+	color: white;
+	opacity: 0.8;
+}
+img#image{
+	height: 30px;
+}
+#s_admin_users-table {
+	    margin-top: -10px;
+	    border: 2px solid green;
+		opacity: 0.8;
+		font-family: arial, sans-serif;
+		border-collapse: collapse;
+		width: 100%;
+	}
+	#s_admin_users-table td, th {
+		border: 1px solid green;
+		padding: 8px;
+		text-align: center;
+	}
+tr:nth-child(even) {
+	background-color: #dddddd;
 }

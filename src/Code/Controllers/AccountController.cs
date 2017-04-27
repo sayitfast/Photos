@@ -109,9 +109,8 @@ namespace Photos.Controllers
 				var user = new ApplicationUser {
 					FirstName = model.FirstName,
 					LastName = model.LastName,
-					UserName = model.Username,
-					Email = model.Email,
-					isAdmin = false
+					UserName = model.Email,
+					Email = model.Email
 				};
 				var result = await _userManager.CreateAsync(user, model.Password);
 				if (result.Succeeded)

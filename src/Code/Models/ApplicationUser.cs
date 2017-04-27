@@ -26,5 +26,7 @@
 		public int CommentsCount { get; set; }
 
 		public bool isAdmin { get; set; }
+
+		public bool isSuperAdmin { get; set; }
 	}
 }

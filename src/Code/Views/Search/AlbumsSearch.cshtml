@@ -1,5 +1,9 @@
 ﻿@model List<Code.Models.HomeVIewModels.HomeAlbumsDetailsViewModel>
 
+@{
+	ViewData["Title"] = $"Albums Results";
+}
+
 @if(Model.Capacity == 0)
 {
 	<h1 class="text-center">There are no albums with matching category!</h1>

@@ -38,6 +38,8 @@
 		[Authorize]
 		public IActionResult Like(int imageId, int albumId, string userId)
 		{
+			var currentUser = userManager.GetUserAsync(User).Result;
+
 			var image = this.db.Images
 				.Where(img => img.Id == imageId &&
 				img.Album.Id == albumId)
@@ -45,20 +47,16 @@
 
 			image.Rating++;
 
-			var album = this.db.Album
-				.Where(al => al.Id == albumId)
-				.FirstOrDefault();
-
 			var like = new Like()
 			{
 				Image = image,
-				Album = album,
-				UserId = album.UserId
+				Album = this.db.Album
+				.Where(al => al.Id == albumId)
+				.FirstOrDefault(),
+				UserId = currentUser.Id
 			};
 
 			db.Likes.Add(like);
-
-			var currentUser = userManager.GetUserAsync(User).Result;
 
 			currentUser.LikesCount++;
 
@@ -66,7 +64,7 @@
 
 			db.SaveChanges();
 
-			return RedirectToAction("Details", "Albums", new { albumId, album.UserId });
+			return RedirectToAction("Details", "Albums", new { albumId, userId });
 		}
 
 		// For images in album

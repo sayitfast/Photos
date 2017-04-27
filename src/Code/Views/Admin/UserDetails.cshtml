@@ -28,24 +28,29 @@
 			<h3>Images</h3>
 			<table id="albums-table">
 				<tr>
-					<th>Id</th>
 					<th>Name</th>
 					<th>Description</th>
 					<th>Category</th>
 					<th>Location</th>
 					<th>Rating</th>
 					<th>Published</th>
+					<th>View</th>
+					<th>Remove</th>
 				</tr>
 				@foreach (var image in Model.Images)
 				{
 					<tr>
-						<td>@image.Id</td>
 						<td>@image.Name</td>
 						<td>@image.Description</td>
 						<td>@image.Category</td>
 						<td>@image.Location</td>
 						<td>@image.Rating</td>
 						<td>@image.UploadedOn</td>
+						<td>@(Html.ActionLink<ImageController>("View", c => c.Details(image.Id)))</td>
+						<td><a href="@(Url.Action("DeleteImage", "Admin", new { @imageId = image.Id, @userId = Model.Id}))">
+							<span class="glyphicon glyphicon-remove"></span>
+						</a>
+						</td>
 					</tr>
 				}
 			</table>
@@ -59,6 +64,7 @@
 					<th>Description</th>
 					<th>Published</th>
 					<th>View</th>
+					<th>Remove</th>
 				</tr>
 				@foreach (var album in Model.Albums)
 				{
@@ -68,6 +74,11 @@
 						<td>@album.Description</td>
 						<td>@album.CreatedOn</td>
 						<td>@(Html.ActionLink<AlbumsController>("View", c => c.Details(album.Id, album.Creator.Id)))</td>
+						<td>
+						<a href="@(Url.Action("DeleteAlbum", "Admin", new { @albumId = album.Id, @userId = Model.Id}))">
+							<span class="glyphicon glyphicon-remove"></span>
+						</a>
+						</td>
 					</tr>
 				}
 			</table>
@@ -77,18 +88,22 @@
 			<h3>Comments</h3>
 			<table id="albums-table">
 				<tr>
-					<th>Id</th>
 					<th>Content</th>
-					<th>Album</th>
 					<th>Posted</th>
+					<th>Album</th>
+					<th>Remove</th>
 				</tr>
 				@foreach (var comment in Model.Comments)
 				{
 					<tr>
-						<td>@comment.Id</td>
 						<td>@comment.Content</td>
-						<td>@(Html.ActionLink<AlbumsController>("View", c => c.Details(comment.Album.Id, comment.Author.Id)))</td>
 						<td>@comment.CreatedOn</td>
+						<td>@(Html.ActionLink<AlbumsController>("View", c => c.Details(comment.Album.Id, comment.Album.UserId)))</td>
+						<td>
+							<a href="@(Url.Action("DeleteComment", "Admin", new { @commentId = comment.Id, @userId = Model.Id}))">
+								<span class="glyphicon glyphicon-remove"></span>
+							</a>
+						</td>
 					</tr>
 				}
 			</table>

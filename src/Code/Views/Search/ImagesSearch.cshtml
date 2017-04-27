@@ -1,5 +1,10 @@
 ﻿@model List<Code.Models.SingleImageViewModels.SingleImageDetailsViewModel>
 
+@{
+	ViewData["Title"] = $"Images Results";
+}
+
+
 @if(Model.Capacity == 0)
 {
 	<h1 class="text-center">There are no images with matching category</h1>
