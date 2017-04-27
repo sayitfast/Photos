@@ -51,7 +51,7 @@ namespace Code
 
             services.AddIdentity<ApplicationUser, IdentityRole>(identity =>
 			{
-				identity.Password.RequireDigit = false;
+				identity.Password.RequireDigit = true;
 				identity.Password.RequireLowercase = false;
 				identity.Password.RequireNonAlphanumeric = false;
 				identity.Password.RequireUppercase = false;

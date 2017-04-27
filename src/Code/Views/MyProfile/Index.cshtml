@@ -1,5 +1,8 @@
 ﻿@model Code.Models.ProfileViewModels.MyProfileViewModel
 
+@{
+	ViewData["Title"] = $"{Model.FirstName} {Model.LastName}";
+}
 
 <div class="row u_profile">
 

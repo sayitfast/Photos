@@ -31,7 +31,7 @@
 			this.userManager = userManager;
 		}
 
-
+		// MyProfile/Index
 		public IActionResult Index()
 		{
 			var usedId = userManager.GetUserId(User);
@@ -66,9 +66,9 @@
 					})
 					.ToList(),
 					MyAlbums = this.db.Album
-					.OrderByDescending(al => al.CreatedOn)
-					.Take(3)
 					.Where(al => al.UserId == u.Id)
+					.OrderByDescending(al => al.Id)
+					.Take(3)
 					.Select(al => new MyAlbumViewModel()
 					{
 						Id = al.Id,

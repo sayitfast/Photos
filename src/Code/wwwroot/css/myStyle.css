@@ -1,7 +1,6 @@
 ﻿body {
 	overflow-x: hidden;
 	background-color: #eaeaea;
-	position: relative;
 }
 /* layout styling */
 .navbar-profile-picture {
@@ -11,6 +10,7 @@
 }
 
 .navbar {
+	position: relative;
 	background-color: black;
 	opacity: 0.9;
 	border: none;
@@ -28,13 +28,9 @@
 	}
 
 		.navbar .container ul li a:hover {
-			background-color: #1f7dd7;
+			background-color: #1d64a8;
 		}
-
-
-		.navbar .container ul li a#login-button:hover {
-			background-color: green;
-		}
+		
 
 #navbar-logo {
 	width: 45px;
