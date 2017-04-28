@@ -14,6 +14,8 @@ namespace Code.Models.HomeVIewModels
 
 		public string Option { get; set; }
 
+		public List<SingleImageDetailsViewModel> TopRated { get; set; }
+
 		public List<SingleImageDetailsViewModel> Images { get; set; }
 
 		public List<HomeAlbumsDetailsViewModel> Albums { get; set; }

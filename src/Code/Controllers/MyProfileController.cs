@@ -51,6 +51,7 @@
 					ProfilePictureName = u.ProfilePicture,
 					MyImages = this.db.SingleImages
 					.Where(img => img.User.Id == u.Id)
+					.OrderByDescending(img => img.Id)
 					.Take(6)
 					.Select(img => new SingleImageDetailsViewModel()
 					{

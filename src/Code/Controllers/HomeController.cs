@@ -23,15 +23,31 @@ namespace Code.Controllers
 		{
 			var model = new HomeViewModel();
 
-				model.Images = this.db.SingleImages
-				.Take(12)
-				.OrderByDescending(img => img.CreatedOn)
+			model.TopRated = model.Images = this.db.SingleImages
+				.OrderByDescending(img => img.Rating)
+				.Take(3)
 				.Select(img => new SingleImageDetailsViewModel()
 				{
 					Id = img.Id,
 					Name = img.Name,
 					Path = img.Path,
-					Rating = img.Rating
+					Rating = img.Rating,
+					User = img.User
+				})
+				.ToList()
+				.OrderByDescending(img => img.Rating)
+				.ToList();
+
+			model.Images = this.db.SingleImages
+				.Take(12)
+				.OrderByDescending(img => img.Id)
+				.Select(img => new SingleImageDetailsViewModel()
+				{
+					Id = img.Id,
+					Name = img.Name,
+					Path = img.Path,
+					Rating = img.Rating,
+					User = img.User
 				})
 				.ToList();
 

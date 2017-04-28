@@ -6,9 +6,11 @@
 
 <div class="col-md-8 col-md-offset-2">
 	@using (Html.BeginForm<AlbumsController>(c => c.Create(), FormMethod.Post, new { @enctype = "multipart/form-data" }))
-	{ 
+	{
+		<lable style="color: darkred;">* Required!</lable>
 		@Html.TextBoxFor(m => m.Name, new { @class = "form-control", @placeholder = "Album name" })
 		<br>
+		<lable style="color: darkred;">* Required!</lable>
 		@Html.TextAreaFor(m => m.Description, new { @class = "form-control", @placeholder = "Description" })
 		<br>
 				var selectList = new SelectList(new List<SelectListItem>
@@ -39,7 +41,7 @@
 				new SelectListItem { Text = "Vintage", Value = "vintage" },
 				new SelectListItem { Text = "Sky", Value = "sky" }
 			}, "Value", "Text");
-
+		<lable style="color: darkred;">* Required!</lable>
 				@Html.DropDownListFor(m => m.Category, selectList,"Select Category...", new { @class = "form-control"})
 
 		<hr />
