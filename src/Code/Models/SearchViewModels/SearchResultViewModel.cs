@@ -2,6 +2,7 @@
 {
 	using AlbumVIewModels;
 	using Data;
+	using SingleImageViewModels;
 	using System.Collections.Generic;
 
 	public class SearchResultViewModel
@@ -10,6 +11,6 @@
 
 		public List<UserDetailsViewModel> Users { get; set; }
 
-		public List<ImageDetailsViewModel> Images { get; set; }
+		public List<SingleImageDetailsViewModel> Images { get; set; }
     }
 }

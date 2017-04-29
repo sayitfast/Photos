@@ -1,11 +1,4 @@
-﻿/*=== Admin dorpdown ======*/
-li#admin-main{
-	background-color: #1f7dd7;
-}
-li#admin {
-	background-color: gray;
-}
-/*=== Search Index Page*/
+﻿/*=== Search Index Page*/
 #users-section{
 }
 #users-section h3{
@@ -68,7 +61,15 @@ li#admin {
 	}
 
 /* ====== Admin Panel ======== */
+ul.nav li#admin-main{
+	background-color: #1f7dd7;
+}
+ul.nav li#super-admin-main{
+	background-color: green;
+}
+
 /* ----- users dashboard ------*/
+
 #users-dashboard h3{
 	padding: 10px;
 	background-color: #1f7dd7;
@@ -115,3 +116,89 @@ img#image{
 		text-align: center;
 	}
 
+/*======= Admin Users Page ====== */
+#personal-dashboard{
+	border: 1px solid #a1a1a1;
+	background-color: #f2f2f2;
+	margin-bottom: 5px;
+}
+#personal-dashboard img{
+	margin-top: 3px;
+	width: 100px;
+	height: initial;
+}
+#personal-dashboard #u1{
+
+}
+#u1 ul {
+	margin-top: 5px;
+	list-style: none;
+	padding: 0px;
+}
+#u1 ul li#al_info{
+	display: inline-block;
+	width: 32%;
+}
+#u1 ul li#u_info{
+	margin-top: 3px;
+	display: inline-block;
+}
+#personal-dashboard #u2{
+}
+#u2 #uc1{
+}
+#uc1 #content{
+	margin-top: 20px;
+	margin-bottom: 10px;
+	padding: 3px;
+	border: 1px solid #a1a1a1;
+	background-color: #f2f2f2;
+	border-radius:3px;
+
+}
+#personal-dashboard #u3{
+}
+/*===== Admin Album Edit Page ===== */
+#admin_album{
+	border: 1px solid red;
+}
+#admin_edit_form{
+	border: 1px solid blue;
+}
+#album_images{
+	border: 1px solid black;
+}
+/* === Uploading image form ===*/
+.upload_img_form{
+	border: 1px solid #a1a1a1;
+	border-radius: 4px;
+	padding: 20px;
+}
+
+/*===== Super admin page =====*/
+
+.s_admin_users h3{
+	padding: 10px;
+	background-color: green;
+	color: white;
+	opacity: 0.8;
+}
+img#image{
+	height: 30px;
+}
+#s_admin_users-table {
+	    margin-top: -10px;
+	    border: 2px solid green;
+		opacity: 0.8;
+		font-family: arial, sans-serif;
+		border-collapse: collapse;
+		width: 100%;
+	}
+	#s_admin_users-table td, th {
+		border: 1px solid green;
+		padding: 8px;
+		text-align: center;
+	}
+tr:nth-child(even) {
+	background-color: #dddddd;
+}

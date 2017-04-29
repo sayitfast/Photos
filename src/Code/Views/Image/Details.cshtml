@@ -1,0 +1,24 @@
+﻿@model Code.Models.SingleImageViewModels.SingleImageDetailsViewModel
+
+@{
+	ViewData["Title"] = $"Photo Details";
+}
+
+<div class="col-md-8 col-md-offset-2">
+	<div class="u_image text-center" style="width:100%;">
+		<img src="~/uploads/@Model.Path" style="height: initial; width:100%;" />
+		<h4><strong>@Model.Name</strong> @Model.Description</h4>
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3 text-center">
+				<a href="@(Url.Action("DislikeImage", "Image", new { @imageId = Model.Id}))">
+					<span class="glyphicon glyphicon-chevron-left"></span>
+				</a>
+				<span><strong>@Model.Rating</strong></span>
+				<a href="@(Url.Action("LikeImage", "Image", new { @imageId =  Model.Id }))">
+					<span class="glyphicon glyphicon-chevron-right"></span>
+				</a>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="clearfix"></div>

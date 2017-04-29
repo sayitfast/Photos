@@ -17,6 +17,16 @@
 
 		public string ProfilePicture { get; set; }
 
+		public int ImagesCount { get; set; }
+
+		public int AlbumsCount { get; set; }
+
+		public int LikesCount { get; set; }
+
+		public int CommentsCount { get; set; }
+
 		public bool isAdmin { get; set; }
+
+		public bool isSuperAdmin { get; set; }
 	}
 }

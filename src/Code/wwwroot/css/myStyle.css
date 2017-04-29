@@ -1,6 +1,7 @@
 ﻿body {
 	overflow-x: hidden;
 	background-color: #eaeaea;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
 /* layout styling */
 .navbar-profile-picture {
@@ -10,48 +11,27 @@
 }
 
 .navbar {
-	background-color: transparent;
+	position: relative;
+	background-color: black;
+	opacity: 0.9;
 	border: none;
 	position: relative;
+	box-shadow: 0px 1px 10px #1f7dd7;
+	height: 50px;
 }
 
-	.navbar .container {
-		margin-left: 2%;
-		width: 96%;
-		margin-top: 0.5%;
-		background:  black;
-		border-radius: 4px;
-		opacity: 0.9;
-		box-shadow: 0px 1px 10px #1f7dd7;
+	.navbar .container ul li a {
+		text-align: center;
+		font-size: 15px;
+		transition: all 0.33s;
+		color: white;
+		height: 50px;
 	}
 
-		.navbar .container ul li a {
-			text-align: center;
-			font-size: 15px;
-			transition: all 0.33s;
-			color: white;
+		.navbar .container ul li a:hover {
+			background-color: #1d64a8;
 		}
-
-			.navbar .container ul li a:hover {
-				background-color: #1f7dd7;
-			}
-
-
-			.navbar .container ul li a#login-button:hover {
-				background-color: green;
-			}
-
-@media screen and (min-width: 1024px) {
-	.navbar .container ul li a#login-button {
-		border-bottom-right-radius: 4px;
-		border-top-right-radius: 4px;
-	}
-
-	.navbar .container ul li button#logOff-button {
-		border-bottom-right-radius: 4px;
-		border-top-right-radius: 4px;
-	}
-}
+		
 
 #navbar-logo {
 	width: 45px;
@@ -59,34 +39,62 @@
 	line-height: 35px;
 	transition: all 0.33s;
 }
-
+/*===== Login Page ======*/
+h1.sign_in {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+#login-form {
+	border: 1px solid #a1a1a1;
+	border-radius: 4px;
+	padding: 10px;
+	background-color: #f2f2f2;
+}
 /* Home - index styling */
-#search-form {
+img.img_cover {
+	position: absolute;
+	margin-top: -75px;
+	margin-left: -20%;
+	width: 140%;
+	height: 450px;
+}
+.intro{
+	margin-top: 50px;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+.f_form{
+	position: relative;
+	font-size: 20px;
+}
+.f_input {
+	padding: 0px;
+}
+.f_input .list{
+	font-size: 20px;
 	height: 60px;
 	line-height: 60px;
 }
-
-#search-box {
-	color: black;
-	border: none;
-	width: 50%;
-	border-bottom-left-radius: 4px;
-	border-top-left-radius: 4px;
-	padding-left: 20px;
+.f_input input{
 	font-size: 20px;
-	opacity: 0.95;
+	height: 60px;
+	line-height: 60px;
+}
+.f_options{
+	padding: 0px;
+}
+.f_options .list{
+	font-size: 20px;
+	height: 60px;
+	line-height: 60px;
+}
+.f_submit{
+	padding: 0px;
+}
+.f_submit button{
+	width: 100%;
+	font-size: 20px;
+	height: 60px;
 }
 
-#search-button {
-	border-bottom-right-radius: 4px;
-	border-top-right-radius: 4px;
-	border: none;
-	margin-left: -5px;
-	width: 10%;
-	font-size: 20px;
-	opacity: 0.95;
-	background-color: #1f7dd7;
-}
 
 .albums {
 	color: white;
@@ -108,14 +116,18 @@
 			min-height: 100%;
 		}
 
+		#title.first{
+			margin-top: 15%;
+		}
 
-#latest-album-title {
-    border: none;
+#title {
+	position: relative;
+	border: none;
 	background-color: black;
-	color: white;
+	color: black;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 	opacity: 0.9;
 	border-radius: 2px;
-	margin-top: 20px;
 	margin-bottom: 10px;
 	height: 30px;
 	line-height: 30px;
@@ -147,6 +159,7 @@
 	.albums #album {
 		width: 100%;
 		margin: 0%;
+		margin-top: 40px;
 	}
 
 		.albums #album img {
@@ -160,248 +173,131 @@
 	#search-button {
 		width: 25%;
 	}
+
+	#title{
+		margin-top: 10px;
+	}
 }
 
 /* Register Form Styling*/
-.flex-container#register-form {
-	display: flex;
-	flex-direction: row;
-	text-align: center;
-	position: relative;
-	width: 100%;
-}
 
-#register-form #form {
-	width: 50%;
+.register_form{
+	border: 1px solid #a1a1a1;
 	border-radius: 4px;
-	height: 350px;
-	background-color: black;
-	color: white;
-	opacity: 0.8;
-	height: inherit;
+	background-color: #f2f2f2;
+}
+.u_input{
+	width: 80%;
+	margin-left: 10%;
 }
 
-	#register-form #form div input {
-		height: 50px;
-		line-height: 50px;
-		font-size: 20px;
-		margin-left: 10%;
-		width: 80%;
-	}
-
-.btn-primary#register-button {
-	width: 150px;
-	height: 50px;
-	font-size: 18px;
-}
-
-/*===== camera.png-logo ====== */
-#camera-logo {
-	visibility: visible;
-	margin-left: 5%;
-	position: initial;
-	width: 40%;
-	height: 300px;
-}
-
-	#camera-logo img {
-		position: relative;
-		height: inherit;
-	}
-
-@media screen and (max-width: 960px) {
-	#camera-logo {
-		visibility: hidden;
-	}
-
-	#register-form #form {
-		min-width: 100%;
-	}
-}
-
-#benefits-container {
-	margin-top: 1px;
-}
-
-	#benefits-container #benefits-list h4 {
-		height: 40px;
-		line-height: 40px;
-		font-size: 25px;
-		text-align: center;
-	}
-
-	#benefits-container #benefits-list {
-		background-color: #1f7dd7;
-		color: white;
-		opacity: 0.8;
-		height: 240px;
-	}
-
-#benefits-question {
-	margin-top: 10px;
-	opacity: 0.8;
-	text-align: center;
+.benefits{
 	background-color: #1f7dd7;
 	color: white;
+	opacity: 0.8;
+}
+.benefit{
+	list-style: none;
+	padding: 0px;
 }
 
 /*===== PROFILE PAGE =======*/
-/*-- Upper part - user information*/
-#user-details {
-	background-color: white;
+.u_profile {
+	border: 1px solid #a1a1a1;
+	background-color: #f2f2f2;
 	border-radius: 4px;
 }
 
-#profile-picture-area {
-	text-align: center;
+.u_image {
+	border: 1px solid #a1a1a1;
+	width: 31%;
+	margin: 1%;
 }
 
-	#profile-picture-area img {
-		border-radius: 2px;
+	.u_image img {
 		margin-top: 10px;
-		height: 300px;
-		width: initial;
+		
 	}
 
-#description {
-	text-align: center;
-	font-size: 18px;
-}
-
-#user-albums-information {
+.u_profile_img {
+	width: 50%;
 	margin-top: 10px;
-	list-style: none;
 }
 
-	#user-albums-information li {
-		font-size: 20px;
+.u_activity_info {
+	list-style: none;
+	text-align: center;
+	padding-left: 0px;
+}
+
+	.u_activity_info li {
 		display: inline-block;
 	}
 
-#user-email-and-location {
+.u_actionlinks {
 	list-style: none;
+	text-align: center;
+	padding-left: 0px;
 }
 
-
-#create-edit-btns {
-	list-style: none;
-}
-
-	#create-edit-btns li {
-		height: 50px;
-		line-height: 50px;
+	.u_actionlinks li {
 		display: inline-block;
-		width: 40%;
-		text-align: center;
+		padding: 2px;
 	}
 
-		#create-edit-btns li#sign-out {
-			height: 50px;
-			line-height: 50px;
-			display: inline-block;
-			width: 20%;
-			text-align: center;
-		}
-
-		#create-edit-btns li a {
-			display: block;
-			height: inherit;
-			font-size: 18px;
-			text-decoration: none;
-			border-radius: 3px;
-		}
-
-#sign-out button {
-	border: none;
-	border-radius: 3px;
-	height: 50px;
-	line-height: 50px;
-	width: 100%;
-	font-size: 18px;
-	background-color: #e6e6e6;
-	color: black;
-}
-
-	#sign-out button:hover {
-		background-color: #ff2c2c;
-	}
-
-#create a {
+li.create a {
+	list-style: none;
+	display: block;
+	text-decoration: none;
 	color: white;
-	background-color: #1f7dd7;
 }
 
-#create:hover a {
-	opacity: 0.8;
+.u_uploads {
+	padding-left: 0px;
+	margin-top: 10px;
 }
 
-#edit a {
-	color: black;
-	background-color: #e6e6e6;
+.u_album {
+	border: 1px solid #a1a1a1;
+	margin-bottom: 10px;
+	width: 31%;
+	margin: 1%;
 }
 
-#edit:hover a {
-	background-color: lightgray;
-}
-
-/*-- Lower part - albums visualization*/
-#albums {
-	padding: 10px;
-	transition: all 0.33s;
-}
-
-	#albums:hover {
-		transform: scale(1.01);
+	.u_album_img {
+		width: 100%;
+		height: 250px;
 	}
 
+.a_details_link a {
+	color: gray;
+	font-size: 30px;
+}
+
+@media  screen and (max-width: 992px) {
+	.u_image {
+		width: 100%;
+	}
+
+	.u_album {
+		width: 100%;
+	}
+
+		.u_album img {
+			width: 100%;
+			height: 200px;
+		}
+}
+/*-- Lower part - albums visualization*/
 #album-with-pictures {
 	justify-content: center;
 }
 
 	#album-with-pictures img {
 		min-width: 100%;
-		min-height: 100%;
+		min-height: initial;
 	}
 
-#album-name a {
-	display: block;
-	background-color: #1f7dd7;
-	font-size: 18px;
-	color: white;
-	text-decoration: none;
-}
-
-	#album-name a:hover {
-		opacity: 0.9;
-	}
-
-@media screen and (max-width: 990px) {
-	#user-albums-information li {
-		width: 30%;
-	}
-
-	#user-email-and-location li {
-		margin-top: 10px;
-		width: 91%;
-	}
-
-	#create-edit-btns li {
-		width: 32.5%;
-	}
-
-		#create-edit-btns li#sign-out {
-			width: 30%;
-		}
-
-	#album-with-pictures {
-		width: 100%;
-	}
-
-		#album-with-pictures img {
-			min-width: 100%;
-			min-height: 100%;
-		}
-}
 /*======= Edit Profile Page ========= */
 #form {
 	border-radius: 4px;
@@ -432,86 +328,37 @@
 		display: inline-block;
 	}
 
-/*=== Album Details Page*/
-
-#album-picture {
+/*=== Album Details Page === */
+.a_image{
 	border: 1px solid #a1a1a1;
-	border-radius: 4px;
-	text-align: center;
-	margin-top: 10px;
-	transition: all 0.33s;
-	padding: 0px;
-	background-color:#f2f2f2;
-}
-
-	#album-picture:hover {
-		transform: scale(1.01);
-	}
-
-	#album-picture img {
-		max-height: 100%;
-		max-width: 100%;
-		transition: all 0.33s;
-	}
-	#album-picture button{
-		margin-top: -20px;
-		font-size: 15px;
-		color: #1f7dd7;
-		border: none;
-	}
-	#album-picture button a{
-		color: white;
-		text-decoration: none;
-	}
-
-#comment-section {
-	margin-top: 100px;
-}
-
-#comment-form {
-	border: 1px solid #a1a1a1;
-	margin-top: 5px;
-	border-radius: 4px;
-	padding: 10px;
 	background-color: #f2f2f2;
+	width: 31%;
+	margin: 1%;
 }
-
-#comment {
-	border: 1px solid #a1a1a1;
-	margin-bottom: 2px;
-	border-radius: 4px;
-	background-color: #f2f2f2;
-}
-
-	#comment #user-information img {
-		width: 30px;
-		height: 30px;
-		margin: 3px;
-		border-radius: 1px;
-	}
-
-	#comment p {
-		background-color: white;
-		border-radius: 4px;
-		color: black;
-		padding-left: 10px;
-	}
-
-#edit-button a {
-	height: 30px;
-	line-height: 30px;
-	text-decoration: none;
+.a_image a, span{
 	font-size: 18px;
-	color: black;
-	background-color: #f2f2f2;
-	border: 1px solid #a1a1a1;
-	border-radius: 4px;
-	display: block;
 }
 
-	#edit-button a:hover {
-		background-color: lightgray;
+.a_info{
+	border: 1px solid #a1a1a1;
+	background-color: #f2f2f2;
+}
+.a_info img.img-responsive{
+		border-radius: 4px;
 	}
+
+.a_comments{
+	padding: 5px;
+}
+@media screen and (max-width: 992px){
+	.a_image{
+		width: 100%;
+	}
+	.a_info img.img-responsive{
+		width: 30%;
+	}
+}
+
 /*===== Edit Album Page =============*/
 #album-form {
 	border: 1px solid #a1a1a1;
@@ -526,16 +373,14 @@
 	background-color: lightgray;
 }
 
-#images {
-	margin-top: 10px;
-}
-
 	#images #file {
 		border: 1px solid #a1a1a1;
 		border-radius: 4px;
 		margin-bottom: 5px;
 		transition: all 0.33s;
 		background-color: #f2f2f2;
+		width: 31%;
+		margin: 1%;
 	}
 
 		#images #file:hover {
@@ -561,3 +406,8 @@
 		#comments #comment:hover {
 			transform: scale(1.05);
 		}
+@media screen and (max-width: 991px){
+	#images #file {
+		width: 100%;
+	}
+}

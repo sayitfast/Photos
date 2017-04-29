@@ -9,7 +9,7 @@
 <head>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>@ViewData["Title"] - Code</title>
+	<title>@ViewData["Title"] ∙ #Photos</title>
 
 	<environment names="Development">
 		<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
@@ -39,13 +39,18 @@
 					@if (User.Identity.IsAuthenticated)
 					{
 						var currentUser = UserManager.GetUserAsync(User).Result;
-						@if (currentUser.ProfilePicture == null)
+
+						if (currentUser != null)
 						{
-							<img src="~/images/no-profile-image.jpg" class="navbar-profile-picture" />
-						}
-						else
-						{
-							<img src="~/uploads/@currentUser.Id/@currentUser.ProfilePicture" class="navbar-profile-picture" />
+							@if (currentUser.ProfilePicture == null)
+							{
+								<img src="~/images/no-profile-image.jpg" class="navbar-profile-picture" />
+							}
+							else
+							{
+								<img src="~/uploads/@currentUser.Id/@currentUser.ProfilePicture" class="navbar-profile-picture" />
+							}
+
 						}
 					}
 				</a>
@@ -61,9 +66,9 @@
 	<div class="container body-content">
 		@RenderBody()
 		<hr />
-		<footer>
-			<p>&copy; 2017 - Code</p>
-		</footer>
+	<footer class="footer text-center">
+		<p>&copy; 2017 - #Photos </p>
+	</footer>
 	</div>
 
 	<environment names="Development">

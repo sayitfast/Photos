@@ -1,4 +1,6 @@
-﻿@model Code.Models.AdminViewModels.ParentAdminViewModel
+﻿@model Code.Models.AdminViewModels.AdminViewModel
+
+@Html.Partial("_PagingUsersPartial");
 
 <div id="users-dashboard">
 	<h3>Users</h3>
@@ -10,7 +12,11 @@
 			<th>Location</th>
 			<th>Albums</th>
 			<th>Images</th>
+			<th>Comments</th>
+			<th>Likes</th>
 			<th>Email</th>
+			<th>Admin</th>
+			<th>Inspect</th>
 		</tr>
 		@foreach (var user in Model.Users)
 		{
@@ -28,35 +34,27 @@
 				<td>@user.Location</td>
 				<td>@user.TotalAlbums</td>
 				<td>@user.TotalImages</td>
+				<td>@user.TotalComments</td>
+				<td>@user.TotalLikes</td>
 				<td>@user.Email</td>
+				@if(user.isAdmin == true)
+				{
+					<td><span class="glyphicon glyphicon-ok"></span></td>
+				}
+				else
+				{
+					<td><span class="glyphicon glyphicon-remove"></span></td>
+				}
+				<td>
+					<a href="@(Url.Action("UserDetails", "Admin", new { @userId = user.Id}))">
+			          <span class="glyphicon glyphicon-link"></span>	
+				    </a>
+				</td>
 			</tr>
-
 		}
 	</table>
 </div>
 
-<div id="albums-dashboard">
-	<h3>Albums</h3>
-	<table id="albums-table">
-		<tr>
-			<th>Name</th>
-			<th>Creator</th>
-			<th>Category</th>
-			<th>Description</th>
-			<th>Images</th>
-			<th>Published</th>
-		</tr>
-		@foreach (var album in Model.Albums)
-		{
-			<tr>
-				<td>@album.Name</td>
-				<td>@album.Creator.FirstName @album.Creator.LastName</td>
-				<td>@album.Category</td>
-				<td>@album.Description</td>
-				<td>@album.TotalImages</td>
-				<td>@album.CreatedOn</td>
-			</tr>
+@Html.Partial("_PagingUsersPartial");
 
-		}
-	</table>
-</div>
+<div class="clearfix"></div>

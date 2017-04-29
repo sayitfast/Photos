@@ -1,0 +1,41 @@
+﻿@model List<Code.Models.SingleImageViewModels.SingleImageDetailsViewModel>
+
+@{
+	ViewData["Title"] = $"Images Results";
+}
+
+
+@if(Model.Capacity == 0)
+{
+	<h1 class="text-center">There are no images with matching category</h1>
+}
+
+<div class="col-md-6 col-md-offset-3">
+
+	@Html.Partial("_PaginationImagesPartial")
+
+	@foreach (var image in Model)
+	{
+		<div class="u_image text-center" style="width:100%;">
+			<img src="~/uploads/@image.Path" style="height: initial; width:100%;" />
+			<h4><strong>@image.Name</strong> @image.Description</h4>
+			<div class="row">
+				<div class="col-md-6 col-md-offset-3 text-center">
+					<a href="@(Url.Action("DislikeImage", "Image", new { @imageId = image.Id}))">
+						<span class="glyphicon glyphicon-chevron-left"></span>
+					</a>
+					<span><strong>@image.Rating</strong></span>
+					<a href="@(Url.Action("LikeImage", "Image", new { @imageId = image.Id }))">
+						<span class="glyphicon glyphicon-chevron-right"></span>
+					</a>
+				</div>
+			</div>
+		</div>
+	}
+	<hr />
+
+	@Html.Partial("_PaginationImagesPartial")
+
+</div>
+
+<div class="clearfix"></div> 

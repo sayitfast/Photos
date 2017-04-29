@@ -8,16 +8,14 @@
 
 		public string Name { get; set; }
 
-		public Album Album { get; set; }
+		public string Description { get; set; }
+
+		public int Rating { get; set; }
+
+		public virtual Album Album { get; set; }
 
 		public string UserId { get; set; }
 
 		public virtual ApplicationUser User { get; set; }
-
-		public string Desctiprion { get; set; }
-
-		public int Rating { get; set; }
-
-
     }
 }

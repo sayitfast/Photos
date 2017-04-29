@@ -1,33 +1,56 @@
-﻿@model ApplicationUser
-
+﻿@model Code.Models.ProfileViewModels.EditProfileViewModels.EditProfileViewModel
 @inject UserManager<ApplicationUser> UserMenager
-
-
+@{
+	ViewData["Title"] = $"Edit Profile";
+}
 <div class="col-md-6 col-md-offset-3" id="form">
+	@using (Html.BeginForm<MyProfileController>(c => c.Edit(), FormMethod.Post, new { @enctype = "multipart/form-data" }))
+	{
+		<label style="color: white">Profile photo:</label>
+		<input type="file" accept=".jpeg,.jpg,.png" name="ProfilePictureFile" />
+		<br>
+		<label style="color: white">First name:</label>
+		@Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", @placeholder = "First name" })
+		<br>
+		<label style="color: white">Last name:</label>
+		@Html.TextBoxFor(m => m.LastName, new { @class = "form-control", @placeholder = "Last name" })
+		<br>
+		<span class="text-danger">
+			@Html.ValidationMessageFor(m => m.Location)
+		</span>
+		<label style="color: white">Location:</label>
+		@Html.TextBoxFor(m => m.Location, new { @class = "form-control", @placeholder = "Location" })
+		<br>
+		<span class="text-danger">
+			@Html.ValidationMessageFor(m => m.Age)
+		</span>
 
-@using (Html.BeginForm<MyProfileController>(c => c.Edit(), FormMethod.Post, new { @enctype = "multipart/form-data" }))
-{
-	<input type="file" name="ProfilePictureFile" />
-	<br>
-	@Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", @placeholder = "First name" })
-	<br>
-	@Html.TextBoxFor(m => m.LastName, new { @class = "form-control", @placeholder = "Last name" })
-	<br>
-	@Html.TextBoxFor(m => m.Location, new { @class = "form-control", @placeholder = "Location" })
-	<br>
-	@Html.TextBoxFor(m => m.Age, new { @class = "form-control", @placeholder = "Age" })
-	<br>
-	@Html.TextAreaFor(m => m.Description, new { @class = "form-control", @placeholder = "Bio" })
-	<br>
-	<ul id="edit-buttons">
-		<li>
-			<input asp-area="" asp-controller="MyProfile" asp-action="Index" class="btn btn-default" type="submit" value="Cancel" />
-		</li>
-		<li>
-			<input class="btn btn-primary" type="submit" value="Save" />
-		</li>
-	</ul>
-			}
+		var list = new List<SelectListItem>();
+
+		for (int i = 1; i <= 120; i++)
+		{
+			list.Add(new SelectListItem { Text = $"{i.ToString()}", Value = $"{i.ToString()}" });
+		}
+		var selectList = new SelectList(list, "Value", "Text");
+
+
+		<label style="color: white">Profile photo:</label>
+		@Html.DropDownListFor(m => m.Age, selectList, null, new { @class = "form-control" })
+		<br />
+		<span class="text-danger">
+			@Html.ValidationMessageFor(m => m.Description)
+		</span>
+		<label style="color: white">Profile photo:</label>
+		@Html.TextAreaFor(m => m.Description, new { @class = "form-control", @placeholder = "Bio" })
+		<br>
+		<ul id="edit-buttons">
+			<li>
+				<input asp-area="" asp-controller="MyProfile" asp-action="Index" class="btn btn-default" type="submit" value="Cancel" />
+			</li>
+			<li>
+				<input class="btn btn-primary" type="submit" value="Save" />
+			</li>
+		</ul>
+	}
 </div>
-
 <div class="clearfix"></div>

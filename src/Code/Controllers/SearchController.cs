@@ -8,6 +8,9 @@
 	using Models;
 	using Models.AlbumVIewModels;
 	using Models.SearchViewModels;
+	using Models.HomeVIewModels;
+	using Models.SingleImageViewModels;
+	using System;
 
 	public class SearchController : Controller
 	{
@@ -23,94 +26,124 @@
 			this.userManager = userManager;
 		}
 
+		// GET: Search/Index
 		[HttpGet]
 		public IActionResult Index()
 		{
 			return View();
 		}
 
+		// POST: Search/Index
 		[HttpPost]
-		public IActionResult Index(ParentAlbumViewModel model)
+		public IActionResult Index(HomeViewModel model)
 		{
-			string input = model.Search
-				.ToLower()
-				.Trim();
+			if (model.Search == null)
+			{
+				return RedirectToAction("Index", "Home");
+			}
 
-			var result = new SearchResultViewModel();
+			if (model.Option == "SingleImages")
+			{
+				return RedirectToAction("ImagesSearch", "Search", new { @category = model.Search });
+			}
 
-			result.Albums = this.db.Album
-				.Where(al => al.Category == input)
-				.OrderByDescending(al => al.CreatedOn)
-				.Select(al => new AlbumDetailsViewModel()
+			else if (model.Option == "Album")
+			{
+				return RedirectToAction("AlbumsSearch", "Search", new { @category = model.Search });
+			}
+			else
+			{
+				return NotFound();
+			}
+
+		}
+
+		// Search/ImagesSearch?category={category}&page={1}
+		public IActionResult ImagesSearch(string category, int page = 1)
+		{
+			ViewBag.TotalPages = Math.Ceiling(
+				this.db.SingleImages
+				.Where(img => img.Category == category).Count() / 5.0);
+
+			ViewBag.CurrentPage = page;
+
+
+			if (page < 1 || page > ViewBag.TotalPages)
+			{
+				if (ViewBag.TotalPages != 0)
 				{
-					Id = al.Id,
-					Creator = al.User,
-					CreatedOn = al.CreatedOn,
-					Name = al.Name,
-					Description = al.Description,
+					return NotFound();
+				}
+			}
+
+			int pageSize = 5;
+
+			var result = this.db.SingleImages
+				.Where(img => img.Category == category)
+				.OrderByDescending(img => img.CreatedOn)
+				.Skip((page - 1) * pageSize)
+				.Take(pageSize)
+				.Select(img => new SingleImageDetailsViewModel()
+				{
+					Id = img.Id,
+					Description = img.Description,
+					Location = img.Location,
+					Name = img.Name,
+					Path = img.Path,
+					Rating = img.Rating,
+					UploadedOn = img.CreatedOn,
+					Category = img.Category,
+					User = img.User
 				})
 				.ToList();
 
-			result.Users = new List<UserDetailsViewModel>()
-				.OrderByDescending(u => u.TotalImages)
-				.ToList();
+			return View(result);
+		}
 
-			result.Images = new List<ImageDetailsViewModel>();
+		// Search/AlbumsSearch?category={category}&page={1}
+		public IActionResult AlbumsSearch(string category, int page = 1)
+		{
+			ViewBag.TotalPages = Math.Ceiling(
+				this.db.Album
+				.Where(al => al.Category == category).Count() / 5.0);
 
-			foreach (var album in result.Albums)
+			ViewBag.CurrentPage = page;
+
+
+			if (page < 1 || page > ViewBag.TotalPages)
 			{
-				result.Images
-					.AddRange(this.db.Images
-					.Where(img => img.Album.Id == album.Id)
-					.OrderByDescending(img => img.Rating)
-					.Select(img => new ImageDetailsViewModel()
-					{
-						Id = img.Id,
-						Name = img.Name,
-						Album = img.Album,
-						User = img.User,
-						Rating = img.Rating
-					})
-					.ToList());
-
-				var user = this.db.Users
-					.Where(u => u.Id == album.Creator.Id)
-					.FirstOrDefault();
-
-				var details = new UserDetailsViewModel()
+				if (ViewBag.TotalPages != 0)
 				{
-					Id = user.Id,
-					FirstName = user.FirstName,
-					LastName = user.LastName,
-					Location = user.Location,
-					ProfilePictureName = user.ProfilePicture,
-
-					TotalAlbums = this.db.Album
-					.Where(al => al.UserId == user.Id)
-					.Count(),
-
-					TotalImages = this.db.Images
-					.Where(img => img.UserId == user.Id)
-					.Count(),
-
-					TotalLikes = this.db.Likes
-					.Where(l => l.UserId == user.Id)
-					.Count()
-				};
-
-				if(result.Users.Count > 0) 
-				{
-					if(result.Users.All(c => c.Id != details.Id))
-					{
-						result.Users.Add(details);
-					}
-				}
-				else
-				{
-					result.Users.Add(details);
+					return NotFound();
 				}
 			}
+
+			int pageSize = 5;
+
+			var result = this.db.Album
+				.Where(al => al.Category == category)
+				.Skip((page - 1) * pageSize)
+				.Take(pageSize)
+			      .OrderByDescending(al => al.CreatedOn)
+			      .Select(al => new HomeAlbumsDetailsViewModel()
+			      {
+			        Id = al.Id,
+			        Name = al.Name,
+			        User = al.User,
+					Category = al.Category,
+			        Images = this.db.Images
+			     	.Where(img => img.Album.Id == al.Id)
+			     	.Select(img => new AlbumImageDetailsViewModel()
+			     	{
+			     		Rating = img.Rating,
+			     		Album = al,
+			     		Path = al.UserId + "/" + al.Id.ToString() + "/" + img.Name
+			     	})
+			     	.ToList()
+			      }).ToList();
+
 			return View(result);
+
 		}
 	}
 }
