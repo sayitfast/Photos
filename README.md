@@ -57,12 +57,6 @@
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
-    
-
-<hr />
-<h3>Signing in</h3>
-
-![login_page](https://cloud.githubusercontent.com/assets/24397315/25558494/9c20548a-2d30-11e7-8ff4-6c7b7aa3e702.png)
 
 <hr />
 <h3>Signed in</h3>
@@ -90,12 +84,308 @@
 
 <hr />
 
-<h3>Account Example</h3>
-
-![my_profile_page](https://cloud.githubusercontent.com/assets/24397315/25558661/e86febc2-2d33-11e7-8c9e-0ceec2f16a6c.png)
-
-<hr />
-
 <h3>Search Functionality</h3>
 
 ![search_form](https://cloud.githubusercontent.com/assets/24397315/25563040/dbf8cc0c-2d9b-11e7-8752-67dfbf7c7810.png)
+
+                       // GET: Search/Index
+		[HttpGet]
+		public IActionResult Index()
+		{
+			return View();
+		}
+
+		// POST: Search/Index
+		[HttpPost]
+		public IActionResult Index(HomeViewModel model)
+		{
+			if (model.Search == null)
+			{
+				return RedirectToAction("Index", "Home");
+			}
+
+			if (model.Option == "SingleImages")
+			{
+				return RedirectToAction("ImagesSearch", "Search", new { @category = model.Search });
+			}
+
+			else if (model.Option == "Album")
+			{
+				return RedirectToAction("AlbumsSearch", "Search", new { @category = model.Search });
+			}
+			else
+			{
+				return NotFound();
+			}
+
+		}
+		
+<p>Depending on the chosen option the <a href="https://github.com/StoyanVitanov/Photos/blob/master/src/Code/Controllers/SearchController.cs">Search Controller</a> redirects to a certain action.</p>
+
+
+<h4>Searching for images</h4>
+   
+             public IActionResult ImagesSearch(string category, int page = 1)
+		{
+			ViewBag.TotalPages = Math.Ceiling(
+				this.db.SingleImages
+				.Where(img => img.Category == category).Count() / 5.0);
+
+			ViewBag.CurrentPage = page;
+
+
+			if (page < 1 || page > ViewBag.TotalPages)
+			{
+				if (ViewBag.TotalPages != 0)
+				{
+					return NotFound();
+				}
+			}
+			
+			int pageSize = 5;
+
+			var result = this.db.SingleImages
+				.Where(img => img.Category == category)
+				.OrderByDescending(img => img.CreatedOn)
+				.Skip((page - 1) * pageSize)
+				.Take(pageSize)
+				.Select(img => new SingleImageDetailsViewModel()
+				{
+					Id = img.Id,
+					Description = img.Description,
+					Location = img.Location,
+					Name = img.Name,
+					Path = img.Path,
+					Rating = img.Rating,
+					UploadedOn = img.CreatedOn,
+					Category = img.Category,
+					User = img.User
+				})
+				.ToList();
+
+			return View(result);
+		}
+   
+<h4>Searching for albums</h4>
+
+                  public IActionResult AlbumsSearch(string category, int page = 1)
+		    {
+			ViewBag.TotalPages = Math.Ceiling(
+				this.db.Album
+				.Where(al => al.Category == category).Count() / 5.0);
+
+			ViewBag.CurrentPage = page;
+
+
+			if (page < 1 || page > ViewBag.TotalPages)
+			{
+				if (ViewBag.TotalPages != 0)
+				{
+					return NotFound();
+				}
+			}
+
+			int pageSize = 5;
+
+			var result = this.db.Album
+				.Where(al => al.Category == category)
+				.Skip((page - 1) * pageSize)
+				.Take(pageSize)
+			      .OrderByDescending(al => al.CreatedOn)
+			      .Select(al => new HomeAlbumsDetailsViewModel()
+			      {
+			        Id = al.Id,
+			        Name = al.Name,
+			        User = al.User,
+					Category = al.Category,
+			        Images = this.db.Images
+			     	.Where(img => img.Album.Id == al.Id)
+			     	.Select(img => new AlbumImageDetailsViewModel()
+			     	{
+			     		Rating = img.Rating,
+			     		Album = al,
+			     		Path = al.UserId + "/" + al.Id.ToString() + "/" + img.Name
+			     	})
+			     	.ToList()
+			      }).ToList();
+
+			return View(result);
+
+<h4>Rendering the search results</h4>
+
+<p>The example below shows how the images from the model are listed.</p>
+
+
+![pagination](https://cloud.githubusercontent.com/assets/24397315/25563147/2aff8028-2d9e-11e7-95e1-ca243eff5378.png)
+
+
+          @if(Model.Capacity == 0)
+          {
+          	<h1 class="text-center">There are no images with matching category</h1>
+          }
+          
+           <div class="col-md-6 col-md-offset-3">
+          
+          
+          	@foreach (var image in Model)
+          	{
+          		<div class="u_image text-center" style="width:100%;">
+          			<img src="~/uploads/@image.Path" style="height: initial; width:100%;" />
+          			<h4><strong>@image.Name</strong> @image.Description</h4>
+          			<div class="row">
+          				<div class="col-md-6 col-md-offset-3 text-center">
+          					<a href="@(Url.Action("DislikeImage", "Image", new { @imageId = image.Id}))">
+          						<span class="glyphicon glyphicon-chevron-left"></span>
+          					</a>
+          					<span><strong>@image.Rating</strong></span>
+          					<a href="@(Url.Action("LikeImage", "Image", new { @imageId = image.Id }))">
+          						<span class="glyphicon glyphicon-chevron-right"></span>
+          					</a>
+          				</div>
+          			</div>
+          		</div>
+          	}
+          	<hr />
+		
+<p>The same idea is used when searching for albums. The change here is in the way albums are showcased. The bootstrap plugin used here is called "Carousel", you can find more information on how to implement it <a href="https://www.w3schools.com/bootstrap/bootstrap_carousel.asp">here</a>.</p>
+
+      @if(Model.Capacity == 0)
+      {
+      	<h1 class="text-center">There are no albums with matching category!</h1>
+      
+      }
+      
+    <div class="row">
+      	<div class="col-md-6 col-md-offset-3">
+      
+      @Html.Partial("_PaginationAlbumsPartial");
+      
+      @foreach (var album in Model)
+      {
+        <div class="col-md-6 col-md-offset-3 u_album text-center" style="width: 100%;">
+    
+    	<h3 class="text-center">@album.Name</h3>
+    
+    	@if (album.Images.Capacity > 0)
+    	{
+      	<div id="album-with-pictures" class="carousel slide" data-ride="carousel" data-interval="4000" data-delay="3000">
+      
+      		<div class="carousel-inner" role="listbox">
+      
+      			@foreach (var image in album.Images)
+      			{
+      				var firstImage = album.Images.First();
+
+      				if (image == firstImage)
+      				{
+      					<div class="item active">
+      						<img src="~/uploads/@image.Path" alt="Chania" class="u_album_img" />
+      					</div>
+      				}
+      				else
+      				{
+      					<div class="item">
+      						<img src="~/uploads/@image.Path" alt="Chania" class="u_album_img" />
+      					</div>
+      				}
+      			}
+      		</div>
+      					</div>
+      				}
+      	else
+      	{
+      		<img src="~/images/album_with_no_images.jpg" />
+      	}
+      
+      	    <div class="a_details_link">
+      	       <a href="@(Url.Action("Details", "Albums", new { @albumId = album.Id, @userId = album.User.Id }))" title="View" class="pull-right">
+    	         <span class="glyphicon glyphicon-option-horizontal"></span>
+	      </a>
+	   </div>
+        </div>
+        }
+	
+<h4>How the pagination is done?</h4> 
+
+![paging](https://cloud.githubusercontent.com/assets/24397315/25563234/386a5966-2da0-11e7-9d86-47a9651915eb.png)
+
+<p>The pagination used in this project is not the best example and it is not recomended for big projects, because it gives errors when the pages are over 100, but for the small projects like the one here it works fine.</p>
+
+
+<h4>When we call an action, by default we have to set the page to first Here is how is done:</h4>
+      
+                  public IActionResult ImagesSearch(string category, int page = 1) 
+		                        
+<p>In the exaple from the Search Controller, we pass to the action the category of the images and set the page to one.
+         Next we have to manipulate the code so that every time we call this action it passes to the view the next set of images.
+</p>
+
+<h4>By using the <a href="https://msdn.microsoft.com/en-us/library/bb308959.aspx">LINQ</a> library, we can easily write the following query:</h4>
+
+                  .Skip((page - 1) * pageSize).Take(pageSize)
+		 		
+<p>The purpose of this query is to pick "pageSize" count images after skipping pageSize multiplied by the current page minus one.
+   It may sounds complicated, but it is very simple, imagine we are on page one. Lets say that the pageSize = 5 and the page is the first (1), the algorith will skip (1-1) * 5 images and will take 5, so it skips 0 and takes 5. On the second page the algorithm will skip (2 - 1) * 5 and will take 5 again. This time it skips 5 and takes the next set of 5 images, or if there are less than 5 it takes all. 
+</p>
+
+<h4>The next step is to pass to the view the current page and the total number of pages</h4>
+
+<p>Taking advantage of the <a href="https://www.w3schools.com/asp/webpages_razor.asp">Razor</a> syntax, this task is fairly easy.All we have to do is to calculate the total page and save them to a ViewBag:</p>
+
+                 ViewBag.TotalPages = Math.Ceiling(this.db.SingleImages
+				.Where(img => img.Category == category).Count() / 5.0);
+				
+<p>Next we have to save the current page:</p>
+
+                  ViewBag.CurrentPage = page;
+   
+<p>To insure correct results and to avoid inappropriate UX we have to write a simple condition:</p>
+
+                     if (page < 1 || page > ViewBag.TotalPages)
+	        	{
+	        		if (ViewBag.TotalPages != 0)
+	        		{
+	        			return NotFound();
+	        		}
+	        	}
+			
+<p>What it does is simply not showing error messages to the user, but a blank page.</p>
+
+<h4>The HTML View</h4>
+
+                @model List<Code.Models.SingleImageViewModels.SingleImageDetailsViewModel>
+
+                <div class="text-center">
+                	<ul class="pagination">
+                		@if (ViewBag.CurrentPage > 1)
+                			{
+                			<li>
+					<a href="ImagesSearch?category=@Model.First().Category&page=@(ViewBag.CurrentPage - 1)" style="background-color: #1f7dd7; color: white;">Previous</a>
+					</li>
+                			}
+                		@for (int i = 1; i <= ViewBag.TotalPages; i++)
+                			{
+                			@if (i == ViewBag.CurrentPage)
+                				{
+                				<li>
+						<a href="ImagesSearch?category=@Model.First().Category&page=@i" style="background-color: gray; color: white;">@i</a>
+						</li>
+                				}
+                				else
+                				{
+                				<li>
+						<a href="ImagesSearch?category=@Model.First().Category&page=@i" style="background-color: #1f7dd7; color: white;">@i</a>
+						</li>
+                				}
+                			}
+                		@if (ViewBag.TotalPages >= 2)
+                		{
+                			if (Model.Count == 5)
+                			{
+                				<li>
+						<a href="ImagesSearch?category=@Model.First().Category&page=@(ViewBag.CurrentPage + 1)" style="background-color: #1f7dd7; color: white;">Next</a>
+						</li>
+                			}
+                		}
+                	</ul>
+                </div>                     
