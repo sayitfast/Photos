@@ -389,3 +389,25 @@
                 		}
                 	</ul>
                 </div>                     
+
+
+<hr />
+
+<h3>Administrator Panel</h3>
+
+<p>This panel gives the admins rights to inspect users and to edit their content if needed</p>
+
+![admin_panel_main_page](https://cloud.githubusercontent.com/assets/24397315/25563694/30e4c4ec-2daa-11e7-8234-51f622280e0e.png)
+
+<h4>Inspect User Page Example:</h4>
+
+![admin_inspect_user_page](https://cloud.githubusercontent.com/assets/24397315/25563701/73526190-2daa-11e7-8aa3-abc088b3c69b.png)
+
+<hr />
+
+<h3>CEO Panel</h3>
+
+<p>This panel gives the site owner rights to make certain user an admin or to take his/her admin rights.</p>
+
+![ceo_panel_main_page](https://cloud.githubusercontent.com/assets/24397315/25563719/d1a81bcc-2daa-11e7-8207-281798cfa601.png)
+
