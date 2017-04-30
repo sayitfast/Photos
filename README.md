@@ -65,3 +65,15 @@
 <h3>Account Example</h3>
 
 ![my_profile_page](https://cloud.githubusercontent.com/assets/24397315/25558661/e86febc2-2d33-11e7-8c9e-0ceec2f16a6c.png)
+
+<hr />
+
+<h3>Home Page Examples</h3>
+
+![home_toprated_photos](https://cloud.githubusercontent.com/assets/24397315/25562833/892affc0-2d98-11e7-9e7f-00519cd06611.png)
+
+
+![home_latest_photos](https://cloud.githubusercontent.com/assets/24397315/25562836/a5516ce8-2d98-11e7-81ab-42d4c112afc5.png)
+
+
+![home_latest_albums_page](https://cloud.githubusercontent.com/assets/24397315/25562851/05ddb850-2d99-11e7-9e27-efada61a8e6e.png)
