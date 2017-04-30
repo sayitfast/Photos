@@ -88,6 +88,68 @@
 
 ![search_form](https://cloud.githubusercontent.com/assets/24397315/25563040/dbf8cc0c-2d9b-11e7-8752-67dfbf7c7810.png)
 
+<h3>In the View</h3>
+
+	<div class="row">
+		<div class="col-md-8 col-md-offset-2 text-center f_form">
+			<div class="text-center">
+				@using (Html.BeginForm<SearchController>(c => c.Index(), FormMethod.Post))
+			{
+					<div class="col-md-8 f_input">
+						@{var searchList = new SelectList(new List<SelectListItem>
+					{
+					new SelectListItem { Text = "Travel", Value = "travel" },
+					new SelectListItem { Text = "Holiday", Value = "holiday" },
+					new SelectListItem { Text = "Food", Value = "food" },
+					new SelectListItem { Text = "Business", Value = "business" },
+					new SelectListItem { Text = "Night", Value = "night" },
+					new SelectListItem { Text = "Sunset", Value = "sunset" },
+					new SelectListItem { Text = "Technology", Value = "technology" },
+					new SelectListItem { Text = "Abstract", Value = "abstract" },
+					new SelectListItem { Text = "Mountains", Value = "mountains" },
+					new SelectListItem { Text = "Music", Value = "music" },
+					new SelectListItem { Text = "Black And White", Value = "black and white" },
+					new SelectListItem { Text = "Car", Value = "car" },
+					new SelectListItem { Text = "City", Value = "city" },
+					new SelectListItem { Text = "Flowers", Value = "flowers" },
+					new SelectListItem { Text = "Landscape", Value = "lanscape" },
+					new SelectListItem { Text = "Ocean", Value = "ocean" },
+					new SelectListItem { Text = "Photography", Value = "photography" },
+					new SelectListItem { Text = "Animal", Value = "animal" },
+					new SelectListItem { Text = "Art", Value = "art" },
+					new SelectListItem { Text = "Beach", Value = "beach" },
+					new SelectListItem { Text = "Fashion", Value = "fasion" },
+					new SelectListItem { Text = "Sport", Value = "sport" },
+					new SelectListItem { Text = "People", Value = "people" },
+					new SelectListItem { Text = "Vintage", Value = "vintage" },
+					new SelectListItem { Text = "Sky", Value = "sky" }
+					}, "Value", "Text");
+						}
+						@Html.DropDownListFor(m => m.Search, searchList, null, new { @class = "form-control list", @style = "width: 100%; border-radius: 0px;" })
+						@Html.ValidationMessageFor(m => m.Search, null, new { @class = "text-danger" })
+					</div>
+					<div class="col-md-3 f_options">
+						@{var selectList = new SelectList(new List<SelectListItem>
+					{
+					new SelectListItem { Text = "Photos", Value = "SingleImages" },
+					new SelectListItem { Text = "Albums", Value = "Album" }
+					}, "Value", "Text");
+						}
+						@Html.DropDownListFor(m => m.Option, selectList, null, new { @class = "form-control list", @style = "width: 100%; border-radius: 0px;" })
+					</div>
+					<div class="col-md-1 f_submit">
+						<button type="submit" id="search-button" class="btn btn-primary" style="width: 100%; border-radius: 0px;">
+							<span class="glyphicon glyphicon-search"></span>
+						</button>
+					</div>
+							}
+			</div>
+		</div>
+	</div>
+
+
+<h3>In the Search Controller</h3>
+
                        // GET: Search/Index
 		[HttpGet]
 		public IActionResult Index()
