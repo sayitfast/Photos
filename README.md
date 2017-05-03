@@ -473,3 +473,8 @@
 
 ![ceo_panel_main_page](https://cloud.githubusercontent.com/assets/24397315/25563719/d1a81bcc-2daa-11e7-8207-281798cfa601.png)
 
+<hr />
+
+<h3>Profile Page Example</h3>
+
+![my_profile_page](https://cloud.githubusercontent.com/assets/24397315/25657785/43a2b354-3008-11e7-8c99-5296c630449f.png)
