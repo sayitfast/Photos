@@ -478,3 +478,11 @@
 <h3>Profile Page Example</h3>
 
 ![my_profile_page](https://cloud.githubusercontent.com/assets/24397315/25657785/43a2b354-3008-11e7-8c99-5296c630449f.png)
+<hr />
+
+<h3>Album Examples</h3>
+
+![album_details_page](https://cloud.githubusercontent.com/assets/24397315/25658101/ca0abc38-3009-11e7-9f42-5f3df91b54c7.png)
+
+
+![album_edit_page](https://cloud.githubusercontent.com/assets/24397315/25658108/d8cd826e-3009-11e7-91cd-f7c91c891386.png)
