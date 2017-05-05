@@ -1,6 +1,8 @@
 <h1>#Photos</h1>
 <p><strong>"Photos"</strong> is a simple, easy to use, Web application, cource work project, for the Software Technologies Cource at <a href="https://softuni.bg/">Software University</a>.The project was built with <strong>ASP.NET</strong>, <strong>.NET Core</strong> and the <strong>MVC</strong> architecture.</p>
 
+<p>The project includes external <strong>ASP.NET Core</strong> extensions from <a href="https://github.com/ivaylokenov/AspNet.Mvc.TypedRouting">AspNet.Mvc.TypedRouting</a></p>
+
 ![home_page](https://cloud.githubusercontent.com/assets/24397315/25558263/be349036-2d2b-11e7-9c49-4195b1e757a1.png)
 
 <h3>What are the basic functionalities?</h3>
