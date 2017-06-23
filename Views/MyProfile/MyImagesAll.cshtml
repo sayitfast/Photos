@@ -1,0 +1,56 @@
+﻿@model List<Code.Models.SingleImageViewModels.SingleImageDetailsViewModel>
+
+<div class="col-md-6 col-md-offset-3">
+
+	@foreach (var image in Model)
+	{
+		<div class="u_image text-center" style="width:100%;">
+			<a href="@Url.Action("DeleteImage", "Image", new { @imageId = image.Id, @userId = image.User.Id})" class="active" title="Delete Image">
+				<span class="close pull-right" style="margin-right: 5px;" aria-hidden="true">&times;</span>
+			</a>
+			<img src="~/uploads/@image.Path" style="height: initial; width:100%;" />
+			<h4><strong>@image.Name</strong> @image.Description</h4>
+			<div class="row">
+				<div class="col-md-6 col-md-offset-3 text-center">
+					<a href="@(Url.Action("DislikeImage", "Image", new { @imageId = image.Id}))">
+						<span class="glyphicon glyphicon-chevron-left"></span>
+					</a>
+					<span><strong>@image.Rating</strong></span>
+					<a href="@(Url.Action("LikeImage", "Image", new { @imageId = image.Id }))">
+						<span class="glyphicon glyphicon-chevron-right"></span>
+					</a>
+				</div>
+			</div>
+		</div>
+	}
+	<hr />
+
+	<div class="text-center">
+		<ul class="pagination">
+			@if (ViewBag.CurrentPage > 1)
+			{
+				<li><a href="/MyProfile/MyImagesAll?page=@(ViewBag.CurrentPage - 1)" style="background-color: #1f7dd7; color: white;" >Previous</a></li>
+			}
+			@for (int i = 1; i <= ViewBag.TotalPages; i++)
+			{
+				@if (i == ViewBag.CurrentPage)
+				{
+					<li><a href="/MyProfile/MyImagesAll?page=@i" style="background-color: gray; color: white;">@i</a></li>
+				}
+				else
+				{
+					<li><a href="/MyProfile/MyImagesAll?page=@i" style="background-color: #1f7dd7; color: white;">@i</a></li>
+				}
+				
+			}
+			@if (Model.Count == 5)
+			{
+				<li><a href="/MyProfile/MyImagesAll?page=@(ViewBag.CurrentPage + 1)" style="background-color: #1f7dd7; color: white;" >Next</a></li>
+			}
+		</ul>
+
+	</div>
+
+</div>
+
+<div class="clearfix"></div> 

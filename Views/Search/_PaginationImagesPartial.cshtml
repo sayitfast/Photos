@@ -1,0 +1,28 @@
+﻿@model List<Code.Models.SingleImageViewModels.SingleImageDetailsViewModel>
+
+<div class="text-center">
+	<ul class="pagination">
+		@if (ViewBag.CurrentPage > 1)
+			{
+			<li><a href="ImagesSearch?category=@Model.First().Category&page=@(ViewBag.CurrentPage - 1)" style="background-color: #1f7dd7; color: white;">Previous</a></li>
+			}
+		@for (int i = 1; i <= ViewBag.TotalPages; i++)
+			{
+			@if (i == ViewBag.CurrentPage)
+				{
+				<li><a href="ImagesSearch?category=@Model.First().Category&page=@i" style="background-color: gray; color: white;">@i</a></li>
+				}
+				else
+				{
+				<li><a href="ImagesSearch?category=@Model.First().Category&page=@i" style="background-color: #1f7dd7; color: white;">@i</a></li>
+				}
+			}
+		@if (ViewBag.TotalPages >= 2)
+		{
+			if (Model.Count == 5)
+			{
+				<li><a href="ImagesSearch?category=@Model.First().Category&page=@(ViewBag.CurrentPage + 1)" style="background-color: #1f7dd7; color: white;">Next</a></li>
+			}
+		}
+	</ul>
+</div>

@@ -1,0 +1,40 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Code.Models
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@{
+	var currentUser = UserManager.GetUserAsync(User).Result; 
+
+	}
+@if (currentUser != null && SignInManager.IsSignedIn(User))
+{
+		<ul class="nav navbar-nav pull-right">
+			@if (currentUser.isAdmin != false)
+			{
+				<li id="admin-main">@(Html.ActionLink<AdminController>("Admin Panel", c => c.Panel(1)))</li>
+				if (currentUser.isSuperAdmin == true)
+				{
+					<li id="super-admin-main">@(Html.ActionLink<SuperAdminController>("CEO Panel", c => c.Index(1)))</li>
+				}
+
+			}
+			<li>
+				<a href="@Url.Action("Upload","Image")" class="active" onclick="details()">
+					<span class="glyphicon glyphicon-picture" title="Upload photo"></span>
+				</a>
+			</li>
+			<li id="profile-icon">
+				<a asp-controller="MyProfile" asp-action="Index">
+					<span class="glyphicon glyphicon-user" title="Profile"></span>
+				</a>
+			</li>
+		</ul>
+}
+else
+{
+	<ul class="nav navbar-nav navbar-right">
+		<li><a asp-area="" asp-controller="Account" asp-action="Register">Register</a></li>
+		<li><a asp-area="" asp-controller="Account" asp-action="Login" id="login-button">Log in</a></li>
+	</ul>
+}

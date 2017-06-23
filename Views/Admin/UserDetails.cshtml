@@ -1,0 +1,115 @@
+﻿@model Code.Models.SearchViewModels.UserDetailsViewModel
+
+
+<div class="row" id="personal-dashboard">
+	<div class="col-md-3 text-center" id="u1">
+		<br />
+		@if (Model.ProfilePictureName != null)
+		{
+			<img src="~/uploads/@Model.Id/@Model.ProfilePictureName" />
+		}
+		else
+		{
+			<img src="~/images/no-profile-image.jpg" id="image" />
+		}
+		<br />
+		<ul>
+			<li id="al_info"><strong>@Model.TotalAlbums</strong> albums</li>
+			<li id="al_info"><strong>@Model.TotalImages</strong> images</li>
+			<li id="al_info"><strong>@Model.TotalLikes</strong> likes</li>
+		</ul>
+		<ul>
+			<li id="u_info"><span class="glyphicon glyphicon-envelope"></span> @Model.Email</li>
+			<li id="u_info"><span class="glyphicon glyphicon-home"></span> @Model.Location</li>
+		</ul>
+	</div>
+	<div class="col-md-9" id="u3">
+		<div id="albums-dashboard" style="margin-top: 3px;">
+			<h3>Images</h3>
+			<table id="albums-table">
+				<tr>
+					<th>Name</th>
+					<th>Description</th>
+					<th>Category</th>
+					<th>Location</th>
+					<th>Rating</th>
+					<th>Published</th>
+					<th>View</th>
+					<th>Remove</th>
+				</tr>
+				@foreach (var image in Model.Images)
+				{
+					<tr>
+						<td>@image.Name</td>
+						<td>@image.Description</td>
+						<td>@image.Category</td>
+						<td>@image.Location</td>
+						<td>@image.Rating</td>
+						<td>@image.UploadedOn</td>
+						<td>@(Html.ActionLink<ImageController>("View", c => c.Details(image.Id)))</td>
+						<td><a href="@(Url.Action("DeleteImage", "Admin", new { @imageId = image.Id, @userId = Model.Id}))">
+							<span class="glyphicon glyphicon-remove"></span>
+						</a>
+						</td>
+					</tr>
+				}
+			</table>
+		</div>
+		<div id="albums-dashboard" style="margin-top: 3px;">
+			<h3>Albums</h3>
+			<table id="albums-table">
+				<tr>
+					<th>Name</th>
+					<th>Category</th>
+					<th>Description</th>
+					<th>Published</th>
+					<th>View</th>
+					<th>Remove</th>
+				</tr>
+				@foreach (var album in Model.Albums)
+				{
+					<tr>
+						<td>@album.Name</td>
+						<td>@album.Category</td>
+						<td>@album.Description</td>
+						<td>@album.CreatedOn</td>
+						<td>@(Html.ActionLink<AlbumsController>("View", c => c.Details(album.Id, album.Creator.Id)))</td>
+						<td>
+						<a href="@(Url.Action("DeleteAlbum", "Admin", new { @albumId = album.Id, @userId = Model.Id}))">
+							<span class="glyphicon glyphicon-remove"></span>
+						</a>
+						</td>
+					</tr>
+				}
+			</table>
+			<br />
+		</div>
+		<div id="albums-dashboard" style="margin-top: 3px;">
+			<h3>Comments</h3>
+			<table id="albums-table">
+				<tr>
+					<th>Content</th>
+					<th>Posted</th>
+					<th>Album</th>
+					<th>Remove</th>
+				</tr>
+				@foreach (var comment in Model.Comments)
+				{
+					<tr>
+						<td>@comment.Content</td>
+						<td>@comment.CreatedOn</td>
+						<td>@(Html.ActionLink<AlbumsController>("View", c => c.Details(comment.Album.Id, comment.Album.UserId)))</td>
+						<td>
+							<a href="@(Url.Action("DeleteComment", "Admin", new { @commentId = comment.Id, @userId = Model.Id}))">
+								<span class="glyphicon glyphicon-remove"></span>
+							</a>
+						</td>
+					</tr>
+				}
+			</table>
+		</div>
+		<br />
+	</div>
+</div>
+
+<div class="clearfix"></div>

@@ -1,0 +1,58 @@
+﻿@model Code.Models.SingleImageViewModels.UploadImageViewModel
+
+@{
+	ViewData["Title"] = $"Post Photo";
+}
+
+<div class="row">
+	<div class="col-md-4 col-md-offset-4">
+		@using (Html.BeginForm("Upload", "Image", FormMethod.Post, new { @enctype = "multipart/form-data", @class = "upload_img_form" }))
+		{
+			<lable style="color: darkred;">* Required!</lable>
+			@Html.TextBoxFor(i => i.Name, new { @class = "form-control", @placeholder = "Name" });
+			@Html.ValidationMessageFor(i => i.Name, null, new { @class = "text-danger" })
+			<br />
+			@Html.TextAreaFor(i => i.Description, new { @class = "form-control", @placeholder = "Descrtiption" });
+			<br />
+
+				var selectList = new SelectList(new List<SelectListItem>
+			{
+				new SelectListItem { Text = "Travel", Value = "travel" },
+				new SelectListItem { Text = "Holiday", Value = "holiday" },
+				new SelectListItem { Text = "Food", Value = "food" },
+				new SelectListItem { Text = "Business", Value = "business" },
+				new SelectListItem { Text = "Night", Value = "night" },
+				new SelectListItem { Text = "Sunset", Value = "sunset" },
+				new SelectListItem { Text = "Technology", Value = "technology" },
+				new SelectListItem { Text = "Abstract", Value = "abstract" },
+				new SelectListItem { Text = "Mountains", Value = "mountains" },
+				new SelectListItem { Text = "Music", Value = "music" },
+				new SelectListItem { Text = "Black And White", Value = "black and white" },
+				new SelectListItem { Text = "Car", Value = "car" },
+				new SelectListItem { Text = "City", Value = "city" },
+				new SelectListItem { Text = "Flowers", Value = "flowers" },
+				new SelectListItem { Text = "Landscape", Value = "lanscape" },
+				new SelectListItem { Text = "Ocean", Value = "ocean" },
+				new SelectListItem { Text = "Photography", Value = "photography" },
+				new SelectListItem { Text = "Animal", Value = "animal" },
+				new SelectListItem { Text = "Art", Value = "art" },
+				new SelectListItem { Text = "Beach", Value = "beach" },
+				new SelectListItem { Text = "Fashion", Value = "fasion" },
+				new SelectListItem { Text = "Sport", Value = "sport" },
+				new SelectListItem { Text = "People", Value = "people" },
+				new SelectListItem { Text = "Vintage", Value = "vintage" },
+				new SelectListItem { Text = "Sky", Value = "sky" }
+			}, "Value", "Text");
+
+			@Html.TextBoxFor(i => i.Location, new { @class = "form-control", @placeholder = "Location" });
+			<br />
+			<lable style="color: darkred;">* Required!</lable>
+			@Html.DropDownListFor(m => m.Category, selectList, "Category", new { @class = "form-control" })
+			@Html.ValidationMessageFor(m => m.Category, null, new { @class = "text-danger" })
+			<br />
+			<input type="file" accept=".jpeg,.jpg,.png" name="File" id="File" />
+			<br />
+			<input type="submit" class="btn btn-primary" value="Upload" />
+		}
+	</div>
+</div>
